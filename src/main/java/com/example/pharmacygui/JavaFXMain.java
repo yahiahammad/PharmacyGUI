@@ -26,13 +26,12 @@ public class JavaFXMain extends Application {
         Scene scene1, scene2, scene3, scene4, scene5, scene6, scene7, scene8, scene9, scene10;
 
         //**************************************************
-        Label label1 = new Label("Choose your role");
         Button admin = new Button("Admin");
         Button customer = new Button("Customer");
         Button cashier = new Button("Cashier");
         Button exit = new Button("Exit");
 
-        VBox vbox1 = new VBox(label1, admin, customer, cashier, exit);
+        VBox vbox1 = new VBox(new Label("Choose your role"), admin, customer, cashier, exit);
         vbox1.setAlignment(Pos.CENTER);
         vbox1.setSpacing(10);
         scene1 = new Scene(vbox1, 300, 250);
@@ -41,7 +40,6 @@ public class JavaFXMain extends Application {
         exit.setOnAction(e -> primaryStage.close());
 
         //***********************************************************
-        Label label2 = new Label("What would you like to do?");
         Button addProduct = new Button("Add New Product");
         Button editProduct = new Button("Edit Product");
         Button removeProduct = new Button("Remove Product");
@@ -55,7 +53,7 @@ public class JavaFXMain extends Application {
         Button orderReport = new Button("View Report About Orders");
         Button logOut = new Button("Log Out");
 
-        VBox vbox2 = new VBox(label2, addProduct, editProduct, removeProduct, searchProduct, addUser, editUser, removeUser, searchUser, userReport, orderReport, logOut);
+        VBox vbox2 = new VBox(new Label("What would you like to do?"), addProduct, editProduct, removeProduct, searchProduct, addUser, editUser, removeUser, searchUser, userReport, orderReport, logOut);
         vbox2.setAlignment(Pos.CENTER);
         vbox2.setSpacing(10);
         scene4 = new Scene(vbox2, 350, 450);
