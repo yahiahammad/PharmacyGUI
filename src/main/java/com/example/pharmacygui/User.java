@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.pharmacygui;
 
 //not sure if we need to have it as abstract, but we'll see
 public abstract class User {

@@ -1,7 +1,7 @@
-package com.example.demo;
+package com.example.pharmacygui;
 
 import java.util.ArrayList;
-import com.example.demo.Cart.Status;
+import com.example.pharmacygui.Cart.Status;
 
 public class Cashier extends User{
     private ArrayList<Cart> orderHandled;

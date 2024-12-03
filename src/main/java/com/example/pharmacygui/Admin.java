@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.pharmacygui;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -710,11 +710,11 @@ Admin extends User{
 
     private void initializeAdmin()
     {
-        String supplierFile = "src\\PharmacyManagementSystem\\Suppliers.txt";
-        String productFile = "src\\PharmacyManagementSystem\\Products.txt";
-        String cartFile = "src\\PharmacyManagementSystem\\Cart.txt";
-        String cashierFile = "src\\PharmacyManagementSystem\\Cashier.txt";
-        String customerFile = "src\\PharmacyManagementSystem\\Customer.txt";
+        String supplierFile =   "src/main/java/com/example/pharmacygui/Suppliers.txt";
+        String productFile =    "src/main/java/com/example/pharmacygui/Products.txt";
+        String cartFile =       "src/main/java/com/example/pharmacygui/Cart.txt";
+        String cashierFile =    "src/main/java/com/example/pharmacygui/Cashier.txt";
+        String customerFile =   "src/main/java/com/example/pharmacygui/Customer.txt";
 
         BufferedReader reader;
         String line;
@@ -822,11 +822,11 @@ Admin extends User{
     }
 
     public void saveData() throws IOException {
-        File supplierFile =   new File(      "src\\PharmacyManagementSystem\\Suppliers.txt");
-        File productFile =    new File(      "src\\PharmacyManagementSystem\\Products.txt");
-        File cartFile =       new File(      "src\\PharmacyManagementSystem\\Cart.txt");
-        File cashierFile =    new File(      "src\\PharmacyManagementSystem\\Cashier.txt");
-        File customerFile =   new File(      "src\\PharmacyManagementSystem\\Customer.txt");
+        File supplierFile =   new File(      "src/main/java/com/example/pharmacygui/Suppliers.txt");
+        File productFile =    new File(      "src/main/java/com/example/pharmacygui/Products.txt");
+        File cartFile =       new File(      "src/main/java/com/example/pharmacygui/Cart.txt");
+        File cashierFile =    new File(      "src/main/java/com/example/pharmacygui/Cashier.txt");
+        File customerFile =   new File(      "src/main/java/com/example/pharmacygui/Customer.txt");
 
 
 //        File TMPsupplierFile =new File(      "src\\PharmacyManagementSystem\\TMPSuppliers.txt");

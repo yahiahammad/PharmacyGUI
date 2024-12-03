@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.pharmacygui;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
