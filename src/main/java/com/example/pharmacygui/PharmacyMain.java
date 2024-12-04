@@ -13,7 +13,9 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class PharmacyMain extends Application {
 
@@ -35,150 +37,7 @@ public class PharmacyMain extends Application {
 
 
 
-        FlowPane mainMenuflowPane = new FlowPane();
-        mainMenuflowPane.setAlignment(Pos.CENTER);
-        mainMenuflowPane.setPadding(new Insets(10, 10, 10, 10));
-        mainMenuflowPane.setHgap(5);
-        mainMenuflowPane.setVgap(5);
 
-        Label mainMenuLabel = new Label("Choose your role: ");
-        Button adminButton= new Button("Admin");
-        Button cashierButton = new Button("Cashier");
-        Button customerButton = new Button("Customer");
-
-        mainMenuflowPane.getChildren().addAll(mainMenuLabel,adminButton,cashierButton,customerButton);
-
-        Scene scene = new Scene(mainMenuflowPane, 400,400);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Pharmacy Management System");
-        primaryStage.show();
-
-        adminButton.setOnAction(e -> {
-            FlowPane adminLoginflowPane = new FlowPane();
-            adminLoginflowPane.setAlignment(Pos.CENTER);
-            adminLoginflowPane.setPadding(new Insets(10, 10, 10, 10));
-            adminLoginflowPane.setHgap(5);
-            adminLoginflowPane.setVgap(5);
-
-            PasswordField adminPasswordTextField = new PasswordField();
-            Label adminPasswordLabel = new Label("Password: ");
-            Label adminWrongPasswordLabel = new Label("Wrong Password, try again");
-            adminWrongPasswordLabel.setTextFill(Color.RED);
-            adminWrongPasswordLabel.setVisible(false);
-
-
-            adminLoginflowPane.getChildren().addAll(adminPasswordLabel,adminPasswordTextField, adminWrongPasswordLabel);
-
-            Scene adminLoginScene = new Scene(adminLoginflowPane, 400,400);
-
-            primaryStage.setScene(adminLoginScene);
-            primaryStage.setTitle("Pharmacy Management System");
-            primaryStage.show();
-
-
-            adminPasswordTextField.setOnAction(e1 -> {
-                if (adminPasswordTextField.getText().equals(admin.getPassword())) {
-                    Label adminMenuLabel = new Label("Menu to Pharmacy Management System, Admin!");
-
-                    FlowPane adminMenuFlowPane = new FlowPane();
-                    adminMenuFlowPane.setAlignment(Pos.TOP_CENTER);
-                    adminMenuFlowPane.setPadding(new Insets(10, 10, 10, 10));
-                    adminMenuFlowPane.setHgap(5);
-                    adminMenuFlowPane.setVgap(5);
-
-                    Button adminMenu_addNewProduct = new Button("Add New Product");
-                    Button adminMenu_editProduct = new Button("Edit Product");
-                    Button adminMenu_removeProduct = new Button("Remove Product");
-                    Button adminMenu_searchForProduct = new Button("Search for a Product");
-                    Button adminMenu_viewReportsAboutProducts = new Button("View Reports About Products");
-                    Button adminMenu_addNewUser = new Button("Add New User");
-                    Button adminMenu_editUser = new Button("Edit User");
-                    Button adminMenu_removeUser = new Button("Remove User");
-                    Button adminMenu_searchForUser = new Button("Search for a User");
-                    Button adminMenu_viewReportsAboutUsers = new Button("View Reports About Users");
-                    Button adminMenu_viewReportsAboutOrders = new Button("View Reports About Orders");
-                    Button adminMenu_logOut = new Button("LogOut");
-
-                    double buttonWidth = 200;
-                    double buttonHeight = 40;
-
-                    adminMenu_addNewProduct.setPrefWidth(buttonWidth);
-                    adminMenu_addNewProduct.setPrefHeight(buttonHeight);
-                    adminMenu_editProduct.setPrefWidth(buttonWidth);
-                    adminMenu_editProduct.setPrefHeight(buttonHeight);
-                    adminMenu_removeProduct.setPrefWidth(buttonWidth);
-                    adminMenu_removeProduct.setPrefHeight(buttonHeight);
-                    adminMenu_searchForProduct.setPrefWidth(buttonWidth);
-                    adminMenu_searchForProduct.setPrefHeight(buttonHeight);
-                    adminMenu_viewReportsAboutProducts.setPrefWidth(buttonWidth);
-                    adminMenu_viewReportsAboutProducts.setPrefHeight(buttonHeight);
-                    adminMenu_addNewUser.setPrefWidth(buttonWidth);
-                    adminMenu_addNewUser.setPrefHeight(buttonHeight);
-                    adminMenu_editUser.setPrefWidth(buttonWidth);
-                    adminMenu_editUser.setPrefHeight(buttonHeight);
-                    adminMenu_removeUser.setPrefWidth(buttonWidth);
-                    adminMenu_removeUser.setPrefHeight(buttonHeight);
-                    adminMenu_searchForUser.setPrefWidth(buttonWidth);
-                    adminMenu_searchForUser.setPrefHeight(buttonHeight);
-                    adminMenu_viewReportsAboutUsers.setPrefWidth(buttonWidth);
-                    adminMenu_viewReportsAboutUsers.setPrefHeight(buttonHeight);
-                    adminMenu_viewReportsAboutOrders.setPrefWidth(buttonWidth);
-                    adminMenu_viewReportsAboutOrders.setPrefHeight(buttonHeight);
-                    adminMenu_logOut.setPrefWidth(buttonWidth);
-                    adminMenu_logOut.setPrefHeight(buttonHeight);
-
-                    VBox adminMenu_vbox = new VBox(10);
-                    adminMenu_vbox.getChildren().addAll(
-                            adminMenuLabel,
-                            adminMenu_addNewProduct,
-                            adminMenu_editProduct,
-                            adminMenu_removeProduct,
-                            adminMenu_searchForProduct,
-                            adminMenu_viewReportsAboutProducts,
-                            adminMenu_addNewUser,
-                            adminMenu_editUser,
-                            adminMenu_removeUser,
-                            adminMenu_searchForUser,
-                            adminMenu_viewReportsAboutUsers,
-                            adminMenu_viewReportsAboutOrders,
-                            adminMenu_logOut
-                    );
-
-
-                    adminMenu_vbox.setAlignment(Pos.CENTER);
-                    adminMenuFlowPane.getChildren().addAll(adminMenu_vbox);
-
-                    Scene adminMenuScene = new Scene(adminMenuFlowPane, 400,800);
-                    primaryStage.setScene(adminMenuScene);
-                    primaryStage.show();
-
-
-
-
-
-
-
-
-
-
-
-                }
-                else
-                {
-                    adminWrongPasswordLabel.setVisible(true);
-                }
-
-
-
-            });
-
-
-
-
-
-        });
-
-/*
         do {
             int innerChoice;
             System.out.println("Choose your role:");
@@ -760,7 +619,7 @@ public class PharmacyMain extends Application {
 
         admin.saveData();
 
- */
+
     }// end of main
 
     public static String CheckSupplierExistence(Admin admin, Scanner in, Boolean exists) {

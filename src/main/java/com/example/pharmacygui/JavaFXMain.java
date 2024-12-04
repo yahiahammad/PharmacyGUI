@@ -4,10 +4,18 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.converter.LocalDateStringConverter;
+
+import java.io.FileInputStream;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.concurrent.TimeUnit;
 
 
 public class JavaFXMain extends Application {
@@ -15,6 +23,7 @@ public class JavaFXMain extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Pharmacy Management System");
+        primaryStage.getIcons().add(new Image(new FileInputStream("src/main/java/com/example/pharmacygui/resources/Project_Icon.png")));
         Scene mainMenuScene, adminLoginScene , scene2, scene3, scene4, scene5, scene6, scene7, scene8, scene9, scene10;
         Admin admin = new Admin("Rina", "Rina123@gmail.com", "1234");
 
@@ -87,15 +96,35 @@ public class JavaFXMain extends Application {
         scene4 = new Scene(vbox2, 350, 450);
         adminPasswordTextField.setOnAction(e -> {
             if (adminPasswordTextField.getText().equals(admin.getPassword())) {
+                adminPasswordTextField.setText("");
                 primaryStage.setScene(scene4);
             }
             else
             {
+                adminPasswordTextField.setText("");
                 adminWrongPasswordLabel.setVisible(true);
             }
         });
 
-        adminMenu_addProduct.setOnAction(e -> System.out.println("Add New Product"));
+        adminMenu_addProduct.setOnAction(e -> {
+            FlowPane adminMenu_addProductFlowPane = new FlowPane();
+            adminMenu_addProductFlowPane.setAlignment(Pos.CENTER);
+            System.out.print("Enter Product Name: ");
+            TextField adminMenu_addProduct_ProductName = new TextField();
+            //if (addPname.equals("0")) {break;}
+            System.out.print("Enter Product Price: ");
+            TextField adminMenu_addProduct_ProductPrice = new TextField();
+            System.out.print("Enter Product Quantity: ");
+            TextField adminMenu_addProduct_ProductQuantity = new TextField();
+            System.out.print("Enter Product Supplier ID: ");
+            TextField adminMenu_addProduct_ProductSupplierID = new TextField();
+            //if (addPsupplierName.equals("0")) {break;}
+            System.out.print("Enter Product Expiration Date: ");
+            TextField adminMenu_addProduct_ProductExpirationDate = new TextField();
+            //admin.addNewProduct(addPname, addPprice, addPquantity, admin.searchSupplierByField("id", addPsupplierName), addPexpDate);
+            //System.out.println("Product ID: " + admin.getProducts().getLast().getProductId());
+
+        });
         adminMenu_editProduct.setOnAction(e -> System.out.println("Edit Product"));
         adminMenu_removeProduct.setOnAction(e -> System.out.println("Remove Product"));
         adminMenu_searchProduct.setOnAction(e -> System.out.println("Search for a Product"));
