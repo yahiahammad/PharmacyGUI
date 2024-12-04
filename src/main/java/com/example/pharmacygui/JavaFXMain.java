@@ -1,21 +1,13 @@
 package com.example.pharmacygui;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.scene.control.Label;
 
 
 public class JavaFXMain extends Application {
@@ -23,50 +15,94 @@ public class JavaFXMain extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Pharmacy Management System");
-        Scene scene1, scene2, scene3, scene4, scene5, scene6, scene7, scene8, scene9, scene10;
+        Scene mainMenuScene, adminLoginScene , scene2, scene3, scene4, scene5, scene6, scene7, scene8, scene9, scene10;
+        Admin admin = new Admin("Rina", "Rina123@gmail.com", "1234");
 
         //**************************************************
-        Button admin = new Button("Admin");
+        Button mainMenu_adminButton = new Button("Admin");
         Button customer = new Button("Customer");
         Button cashier = new Button("Cashier");
         Button exit = new Button("Exit");
 
-        VBox vbox1 = new VBox(new Label("Choose your role"), admin, customer, cashier, exit);
+        VBox vbox1 = new VBox(new Label("Choose your role"), mainMenu_adminButton, customer, cashier, exit);
         vbox1.setAlignment(Pos.CENTER);
         vbox1.setSpacing(10);
-        scene1 = new Scene(vbox1, 300, 250);
-        primaryStage.setScene(scene1);
+        mainMenuScene = new Scene(vbox1, 300, 250);
+        primaryStage.setScene(mainMenuScene);
 
         exit.setOnAction(e -> primaryStage.close());
 
         //***********************************************************
-        Button addProduct = new Button("Add New Product");
-        Button editProduct = new Button("Edit Product");
-        Button removeProduct = new Button("Remove Product");
-        Button searchProduct = new Button("Search for a Product");
-        Button productReport = new Button("View Reports About Products");
-        Button addUser = new Button("Add User");
-        Button editUser = new Button("Edit User");
-        Button removeUser = new Button("Remove User");
-        Button searchUser = new Button("Search for a User");
-        Button userReport = new Button("View Report About Users");
-        Button orderReport = new Button("View Report About Orders");
-        Button logOut = new Button("Log Out");
 
-        VBox vbox2 = new VBox(new Label("What would you like to do?"), addProduct, editProduct, removeProduct, searchProduct, addUser, editUser, removeUser, searchUser, userReport, orderReport, logOut);
+        PasswordField adminPasswordTextField = new PasswordField();
+        Label adminPasswordLabel = new Label("Password: ");
+        Label adminWrongPasswordLabel = new Label("Wrong Password, try again");
+        adminWrongPasswordLabel.setTextFill(Color.RED);
+        adminWrongPasswordLabel.setVisible(false);
+        Button adminPasswordBackButton = new Button("Back");
+
+        HBox adminLoginHbox = new HBox(adminPasswordLabel, adminPasswordTextField, adminPasswordBackButton);
+        adminLoginHbox.setAlignment(Pos.CENTER);
+        adminLoginHbox.setSpacing(10);
+
+        VBox adminLoginVbox = new VBox(adminLoginHbox, adminWrongPasswordLabel);
+        adminLoginVbox.setAlignment(Pos.CENTER);
+        adminLoginVbox.setSpacing(10);
+
+        adminLoginScene = new Scene(adminLoginVbox, 400,400);
+
+        adminPasswordBackButton.setOnAction(e -> primaryStage.setScene(mainMenuScene));
+        mainMenu_adminButton.setOnAction(e -> primaryStage.setScene(adminLoginScene));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //************************************************************
+        Button adminMenu_addProduct = new Button("Add New Product");
+        Button adminMenu_editProduct = new Button("Edit Product");
+        Button adminMenu_removeProduct = new Button("Remove Product");
+        Button adminMenu_searchProduct = new Button("Search for a Product");
+        Button adminMenu_productReport = new Button("View Reports About Products");
+        Button adminMenu_addUser = new Button("Add User");
+        Button adminMenu_editUser = new Button("Edit User");
+        Button adminMenu_removeUser = new Button("Remove User");
+        Button adminMenu_searchUser = new Button("Search for a User");
+        Button adminMenu_userReport = new Button("View Report About Users");
+        Button adminMenu_orderReport = new Button("View Report About Orders");
+        Button adminMenu_logOut = new Button("Log Out");
+
+        VBox vbox2 = new VBox(new Label("What would you like to do?"), adminMenu_addProduct, adminMenu_editProduct, adminMenu_removeProduct, adminMenu_searchProduct, adminMenu_addUser, adminMenu_editUser, adminMenu_removeUser, adminMenu_searchUser, adminMenu_userReport, adminMenu_orderReport, adminMenu_logOut);
         vbox2.setAlignment(Pos.CENTER);
         vbox2.setSpacing(10);
         scene4 = new Scene(vbox2, 350, 450);
-        admin.setOnAction(e -> primaryStage.setScene(scene4));
+        adminPasswordTextField.setOnAction(e -> {
+            if (adminPasswordTextField.getText().equals(admin.getPassword())) {
+                primaryStage.setScene(scene4);
+            }
+            else
+            {
+                adminWrongPasswordLabel.setVisible(true);
+            }
+        });
 
-        addProduct.setOnAction(e -> System.out.println("Add New Product"));
-        editProduct.setOnAction(e -> System.out.println("Edit Product"));
-        removeProduct.setOnAction(e -> System.out.println("Remove Product"));
-        searchProduct.setOnAction(e -> System.out.println("Search for a Product"));
-        productReport.setOnAction(e -> System.out.println("View Reports About Products"));
-        userReport.setOnAction(e -> System.out.println("View Report About Users"));
-        orderReport.setOnAction(e -> System.out.println("View Report About Orders"));
-        logOut.setOnAction(e -> primaryStage.setScene(scene1));
+        adminMenu_addProduct.setOnAction(e -> System.out.println("Add New Product"));
+        adminMenu_editProduct.setOnAction(e -> System.out.println("Edit Product"));
+        adminMenu_removeProduct.setOnAction(e -> System.out.println("Remove Product"));
+        adminMenu_searchProduct.setOnAction(e -> System.out.println("Search for a Product"));
+        adminMenu_productReport.setOnAction(e -> System.out.println("View Reports About Products"));
+        adminMenu_userReport.setOnAction(e -> System.out.println("View Report About Users"));
+        adminMenu_orderReport.setOnAction(e -> System.out.println("View Report About Orders"));
+        adminMenu_logOut.setOnAction(e -> primaryStage.setScene(mainMenuScene));
 
         //***********************************************************
         Label label6 = new Label("Click on your choice");
@@ -79,7 +115,7 @@ public class JavaFXMain extends Application {
         vbox4.setAlignment(Pos.CENTER);
         vbox4.setSpacing(10);
         scene6 = new Scene(vbox4, 300, 250);
-        addUser.setOnAction(e -> primaryStage.setScene(scene6));
+        adminMenu_addUser.setOnAction(e -> primaryStage.setScene(scene6));
 
         addCashier.setOnAction(e -> System.out.println("Add New Cashier"));
         addCustomer.setOnAction(e -> System.out.println("Add New Customer"));
@@ -97,7 +133,7 @@ public class JavaFXMain extends Application {
         vbox5.setAlignment(Pos.CENTER);
         vbox5.setSpacing(10);
         scene7 = new Scene(vbox5, 300, 250);
-        editUser.setOnAction(e -> primaryStage.setScene(scene7));
+        adminMenu_editUser.setOnAction(e -> primaryStage.setScene(scene7));
 
         editCashier.setOnAction(e -> System.out.println("Edit Cashier"));
         editCustomer.setOnAction(e -> System.out.println("Edit Customer"));
@@ -115,7 +151,7 @@ public class JavaFXMain extends Application {
         vbox6.setAlignment(Pos.CENTER);
         vbox6.setSpacing(10);
         scene8 = new Scene(vbox6, 300, 250);
-        removeUser.setOnAction(e -> primaryStage.setScene(scene8));
+        adminMenu_removeUser.setOnAction(e -> primaryStage.setScene(scene8));
 
         removeCashier.setOnAction(e -> System.out.println("Remove Cashier"));
         removeCustomer.setOnAction(e -> System.out.println("Remove Customer"));
@@ -133,7 +169,7 @@ public class JavaFXMain extends Application {
         vbox7.setAlignment(Pos.CENTER);
         vbox7.setSpacing(10);
         scene9 = new Scene(vbox7, 300, 250);
-        searchUser.setOnAction(e -> primaryStage.setScene(scene9));
+        adminMenu_searchUser.setOnAction(e -> primaryStage.setScene(scene9));
 
         searchCashier.setOnAction(e -> System.out.println("Search for a Cashier"));
         searchCustomer.setOnAction(e -> System.out.println("Search for a Customer"));
@@ -151,7 +187,7 @@ public class JavaFXMain extends Application {
         vbox8.setAlignment(Pos.CENTER);
         vbox8.setSpacing(10);
         scene10 = new Scene(vbox8, 300, 250);
-        userReport.setOnAction(e -> primaryStage.setScene(scene10));
+        adminMenu_userReport.setOnAction(e -> primaryStage.setScene(scene10));
 
         cashierReport.setOnAction(e -> System.out.println("View Report About Cashiers"));
         customerReport.setOnAction(e -> System.out.println("View Report About Customers"));
@@ -164,7 +200,7 @@ public class JavaFXMain extends Application {
         Button rateOrder = new Button("Rate Order");
         Button LogOut = new Button("Log Out");
         viewOrders.setOnAction(e -> System.out.println("View Orders History"));
-        LogOut.setOnAction(e -> primaryStage.setScene(scene1));
+        LogOut.setOnAction(e -> primaryStage.setScene(mainMenuScene));
 
         VBox vbox = new VBox(label3, viewOrders, rateOrder, LogOut);
         vbox.setAlignment(Pos.CENTER);
@@ -204,7 +240,7 @@ public class JavaFXMain extends Application {
         removeProFromCart.setOnAction(e -> System.out.println("Remove Product from Cart"));
         payment.setOnAction(e -> System.out.println("Calculate Payment"));
         cancelCart.setOnAction(e -> System.out.println("Cancel Cart"));
-        lg.setOnAction(e -> primaryStage.setScene(scene1));
+        lg.setOnAction(e -> primaryStage.setScene(mainMenuScene));
 
 
         primaryStage.show();
