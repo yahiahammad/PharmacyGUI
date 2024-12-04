@@ -5,17 +5,13 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.converter.LocalDateStringConverter;
 
 import java.io.FileInputStream;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.concurrent.TimeUnit;
 
 
 public class JavaFXMain extends Application {
@@ -107,23 +103,59 @@ public class JavaFXMain extends Application {
         });
 
         adminMenu_addProduct.setOnAction(e -> {
-            FlowPane adminMenu_addProductFlowPane = new FlowPane();
-            adminMenu_addProductFlowPane.setAlignment(Pos.CENTER);
-            System.out.print("Enter Product Name: ");
-            TextField adminMenu_addProduct_ProductName = new TextField();
-            //if (addPname.equals("0")) {break;}
-            System.out.print("Enter Product Price: ");
-            TextField adminMenu_addProduct_ProductPrice = new TextField();
-            System.out.print("Enter Product Quantity: ");
-            TextField adminMenu_addProduct_ProductQuantity = new TextField();
-            System.out.print("Enter Product Supplier ID: ");
-            TextField adminMenu_addProduct_ProductSupplierID = new TextField();
-            //if (addPsupplierName.equals("0")) {break;}
-            System.out.print("Enter Product Expiration Date: ");
-            TextField adminMenu_addProduct_ProductExpirationDate = new TextField();
-            //admin.addNewProduct(addPname, addPprice, addPquantity, admin.searchSupplierByField("id", addPsupplierName), addPexpDate);
-            //System.out.println("Product ID: " + admin.getProducts().getLast().getProductId());
+            GridPane adminMenu_addProductVbox = new GridPane();
+            adminMenu_addProductVbox.setAlignment(Pos.CENTER);
 
+            //HBox pane1= new HBox();
+            Label productName= new Label("Enter Product Name: ");
+            TextField adminMenu_addProduct_ProductName = new TextField();
+            //pane1.getChildren().addAll(productName, adminMenu_addProduct_ProductName);
+
+            //HBox pane2= new HBox();
+            Label productPrice = new Label("Enter Product Price: ");
+            TextField adminMenu_addProduct_ProductPrice = new TextField();
+            //pane2.getChildren().addAll(productPrice, adminMenu_addProduct_ProductPrice);
+
+            //HBox pane3= new HBox();
+            Label productQuantity =  new Label("Enter Product Quantity: ");
+            TextField adminMenu_addProduct_ProductQuantity = new TextField();
+            //pane3.getChildren().addAll(productQuantity, adminMenu_addProduct_ProductQuantity);
+
+            //HBox pane4= new HBox();
+            Label productSupplier = new Label("Enter Product Supplier ID: ");
+            TextField adminMenu_addProduct_ProductSupplierID = new TextField();
+            //pane4.getChildren().addAll(productSupplier, adminMenu_addProduct_ProductSupplierID);
+
+            //HBox pane5= new HBox();
+            Label productExpirationDate = new Label("Enter Product Expiration Date: ");
+            TextField adminMenu_addProduct_ProductExpirationDate = new TextField();
+            //pane5.getChildren().addAll(productExpirationDate, adminMenu_addProduct_ProductExpirationDate);
+
+//            pane1.setAlignment(Pos.CENTER);
+//            pane1.setSpacing(10);
+//            pane2.setAlignment(Pos.CENTER);
+//            pane2.setSpacing(10);
+//            pane3.setAlignment(Pos.CENTER);
+//            pane3.setSpacing(10);
+//            pane4.setAlignment(Pos.CENTER);
+//            pane4.setSpacing(10);
+//            pane5.setAlignment(Pos.CENTER);
+//            pane5.setSpacing(10);
+
+            //adminMenu_addProductVbox.getChildren().addAll(pane1, pane2, pane3, pane4, pane5);
+            adminMenu_addProductVbox.add(productName, 0, 0);
+            adminMenu_addProductVbox.add(adminMenu_addProduct_ProductName, 1, 0);
+            adminMenu_addProductVbox.add(productPrice, 0, 1);
+            adminMenu_addProductVbox.add(adminMenu_addProduct_ProductPrice, 1, 1);
+            adminMenu_addProductVbox.add(productQuantity, 0, 2);
+            adminMenu_addProductVbox.add(adminMenu_addProduct_ProductQuantity, 1, 2);
+            adminMenu_addProductVbox.add(productSupplier, 0, 3);
+            adminMenu_addProductVbox.add(adminMenu_addProduct_ProductSupplierID, 1, 3);
+            adminMenu_addProductVbox.add(productExpirationDate, 0, 4);
+            adminMenu_addProductVbox.add(adminMenu_addProduct_ProductExpirationDate, 1, 4);
+
+            Scene scene = new Scene(adminMenu_addProductVbox,300,500);
+           primaryStage.setScene(scene);
         });
         adminMenu_editProduct.setOnAction(e -> System.out.println("Edit Product"));
         adminMenu_removeProduct.setOnAction(e -> System.out.println("Remove Product"));
