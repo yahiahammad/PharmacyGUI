@@ -80,20 +80,11 @@ Admin extends User{
     //20/11
     //should check if the product already exists and if it does then change the quantity only if it's greater
     public boolean addNewProduct(String pName, double pPrice, int pQuantity, Supplier pSupplier, LocalDate pExpirationDate) {
-        boolean exists = false;
-        //if product exists, change quantity
-        for(Product myproduct : products) {
-            if (myproduct.getName().equals(pName)) {
-                myproduct.setQuantity(myproduct.getQuantity() + pQuantity);
-                exists = true;
-                //System.out.println("Product already exists");
-                return false;
-            }
-        }
-        if(!exists) {
+        if (!JavaFXMain.CheckProductExistence(this,pName))
+        {
             Product product = new Product(pName, pPrice, pQuantity, pSupplier, pExpirationDate);
             products.add(product);
-            System.out.println("Product added successfully to the pharmacy");
+            //System.out.println("Product added successfully to the pharmacy");
             return true;
         }
         return false;
