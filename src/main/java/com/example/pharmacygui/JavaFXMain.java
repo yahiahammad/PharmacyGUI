@@ -6,17 +6,15 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.converter.LocalDateStringConverter;
 
+import javax.swing.text.DateFormatter;
 import java.io.FileInputStream;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.concurrent.TimeUnit;
 
 
 public class JavaFXMain extends Application {
@@ -25,7 +23,7 @@ public class JavaFXMain extends Application {
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Pharmacy Management System");
         primaryStage.getIcons().add(new Image(new FileInputStream("src/main/java/com/example/pharmacygui/resources/Project_Icon.png")));
-        Scene mainMenuScene, adminLoginScene , scene2, scene3, scene4, scene5, scene6, scene7, scene8, scene9, scene10;
+        Scene mainMenuScene, adminLoginScene , scene2, scene3, adminMenuScene, scene5, scene6, scene7, scene8, scene9, scene10;
         Admin admin = new Admin("Rina", "Rina123@gmail.com", "1234");
 
         //**************************************************
@@ -94,11 +92,11 @@ public class JavaFXMain extends Application {
         VBox vbox2 = new VBox(new Label("What would you like to do?"), adminMenu_addProduct, adminMenu_editProduct, adminMenu_removeProduct, adminMenu_searchProduct, adminMenu_addUser, adminMenu_editUser, adminMenu_removeUser, adminMenu_searchUser, adminMenu_userReport, adminMenu_orderReport, adminMenu_logOut);
         vbox2.setAlignment(Pos.CENTER);
         vbox2.setSpacing(10);
-        scene4 = new Scene(vbox2, 350, 450);
+        adminMenuScene = new Scene(vbox2, 350, 450);
         adminPasswordTextField.setOnAction(e -> {
             if (adminPasswordTextField.getText().equals(admin.getPassword())) {
                 adminPasswordTextField.setText("");
-                primaryStage.setScene(scene4);
+                primaryStage.setScene(adminMenuScene);
             }
             else
             {
@@ -108,22 +106,99 @@ public class JavaFXMain extends Application {
         });
 
         adminMenu_addProduct.setOnAction(e -> {
-            FlowPane adminMenu_addProductFlowPane = new FlowPane();
-            adminMenu_addProductFlowPane.setAlignment(Pos.CENTER);
-            System.out.print("Enter Product Name: ");
+            GridPane adminMenu_addProductGridPane = new GridPane();
+            adminMenu_addProductGridPane.setAlignment(Pos.CENTER);
+
+            Label productName= new Label("Enter Product Name: ");
+            Label adminMenu_addProduct_ProductNameWarning = new Label("Product Already Exists!");
+            adminMenu_addProduct_ProductNameWarning.setTextFill(Color.RED);
+            adminMenu_addProduct_ProductNameWarning.setVisible(false);
             TextField adminMenu_addProduct_ProductName = new TextField();
-            //if (addPname.equals("0")) {break;}
-            System.out.print("Enter Product Price: ");
+
+            Label productPrice = new Label("Enter Product Price: ");
             TextField adminMenu_addProduct_ProductPrice = new TextField();
-            System.out.print("Enter Product Quantity: ");
+
+            Label productQuantity =  new Label("Enter Product Quantity: ");
             TextField adminMenu_addProduct_ProductQuantity = new TextField();
-            System.out.print("Enter Product Supplier ID: ");
+
+            Label productSupplier = new Label("Enter Product Supplier ID: ");
+            Label adminMenu_addProduct_SupplierIDWarning= new Label("Supplier Doesn't Exist!");
+            adminMenu_addProduct_SupplierIDWarning.setTextFill(Color.RED);
+            adminMenu_addProduct_SupplierIDWarning.setVisible(false);
             TextField adminMenu_addProduct_ProductSupplierID = new TextField();
-            //if (addPsupplierName.equals("0")) {break;}
-            System.out.print("Enter Product Expiration Date: ");
-            TextField adminMenu_addProduct_ProductExpirationDate = new TextField();
-            //admin.addNewProduct(addPname, addPprice, addPquantity, admin.searchSupplierByField("id", addPsupplierName), addPexpDate);
-            //System.out.println("Product ID: " + admin.getProducts().getLast().getProductId());
+
+            Label productExpirationDate = new Label("Enter Product Expiration Date: ");
+            TextField adminMenu_addProduct_ProductExpirationDate = new TextField("yyyy-MM-dd");
+
+            Button adminMenu_addProductButton = new Button("Add Product");
+            adminMenu_addProductButton.setAlignment(Pos.CENTER);
+
+            adminMenu_addProductGridPane.add(productName, 0, 0);
+            adminMenu_addProductGridPane.add(adminMenu_addProduct_ProductName, 1, 0);
+            adminMenu_addProductGridPane.add(adminMenu_addProduct_ProductNameWarning, 2, 0);
+            adminMenu_addProductGridPane.add(productPrice, 0, 1);
+            adminMenu_addProductGridPane.add(adminMenu_addProduct_ProductPrice, 1, 1);
+            adminMenu_addProductGridPane.add(productQuantity, 0, 2);
+            adminMenu_addProductGridPane.add(adminMenu_addProduct_ProductQuantity, 1, 2);
+            adminMenu_addProductGridPane.add(productSupplier, 0, 3);
+            adminMenu_addProductGridPane.add(adminMenu_addProduct_ProductSupplierID, 1, 3);
+            adminMenu_addProductGridPane.add(adminMenu_addProduct_SupplierIDWarning,2,3);
+            adminMenu_addProductGridPane.add(productExpirationDate, 0, 4);
+            adminMenu_addProductGridPane.add(adminMenu_addProduct_ProductExpirationDate, 1, 4);
+            adminMenu_addProductGridPane.add(adminMenu_addProductButton, 1, 5);
+
+            adminMenu_addProductGridPane.setHgap(10);
+            adminMenu_addProductGridPane.setVgap(10);
+
+            Scene scene = new Scene(adminMenu_addProductGridPane,500,500);
+           primaryStage.setScene(scene);
+
+           adminMenu_addProductButton.setOnAction(e1 ->{
+               if (CheckProductExistence(admin,adminMenu_addProduct_ProductName.getText()) || !CheckSupplierExistence(admin, adminMenu_addProduct_ProductSupplierID.getText()))
+               {
+                   if (CheckProductExistence(admin,adminMenu_addProduct_ProductName.getText()))
+                   {
+                       adminMenu_addProduct_ProductNameWarning.setVisible(true);
+                       adminMenu_addProduct_ProductName.setText("");
+                   }
+                   else
+                   {
+                       adminMenu_addProduct_ProductNameWarning.setVisible(false);
+                   }
+                   if (!CheckSupplierExistence(admin, adminMenu_addProduct_ProductSupplierID.getText()))
+                   {
+                       adminMenu_addProduct_SupplierIDWarning.setVisible(true);
+                       adminMenu_addProduct_ProductSupplierID.setText("");
+                   }
+                   else
+                   {
+                       adminMenu_addProduct_SupplierIDWarning.setVisible(false);
+                   }
+               }
+               else
+               {
+                   adminMenu_addProduct_ProductNameWarning.setVisible(false);
+                   adminMenu_addProduct_SupplierIDWarning.setVisible(false);
+                   if (admin.addNewProduct(adminMenu_addProduct_ProductName.getText(),Double.parseDouble(adminMenu_addProduct_ProductPrice.getText()),Integer.parseInt(adminMenu_addProduct_ProductQuantity.getText()), admin.searchSupplierByField("id",adminMenu_addProduct_ProductSupplierID.getText()), LocalDate.parse(adminMenu_addProduct_ProductExpirationDate.getText())))
+                   {
+                       Alert adminMenu_addProduct_ProductAddedAlert = new Alert(Alert.AlertType.INFORMATION);
+                       adminMenu_addProduct_ProductAddedAlert.setTitle("Add Product");
+                       adminMenu_addProduct_ProductAddedAlert.setHeaderText("Product successfully added!");
+                       adminMenu_addProduct_ProductAddedAlert.setContentText("Press OK to continue");
+                       adminMenu_addProduct_ProductAddedAlert.showAndWait();
+                       primaryStage.setScene(adminMenuScene);
+                   }
+
+               }
+
+
+
+
+
+           });
+
+
+
 
         });
 
@@ -192,7 +267,7 @@ public class JavaFXMain extends Application {
         addCashier.setOnAction(e -> System.out.println("Add New Cashier"));
         addCustomer.setOnAction(e -> System.out.println("Add New Customer"));
         addSupplier.setOnAction(e -> System.out.println("Add New Supplier"));
-        back1.setOnAction(e -> primaryStage.setScene(scene4));
+        back1.setOnAction(e -> primaryStage.setScene(adminMenuScene));
 
         //***********************************************************
         Label label7 = new Label("Click on your choice");
@@ -210,7 +285,7 @@ public class JavaFXMain extends Application {
         editCashier.setOnAction(e -> System.out.println("Edit Cashier"));
         editCustomer.setOnAction(e -> System.out.println("Edit Customer"));
         editSupplier.setOnAction(e -> System.out.println("Edit Supplier"));
-        back2.setOnAction(e -> primaryStage.setScene(scene4));
+        back2.setOnAction(e -> primaryStage.setScene(adminMenuScene));
 
         //***********************************************************
         Label label8 = new Label("Click on you choice");
@@ -228,7 +303,7 @@ public class JavaFXMain extends Application {
         removeCashier.setOnAction(e -> System.out.println("Remove Cashier"));
         removeCustomer.setOnAction(e -> System.out.println("Remove Customer"));
         removeSupplier.setOnAction(e -> System.out.println("Remove Supplier"));
-        back3.setOnAction(e -> primaryStage.setScene(scene4));
+        back3.setOnAction(e -> primaryStage.setScene(adminMenuScene));
 
         //***********************************************************
         Label label9 = new Label("Click on your choice");
@@ -246,7 +321,7 @@ public class JavaFXMain extends Application {
         searchCashier.setOnAction(e -> System.out.println("Search for a Cashier"));
         searchCustomer.setOnAction(e -> System.out.println("Search for a Customer"));
         searchSupplier.setOnAction(e -> System.out.println("Search for a Supplier"));
-        back4.setOnAction(e -> primaryStage.setScene(scene4));
+        back4.setOnAction(e -> primaryStage.setScene(adminMenuScene));
 
         //***********************************************************
         Label label10 = new Label("Click on your choice");
@@ -264,7 +339,7 @@ public class JavaFXMain extends Application {
         cashierReport.setOnAction(e -> System.out.println("View Report About Cashiers"));
         customerReport.setOnAction(e -> System.out.println("View Report About Customers"));
         supplierReport.setOnAction(e -> System.out.println("View Report About Suppliers"));
-        back5.setOnAction(e -> primaryStage.setScene(scene4));
+        back5.setOnAction(e -> primaryStage.setScene(adminMenuScene));
 
         //***********************************************************
         Label label3 = new Label("What would you like to do?");
@@ -316,9 +391,42 @@ public class JavaFXMain extends Application {
 
 
         primaryStage.show();
+        admin.saveData();
     }
 
     public static void main(String[] args) {
         launch(args);
+
     }
+
+
+
+    public static boolean CheckSupplierExistence(Admin admin, String supplierId) {
+        return admin.searchSupplierByField("id", supplierId) != null;
+    }
+
+    public static boolean CheckProductExistence(Admin admin, String name) {
+        return admin.searchProductByField("name", name) != null;
+    }
+
+    public static boolean CheckCustomerExistence(Admin admin, String customerId) {
+       return (admin.searchCustomerByField("id", customerId) != null);
+    }
+    public static boolean CheckCashierExistence(Admin admin, String cashierId) {
+        return (admin.searchCashierByField("id", cashierId) != null);
+    }
+    public static boolean CheckCartExistence(Admin admin, String cartId) {
+        return (admin.searchCartByField("id", cartId) != null);
+    }
+
+
+
+
+
+
+
+
+
+
+
 }

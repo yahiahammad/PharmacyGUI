@@ -79,22 +79,24 @@ Admin extends User{
     //Product methods********************************************************************************************
     //20/11
     //should check if the product already exists and if it does then change the quantity only if it's greater
-    public void addNewProduct(String pName, double pPrice, int pQuantity, Supplier pSupplier, LocalDate pExpirationDate) {
+    public boolean addNewProduct(String pName, double pPrice, int pQuantity, Supplier pSupplier, LocalDate pExpirationDate) {
         boolean exists = false;
         //if product exists, change quantity
         for(Product myproduct : products) {
             if (myproduct.getName().equals(pName)) {
                 myproduct.setQuantity(myproduct.getQuantity() + pQuantity);
                 exists = true;
-                System.out.println("Product already exists");
-                return;
+                //System.out.println("Product already exists");
+                return false;
             }
         }
         if(!exists) {
             Product product = new Product(pName, pPrice, pQuantity, pSupplier, pExpirationDate);
             products.add(product);
             System.out.println("Product added successfully to the pharmacy");
+            return true;
         }
+        return false;
     }
 
     //will be checked now
