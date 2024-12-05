@@ -1,6 +1,7 @@
 package com.example.pharmacygui;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -125,7 +126,49 @@ public class JavaFXMain extends Application {
             //System.out.println("Product ID: " + admin.getProducts().getLast().getProductId());
 
         });
-        adminMenu_editProduct.setOnAction(e -> System.out.println("Edit Product"));
+
+        VBox pane3 = new VBox();
+        pane3.setAlignment(Pos.CENTER);
+
+        Label label1 = new Label("Enter Product Name: ");
+        TextField adminMenu_editProduct_ProductName = new TextField();
+        adminMenu_editProduct_ProductName.getCharacters();
+        //HBox h1 = new HBox(label1, adminMenu_editProduct_ProductName);
+
+        Label label2 = new Label("Enter the field you want to edit: ");
+        TextField adminMenu_editProduct_ProductField = new TextField();
+        //HBox h2 = new HBox(label2, adminMenu_editProduct_ProductField);
+
+        Label lb3 = new Label("Enter new value: ");
+        TextField adminMenu_editProduct_ProductValue = new TextField();
+        //HBox h3 = new HBox(lb3, adminMenu_editProduct_ProductValue);
+
+        VBox v1 = new VBox(label1, label2, lb3);
+        VBox v2 = new VBox(adminMenu_editProduct_ProductName, adminMenu_editProduct_ProductField, adminMenu_editProduct_ProductValue);
+        HBox h4 = new HBox(v1, v2);
+        h4.setAlignment(Pos.CENTER);
+        h4.setPadding(new Insets(10, 10, 10, 10));
+
+        Button bt1 = new Button("Cancel");
+        Button bt2 = new Button("Confirm");
+        //pane3.getChildren().addAll(h1, h2, h3);
+        Scene sc = new Scene(h4, 350, 300);
+        adminMenu_editProduct.setOnAction(e -> primaryStage.setScene(sc));
+
+
+        /*System.out.print("Enter Product Name: ");
+        editPid = CheckProductExistence(admin,in,false);
+        if (editPid.equals("0")) {break;}
+        editPid = admin.searchProductByField("name",editPid).getProductId();
+        System.out.print("Enter the field you want to edit: ");
+        editPfield = in.next();
+        System.out.print("Enter new value: ");
+        editPvalue = in.next();
+
+        admin.editProduct(editPid, editPfield, editPvalue);
+        TimeUnit.SECONDS.sleep(1);*/
+
+
         adminMenu_removeProduct.setOnAction(e -> System.out.println("Remove Product"));
         adminMenu_searchProduct.setOnAction(e -> System.out.println("Search for a Product"));
         adminMenu_productReport.setOnAction(e -> System.out.println("View Reports About Products"));
