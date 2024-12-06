@@ -14,17 +14,19 @@ import javafx.stage.Stage;
 
 import javax.swing.text.DateFormatter;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 
 
 public class JavaFXMain extends Application {
+
+    Admin admin = new Admin("Rina", "Rina123@gmail.com", "1234");
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Pharmacy Management System");
         primaryStage.getIcons().add(new Image(new FileInputStream("src/main/java/com/example/pharmacygui/resources/Project_Icon.png")));
         Scene mainMenuScene, adminLoginScene , scene2, scene3, adminMenuScene, scene5, scene6, scene7, scene8, scene9, scene10;
-        Admin admin = new Admin("Rina", "Rina123@gmail.com", "1234");
 
         //**************************************************
         Button mainMenu_adminButton = new Button("Admin");
@@ -183,6 +185,15 @@ public class JavaFXMain extends Application {
                    {
                        Alert adminMenu_addProduct_ProductAddedAlert = new Alert(Alert.AlertType.INFORMATION);
                        adminMenu_addProduct_ProductAddedAlert.setTitle("Add Product");
+                       try {
+                           admin.saveData();
+                       } catch (IOException ex) {
+                           Alert adminMenu_addProduct_ProductAddingFailed = new Alert(Alert.AlertType.ERROR);
+                           adminMenu_addProduct_ProductAddingFailed.setTitle("PRODUCT ADDITION FAILED");
+                           adminMenu_addProduct_ProductAddingFailed.setHeaderText("Failed to add product to the database");
+                           adminMenu_addProduct_ProductAddingFailed.showAndWait();
+                           primaryStage.setScene(adminMenuScene);
+                       }
                        adminMenu_addProduct_ProductAddedAlert.setHeaderText("Product successfully added!");
                        adminMenu_addProduct_ProductAddedAlert.setContentText("Press OK to continue");
                        adminMenu_addProduct_ProductAddedAlert.showAndWait();
@@ -391,7 +402,6 @@ public class JavaFXMain extends Application {
 
 
         primaryStage.show();
-        admin.saveData();
     }
 
     public static void main(String[] args) {
