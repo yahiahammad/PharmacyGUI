@@ -551,6 +551,7 @@ public class JavaFXMain extends Application {
         scene9 = new Scene(vbox7, 300, 250);
         adminMenu_searchUser.setOnAction(e -> primaryStage.setScene(scene9));
 
+        //****************************************************************************
         searchCashier.setOnAction(e -> {
             GridPane adminMenu_searchCashierGridPane = new GridPane();
             adminMenu_searchCashierGridPane.setAlignment(Pos.CENTER);
@@ -609,7 +610,64 @@ public class JavaFXMain extends Application {
         });
 
         //*************************************************************************************
-        searchCustomer.setOnAction(e -> System.out.println("Search for a Customer"));
+        searchCustomer.setOnAction(e -> {
+            GridPane adminMenu_searchCustomerGridPane = new GridPane();
+            adminMenu_searchCustomerGridPane.setAlignment(Pos.CENTER);
+
+            Label searchCustomerField = new Label("Enter Search Field: ");
+            Label adminMenu_searchCustomer_CustomerFieldWarning = new Label("Only Name, or ID, or Email can be used!");
+            adminMenu_searchCustomer_CustomerFieldWarning.setTextFill(Color.RED);
+            adminMenu_searchCustomer_CustomerFieldWarning.setVisible(false);
+            TextField adminMenu_searchCustomer_CustomerField = new TextField();
+
+            Label searchCustomerValue = new Label("Enter Value to Search with: ");
+            TextField adminMenu_searchCustomer_CustomerValue = new TextField();
+
+            Button adminMenu_searchCustomerButton = new Button("Search Customer");
+            adminMenu_searchCustomerButton.setAlignment(Pos.CENTER);
+
+            adminMenu_searchCustomerGridPane.add(searchCustomerField, 0, 0);
+            adminMenu_searchCustomerGridPane.add(adminMenu_searchCustomer_CustomerField, 1, 0);
+            adminMenu_searchCustomerGridPane.add(adminMenu_searchCustomer_CustomerFieldWarning, 2, 0);
+            adminMenu_searchCustomerGridPane.add(searchCustomerValue, 0, 1);
+            adminMenu_searchCustomerGridPane.add(adminMenu_searchCustomer_CustomerValue, 1, 1);
+            adminMenu_searchCustomerGridPane.add(adminMenu_searchCustomerButton, 0, 3);
+
+            adminMenu_searchCustomerGridPane.setHgap(10);
+            adminMenu_searchCustomerGridPane.setVgap(10);
+
+            Scene searchCustomer_scene = new Scene(adminMenu_searchCustomerGridPane, 600, 600);
+            primaryStage.setScene(searchCustomer_scene);
+
+            adminMenu_searchCustomerButton.setOnAction(e1 -> {
+                if (adminMenu_searchCustomer_CustomerField.getText().equalsIgnoreCase("name") || adminMenu_searchCustomer_CustomerField.getText().equalsIgnoreCase("id") || adminMenu_searchCustomer_CustomerField.getText().equalsIgnoreCase("email")) {
+                    adminMenu_searchCustomer_CustomerFieldWarning.setVisible(false);
+                    if (admin.searchCustomerByField(adminMenu_searchCustomer_CustomerField.getText(), adminMenu_searchCustomer_CustomerValue.getText()) == null) {
+                        Alert adminMenu_searchCustomer_CustomerSearchAlert = new Alert(Alert.AlertType.ERROR);
+                        adminMenu_searchCustomer_CustomerSearchAlert.setHeaderText("CUSTOMER NOT FOUND!");
+                        adminMenu_searchCustomer_CustomerSearchAlert.showAndWait();
+                        adminMenu_searchCustomer_CustomerValue.setText("");
+                        adminMenu_searchCustomer_CustomerField.setText("");
+                        primaryStage.setScene(searchCustomer_scene);
+                    }
+                    else {
+                        Customer cu = new Customer(admin.searchCustomerByField(adminMenu_searchCustomer_CustomerField.getText(), adminMenu_searchCustomer_CustomerValue.getText()));
+                        Alert adminMenu_searchCustomer_CustomerSearchAlert = new Alert(Alert.AlertType.INFORMATION);
+                        adminMenu_searchCustomer_CustomerSearchAlert.setTitle("Search Customer");
+                        adminMenu_searchCustomer_CustomerSearchAlert.setHeaderText("Customer found:\n" + cu.toString());
+                        adminMenu_searchCustomer_CustomerSearchAlert.setContentText("Press OK to continue");
+                        adminMenu_searchCustomer_CustomerSearchAlert.showAndWait();
+                        primaryStage.setScene(adminMenuScene);
+                    }
+                }
+                else {
+                    adminMenu_searchCustomer_CustomerFieldWarning.setVisible(true);
+                    adminMenu_searchCustomer_CustomerField.setText("");
+                }
+            });
+        });
+
+
         searchSupplier.setOnAction(e -> System.out.println("Search for a Supplier"));
         back4.setOnAction(e -> primaryStage.setScene(adminMenuScene));
 

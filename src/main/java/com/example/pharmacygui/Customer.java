@@ -20,6 +20,14 @@ public class Customer extends User{
         orderHistory = new ArrayList<>();
     }
 
+    public Customer(Customer customer) {
+        id = customer.id;
+        name = customer.name;
+        email = customer.email;
+        role = customer.role;
+        orderHistory = new ArrayList<>();
+    }
+
     //something wrong here
     public ArrayList<Cart> getOrderHistory() {
         return orderHistory;
