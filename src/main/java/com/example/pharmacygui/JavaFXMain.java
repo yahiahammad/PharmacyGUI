@@ -773,30 +773,74 @@ public class JavaFXMain extends Application {
         back5.setOnAction(e -> primaryStage.setScene(adminMenuScene));
 
         //***********************************************************
+        Scene customerMenuScene;
+        //Customer customerObject = null;
         Label label3 = new Label("What would you like to do?");
         Button viewOrders = new Button("View Orders History");
         Button rateOrder = new Button("Rate Order");
         Button LogOut = new Button("Log Out");
-        viewOrders.setOnAction(e -> System.out.println("View Orders History"));
-        LogOut.setOnAction(e -> primaryStage.setScene(mainMenuScene));
 
         VBox vbox = new VBox(label3, viewOrders, rateOrder, LogOut);
         vbox.setAlignment(Pos.CENTER);
         vbox.setSpacing(10);
-        scene2 = new Scene(vbox, 300, 250);
-        customer.setOnAction(e -> primaryStage.setScene(scene2));
+        customerMenuScene = new Scene(vbox, 300, 250);
+        customer.setOnAction(e -> primaryStage.setScene(customerMenuScene));
+        LogOut.setOnAction(e -> primaryStage.setScene(mainMenuScene));
 
-        //*****************************************************
-        Label label4 = new Label("Rate:");
-        TextField textField = new TextField();
-        Button bt = new Button("Done");
-        HBox hb = new HBox();
-        hb.getChildren().addAll(label4, textField, bt);
-        hb.setAlignment(Pos.CENTER);
-        hb.setSpacing(10);
-        scene3 = new Scene(hb, 300, 50);
-        rateOrder.setOnAction(e -> primaryStage.setScene(scene3));
-        bt.setOnAction(e -> primaryStage.setScene(scene2));
+        //*************************************************************
+        Scene customerLoginScene;
+        PasswordField customerPasswordTextField = new PasswordField();
+        String enteredId = customerPasswordTextField.getText();
+        Label customerPasswordLabel = new Label("ID: ");
+        Label customerWrongPasswordLabel = new Label("This ID does not exist, try again");
+        customerWrongPasswordLabel.setTextFill(Color.RED);
+        customerWrongPasswordLabel.setVisible(false);
+        Button customerPasswordBackButton = new Button("Back");
+
+        HBox customerLoginHBox = new HBox(customerPasswordLabel, customerPasswordTextField, customerPasswordBackButton);
+        customerLoginHBox.setAlignment(Pos.CENTER);
+        customerLoginHBox.setSpacing(10);
+
+        VBox customerLoginVBox = new VBox(customerLoginHBox, customerWrongPasswordLabel);
+        customerLoginVBox.setAlignment(Pos.CENTER);
+        customerLoginVBox.setSpacing(10);
+
+        customerLoginScene = new Scene(customerLoginVBox, 400, 400);
+
+        customerPasswordBackButton.setOnAction(e -> primaryStage.setScene(customerMenuScene));
+        customer.setOnAction(e -> primaryStage.setScene(customerLoginScene));
+
+        //***********************************************************************************
+        customerPasswordTextField.setOnAction(e -> {
+            if (CheckCustomerExistence(admin, customerPasswordTextField.getText())) {
+                customerPasswordTextField.setText("");
+                primaryStage.setScene(customerMenuScene);
+                System.out.println("entered id: " + enteredId);
+                /*viewOrders.setOnAction(e1 -> {
+                    TextArea textArea = new TextArea();
+                    admin.searchCustomerByField("id", enteredId).displayOrderHistory(textArea);
+                    Scene customerMenu_viewOrder_scene = new Scene(textArea, 300, 250);
+                });*/
+
+                //**********************************************************************************
+                //this will get changed
+                Scene customerMenu_rateOrder_scene;
+                Label label4 = new Label("Rate:");
+                TextField textField = new TextField();
+                Button bt = new Button("Done");
+                HBox hb = new HBox();
+                hb.getChildren().addAll(label4, textField, bt);
+                hb.setAlignment(Pos.CENTER);
+                hb.setSpacing(10);
+                customerMenu_rateOrder_scene = new Scene(hb, 300, 50);
+                rateOrder.setOnAction(e1 -> primaryStage.setScene(customerMenu_rateOrder_scene));
+                bt.setOnAction(e1 -> primaryStage.setScene(customerMenuScene));
+            }
+            else {
+                customerPasswordTextField.setText("");
+                customerWrongPasswordLabel.setVisible(true);
+            }
+        });
 
         //**********************************************************
         Label label5 = new Label("What would you like to do?");

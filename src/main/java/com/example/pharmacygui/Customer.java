@@ -1,5 +1,7 @@
 package com.example.pharmacygui;
 
+import javafx.scene.control.TextArea;
+
 import java.util.ArrayList;
 
 public class Customer extends User{
@@ -63,6 +65,14 @@ public class Customer extends User{
         System.out.println("Order History for " + name + ":");
         for (Cart order : orderHistory) {
             System.out.println(order.toString());
+        }
+    }
+
+    //javafx version
+    public void displayOrderHistory(TextArea textArea) {
+        textArea.appendText("Order History for " + name + ":\n");
+        for (Cart order : orderHistory) {
+            textArea.appendText(order.toString() + "\n");
         }
     }
 
