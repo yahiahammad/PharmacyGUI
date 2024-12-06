@@ -444,7 +444,7 @@ public class JavaFXMain extends Application {
             adminMenu_addUser_addCashier_GridPane.add(adminMenu_addUser_addCashierButton,1,2);
             adminMenu_addUser_addCashier_GridPane.add(adminMenu_addUser_addCashierCancelButton,1,3);
 
-            Scene scene = new Scene(adminMenu_addUser_addCashier_GridPane, 300, 250);
+            Scene scene = new Scene(adminMenu_addUser_addCashier_GridPane, 600, 250);
             primaryStage.setScene(scene);
             adminMenu_addUser_addCashierButton.setOnAction(e1 -> {
 
@@ -493,6 +493,10 @@ public class JavaFXMain extends Application {
                     alert.showAndWait();
                     primaryStage.setScene(adminMenuScene);
                 }
+            });
+
+            adminMenu_addUser_addCashierCancelButton.setOnAction(e2 -> {
+                primaryStage.setScene(adminMenuScene);
             });
         });
 
@@ -566,7 +570,9 @@ public class JavaFXMain extends Application {
             TextField adminMenu_searchCashier_CashierValue = new TextField();
 
             Button adminMenu_searchCashierButton = new Button("Search Cashier");
+            Button adminMenu_searchCashierCancelButton = new Button("Cancel");
             adminMenu_searchCashierButton.setAlignment(Pos.CENTER);
+            adminMenu_searchCashierCancelButton.setAlignment(Pos.CENTER);
 
             adminMenu_searchCashierGridPane.add(searchCashierField, 0, 0);
             adminMenu_searchCashierGridPane.add(adminMenu_searchCashier_CashierField, 1, 0);
@@ -574,11 +580,12 @@ public class JavaFXMain extends Application {
             adminMenu_searchCashierGridPane.add(searchCashierValue, 0, 1);
             adminMenu_searchCashierGridPane.add(adminMenu_searchCashier_CashierValue, 1, 1);
             adminMenu_searchCashierGridPane.add(adminMenu_searchCashierButton, 0, 3);
+            adminMenu_searchCashierGridPane.add(adminMenu_searchCashierCancelButton, 0, 4);
 
             adminMenu_searchCashierGridPane.setHgap(10);
             adminMenu_searchCashierGridPane.setVgap(10);
 
-            Scene searchCashier_scene = new Scene(adminMenu_searchCashierGridPane, 600, 600);
+            Scene searchCashier_scene = new Scene(adminMenu_searchCashierGridPane, 600, 250);
             primaryStage.setScene(searchCashier_scene);
 
             adminMenu_searchCashierButton.setOnAction(e1 -> {
@@ -607,6 +614,10 @@ public class JavaFXMain extends Application {
                     adminMenu_searchCashier_CashierField.setText("");
                 }
             });
+
+            adminMenu_searchCashierCancelButton.setOnAction(e2 -> {
+                primaryStage.setScene(adminMenuScene);
+            });
         });
 
         //*************************************************************************************
@@ -624,6 +635,8 @@ public class JavaFXMain extends Application {
             TextField adminMenu_searchCustomer_CustomerValue = new TextField();
 
             Button adminMenu_searchCustomerButton = new Button("Search Customer");
+            Button adminMenu_searchCustomerCancelButton = new Button("Cancel");
+            adminMenu_searchCustomerButton.setAlignment(Pos.CENTER);
             adminMenu_searchCustomerButton.setAlignment(Pos.CENTER);
 
             adminMenu_searchCustomerGridPane.add(searchCustomerField, 0, 0);
@@ -632,11 +645,12 @@ public class JavaFXMain extends Application {
             adminMenu_searchCustomerGridPane.add(searchCustomerValue, 0, 1);
             adminMenu_searchCustomerGridPane.add(adminMenu_searchCustomer_CustomerValue, 1, 1);
             adminMenu_searchCustomerGridPane.add(adminMenu_searchCustomerButton, 0, 3);
+            adminMenu_searchCustomerGridPane.add(adminMenu_searchCustomerCancelButton, 0, 4);
 
             adminMenu_searchCustomerGridPane.setHgap(10);
             adminMenu_searchCustomerGridPane.setVgap(10);
 
-            Scene searchCustomer_scene = new Scene(adminMenu_searchCustomerGridPane, 600, 600);
+            Scene searchCustomer_scene = new Scene(adminMenu_searchCustomerGridPane, 600, 250);
             primaryStage.setScene(searchCustomer_scene);
 
             adminMenu_searchCustomerButton.setOnAction(e1 -> {
@@ -665,6 +679,10 @@ public class JavaFXMain extends Application {
                     adminMenu_searchCustomer_CustomerField.setText("");
                 }
             });
+
+            adminMenu_searchCustomerCancelButton.setOnAction(e2 -> {
+                primaryStage.setScene(adminMenuScene);
+            });
         });
 
         //*****************************************************************************
@@ -682,7 +700,9 @@ public class JavaFXMain extends Application {
             TextField adminMenu_searchSupplier_SupplierValue = new TextField();
 
             Button adminMenu_searchSupplierButton = new Button("Search Supplier");
+            Button adminMenu_searchSupplierCancelButton = new Button("Cancel");
             adminMenu_searchSupplierButton.setAlignment(Pos.CENTER);
+            adminMenu_searchSupplierCancelButton.setAlignment(Pos.CENTER);
 
             adminMenu_searchSupplierGridPane.add(searchSupplierField, 0, 0);
             adminMenu_searchSupplierGridPane.add(adminMenu_searchSupplier_SupplierField, 1, 0);
@@ -690,11 +710,12 @@ public class JavaFXMain extends Application {
             adminMenu_searchSupplierGridPane.add(searchSupplierValue, 0, 1);
             adminMenu_searchSupplierGridPane.add(adminMenu_searchSupplier_SupplierValue, 1, 1);
             adminMenu_searchSupplierGridPane.add(adminMenu_searchSupplierButton, 0, 3);
+            adminMenu_searchSupplierGridPane.add(adminMenu_searchSupplierCancelButton, 0, 4);
 
             adminMenu_searchSupplierGridPane.setHgap(10);
             adminMenu_searchSupplierGridPane.setVgap(10);
 
-            Scene searchSupplier_scene = new Scene(adminMenu_searchSupplierGridPane, 600, 600);
+            Scene searchSupplier_scene = new Scene(adminMenu_searchSupplierGridPane, 600, 250);
             primaryStage.setScene(searchSupplier_scene);
 
             adminMenu_searchSupplierButton.setOnAction(e1 -> {
@@ -722,6 +743,10 @@ public class JavaFXMain extends Application {
                     adminMenu_searchSupplier_SupplierFieldWarning.setVisible(true);
                     adminMenu_searchSupplier_SupplierField.setText("");
                 }
+            });
+
+            adminMenu_searchSupplierCancelButton.setOnAction(e2 -> {
+                primaryStage.setScene(adminMenuScene);
             });
         });
 
