@@ -94,31 +94,31 @@ Admin extends User{
 
 
     //20//11
-    public void editProduct(String productId, String field, String value) {
-        for (Product product : products) {
-            if (product.getProductId().equals(productId)){
-                if (field.equalsIgnoreCase("name")) {
-                    product.setName(value);
-                    System.out.println("Product Edited Successfully!\n");
-                    return;
+    public boolean editProduct(String name, String field, String value) {
+        if (JavaFXMain.CheckProductExistence(this, name)) {
+            for (Product product : products) {
+                if (product.getName().equals(name)) {
+                    if (field.equalsIgnoreCase("name")) {
+                        product.setName(value);
+                        //System.out.println("Product Edited Successfully!\n");
+                        return true;
+                    } else if (field.equalsIgnoreCase("price")) {
+                        product.setPrice(Double.parseDouble(value));
+                        //System.out.println("Product Edited Successfully!\n");
+                        return true;
+                    } else if (field.equalsIgnoreCase("quantity")) {
+                        product.setQuantity(Integer.parseInt(value));
+                        //System.out.println("Product Edited Successfully!\n");
+                        return true;
+                    } else {
+                        //System.out.println("Only Name, Price, and Quantity can be edited");
+                        return false;
+                    }
                 }
-                else if (field.equalsIgnoreCase("price")) {
-                    product.setPrice(Double.parseDouble(value));
-                    System.out.println("Product Edited Successfully!\n");
-                    return;
-                }
-                else if (field.equalsIgnoreCase("quantity")) {
-                    product.setQuantity(Integer.parseInt(value));
-                    System.out.println("Product Edited Successfully!\n");
-                    return;
-                }
-                else {
-                    System.out.println("Only Name, Price, and Quantity can be edited");
-                    return;
-                }
-            }
 
+            }
         }
+        return false;
     }
 
     //I think it won't be changed

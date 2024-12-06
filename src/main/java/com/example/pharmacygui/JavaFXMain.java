@@ -213,48 +213,81 @@ public class JavaFXMain extends Application {
 
         });
 
-        VBox pane3 = new VBox();
-        pane3.setAlignment(Pos.CENTER);
+        adminMenu_editProduct.setOnAction(e -> {
+            GridPane adminMenu_editProductGridPane = new GridPane();
+            adminMenu_editProductGridPane.setAlignment(Pos.CENTER);
 
-        Label label1 = new Label("Enter Product Name: ");
-        TextField adminMenu_editProduct_ProductName = new TextField();
-        adminMenu_editProduct_ProductName.getCharacters();
-        //HBox h1 = new HBox(label1, adminMenu_editProduct_ProductName);
+            Label productName2 = new Label("Enter Product Name: ");
+            Label adminMenu_editProduct_ProductNameWarning = new Label("Product Does Not Exist!");
+            adminMenu_editProduct_ProductNameWarning.setTextFill(Color.RED);
+            adminMenu_editProduct_ProductNameWarning.setVisible(false);
+            TextField adminMenu_editProduct_ProductName = new TextField();
 
-        Label label2 = new Label("Enter the field you want to edit: ");
-        TextField adminMenu_editProduct_ProductField = new TextField();
-        //HBox h2 = new HBox(label2, adminMenu_editProduct_ProductField);
+            Label productField = new Label("Enter The Field You Want To Edit: ");
+            Label adminMenu_editProduct_ProductFieldWarning = new Label("Only Name, Price, and Quantity can be edited!");
+            adminMenu_editProduct_ProductFieldWarning.setTextFill(Color.RED);
+            adminMenu_editProduct_ProductFieldWarning.setVisible(false);
+            TextField adminMenu_editProduct_ProductField = new TextField();
 
-        Label lb3 = new Label("Enter new value: ");
-        TextField adminMenu_editProduct_ProductValue = new TextField();
-        //HBox h3 = new HBox(lb3, adminMenu_editProduct_ProductValue);
+            Label productValue = new Label("Enter New Value: ");
+            TextField adminMenu_editProduct_ProductValue = new TextField();
 
-        VBox v1 = new VBox(label1, label2, lb3);
-        VBox v2 = new VBox(adminMenu_editProduct_ProductName, adminMenu_editProduct_ProductField, adminMenu_editProduct_ProductValue);
-        HBox h4 = new HBox(v1, v2);
-        h4.setAlignment(Pos.CENTER);
-        h4.setPadding(new Insets(10, 10, 10, 10));
+            Button adminMenu_editProductButton = new Button("Edit Product");
+            adminMenu_editProductButton.setAlignment(Pos.CENTER);
 
-        Button bt1 = new Button("Cancel");
-        Button bt2 = new Button("Confirm");
-        //pane3.getChildren().addAll(h1, h2, h3);
-        Scene sc = new Scene(h4, 350, 300);
-        adminMenu_editProduct.setOnAction(e -> primaryStage.setScene(sc));
+            adminMenu_editProductGridPane.add(productName2, 0, 0);
+            adminMenu_editProductGridPane.add(adminMenu_editProduct_ProductName, 1, 0);
+            adminMenu_editProductGridPane.add(adminMenu_editProduct_ProductNameWarning, 2, 0);
+            adminMenu_editProductGridPane.add(productField, 0, 1);
+            adminMenu_editProductGridPane.add(adminMenu_editProduct_ProductField, 1, 1);
+            adminMenu_editProductGridPane.add(adminMenu_editProduct_ProductFieldWarning, 2, 1);
+            adminMenu_editProductGridPane.add(productValue, 0, 2);
+            adminMenu_editProductGridPane.add(adminMenu_editProduct_ProductValue, 1, 2);
+            adminMenu_editProductGridPane.add(adminMenu_editProductButton, 1, 3);
+
+            adminMenu_editProductGridPane.setHgap(10);
+            adminMenu_editProductGridPane.setVgap(10);
+
+            Scene editProduct_scene = new Scene(adminMenu_editProductGridPane, 600, 400);
+            primaryStage.setScene(editProduct_scene);
+
+            adminMenu_editProductButton.setOnAction(e1 -> {
+                if (!CheckProductExistence(admin, adminMenu_editProduct_ProductName.getText())) {
+                    adminMenu_editProduct_ProductNameWarning.setVisible(true);
+                    adminMenu_editProduct_ProductName.setText("");
+                }
+                else {
+                    adminMenu_editProduct_ProductNameWarning.setVisible(false);
+                }
+                if (adminMenu_editProduct_ProductField.getText().equalsIgnoreCase("name") || adminMenu_editProduct_ProductField.getText().equalsIgnoreCase("price") || adminMenu_editProduct_ProductField.getText().equalsIgnoreCase("quantity")) {
+                    adminMenu_editProduct_ProductFieldWarning.setVisible(false);
+                }
+                else {
+                    adminMenu_editProduct_ProductFieldWarning.setVisible(true);
+                    adminMenu_editProduct_ProductField.setText("");
+
+                }
+                if (admin.editProduct(adminMenu_editProduct_ProductName.getText(), adminMenu_editProduct_ProductField.getText(),adminMenu_editProduct_ProductValue.getText())) {
+                    Alert adminMenu_editProduct_ProductEditedAlert = new Alert(Alert.AlertType.INFORMATION);
+                    adminMenu_editProduct_ProductEditedAlert.setTitle("Edit Product");
+                    try {
+                        admin.saveData();
+                    } catch (IOException ex) {
+                        Alert adminMenu_editProduct_ProductEditingFailed = new Alert(Alert.AlertType.ERROR);
+                        adminMenu_editProduct_ProductEditingFailed.setHeaderText("PRODUCT EDITING FAILED");
+                        adminMenu_editProduct_ProductEditingFailed.showAndWait();
+                        primaryStage.setScene(adminMenuScene);
+                    }
+                    adminMenu_editProduct_ProductEditedAlert.setHeaderText("Product successfully edited!");
+                    adminMenu_editProduct_ProductEditedAlert.setContentText("Press OK to continue");
+                    adminMenu_editProduct_ProductEditedAlert.showAndWait();
+                    primaryStage.setScene(adminMenuScene);
+                }
 
 
-        /*System.out.print("Enter Product Name: ");
-        editPid = CheckProductExistence(admin,in,false);
-        if (editPid.equals("0")) {break;}
-        editPid = admin.searchProductByField("name",editPid).getProductId();
-        System.out.print("Enter the field you want to edit: ");
-        editPfield = in.next();
-        System.out.print("Enter new value: ");
-        editPvalue = in.next();
+            });
 
-        admin.editProduct(editPid, editPfield, editPvalue);
-        TimeUnit.SECONDS.sleep(1);*/
-
-
+        });
         adminMenu_removeProduct.setOnAction(e -> System.out.println("Remove Product"));
         adminMenu_searchProduct.setOnAction(e -> System.out.println("Search for a Product"));
         adminMenu_productReport.setOnAction(e -> System.out.println("View Reports About Products"));
