@@ -1,6 +1,7 @@
 package com.example.pharmacygui;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -10,12 +11,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.scene.control.TextArea;
+
+import javax.swing.text.DateFormatter;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 
 public class JavaFXMain extends Application {
@@ -91,7 +91,7 @@ public class JavaFXMain extends Application {
         Button adminMenu_orderReport = new Button("View Report About Orders");
         Button adminMenu_logOut = new Button("Log Out");
 
-        VBox vbox2 = new VBox(new Label("What would you like to do?"), adminMenu_addProduct, adminMenu_editProduct, adminMenu_removeProduct, adminMenu_searchProduct, adminMenu_productReport, adminMenu_addUser, adminMenu_editUser, adminMenu_removeUser, adminMenu_searchUser, adminMenu_userReport, adminMenu_orderReport, adminMenu_logOut);
+        VBox vbox2 = new VBox(new Label("What would you like to do?"), adminMenu_addProduct, adminMenu_editProduct, adminMenu_removeProduct, adminMenu_searchProduct, adminMenu_addUser, adminMenu_editUser, adminMenu_removeUser, adminMenu_searchUser, adminMenu_userReport, adminMenu_orderReport, adminMenu_logOut);
         vbox2.setAlignment(Pos.CENTER);
         vbox2.setSpacing(10);
         adminMenuScene = new Scene(vbox2, 350, 450);
@@ -400,91 +400,11 @@ public class JavaFXMain extends Application {
             });
         });
 
-        //****************************************************************************
-        //it's not working I give up
-
-        adminMenu_productReport.setOnAction(e -> {
-            TextArea productReport = new TextArea();
-            productReport.setPrefSize(600, 600);
-            admin.viewProductReportJavaFX();
-            VBox adminMenu_productReportVBox = new VBox(10);
-            Scene productReport_scene = new Scene(adminMenu_productReportVBox, 700, 700);
-            primaryStage.setScene(productReport_scene);
-
-            //Bestseller Product over a specific period of time
-            Label labelVP1 = new Label("Bestseller and Most revenue Products over a specific period of time:");
-            DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("yyyy-MM-d");
-            LocalDate start = LocalDate.of(2024,1,1);
-            LocalDate end = LocalDate.of(2025,1,1);
-            GridPane viewProductGridPane = new GridPane();
-            //check when you parse the string into a date(because no entry of it directly) if an exception may occur unintentionally by user
-            try {
-                Label labelVP2 = new Label("Enter the start date and time in this form please (yyyy-MM-dd): ");
-                //TextField startFromUser = new TextField();
-                DatePicker startDatePicker = new DatePicker();
-                start = LocalDate.parse(startDatePicker.toString(), myFormat);
-                Label labelVP3 = new Label("Enter the end date and time in this form please (yyyy-MM-dd): ");
-                //TextField endFromUser = new TextField();
-                DatePicker endDatePicker = new DatePicker();
-                end = LocalDate.parse(endDatePicker.toString(), myFormat);
-
-                viewProductGridPane.add(labelVP1, 0, 0);
-                viewProductGridPane.add(labelVP2, 0, 1);
-                viewProductGridPane.add(startDatePicker, 1, 1);
-                viewProductGridPane.add(labelVP3, 0, 2);
-                viewProductGridPane.add(endDatePicker, 1, 2);
-
-                //check that the input is valid and that the end is after the start
-                if (start.isAfter(end)) {
-                    Alert viewProductAlert = new Alert(Alert.AlertType.ERROR);
-                    viewProductAlert.setHeaderText("This is an invalid set of dates");
-                    viewProductAlert.showAndWait();
-                    startDatePicker = new DatePicker();
-                    endDatePicker = new DatePicker();
-                    primaryStage.setScene(productReport_scene);
-                }
-            } catch (DateTimeParseException ex) {
-                // Handle invalid input format
-                Alert invalidFormat = new Alert(Alert.AlertType.ERROR);
-                invalidFormat.setHeaderText("Invalid date and time format. Please use (yyyy-MM-dd)");
-                invalidFormat.showAndWait();
-                primaryStage.setScene(productReport_scene);
-            }
-            //Bestseller Product over a specific period od time
-            Label bestsellerLabel = new Label("Bestseller Product over a specific period of time:");
-            Label bestsellerInfo = new Label(admin.getMostSoldProduct(start, end));
-            if (bestsellerInfo.getText().isEmpty()) {
-                Alert bestsellerAlert = new Alert(Alert.AlertType.ERROR);
-                bestsellerAlert.setHeaderText("No Products Found");
-                bestsellerAlert.showAndWait();
-                primaryStage.setScene(productReport_scene);
-
-            }
-
-            //Most revenue Product over a specific period of time
-            Label mostRevenue = new Label("Most revenue Product over a specific period of time:");
-            Label mostRevenueInfo = new Label(admin.getMostRevenueProduct(start, end));
-            if (mostRevenueInfo.getText().isEmpty()) {
-                Alert mostRevenueAlert = new Alert(Alert.AlertType.ERROR);
-                mostRevenueAlert.setHeaderText("No Products Found");
-                mostRevenueAlert.showAndWait();
-                primaryStage.setScene(productReport_scene);
-            }
-
-            adminMenu_productReportVBox.getChildren().addAll(productReport, viewProductGridPane, bestsellerLabel, bestsellerInfo, mostRevenue, mostRevenueInfo);
 
 
-        });
-
-        //*****************************************************************************
-
+        adminMenu_productReport.setOnAction(e -> System.out.println("View Reports About Products"));
         adminMenu_userReport.setOnAction(e -> System.out.println("View Report About Users"));
-
-        //*****************************************************************************
-        //same problem will happen here, so I'm not gonna do this one either
-        adminMenu_orderReport.setOnAction(e -> {});
-
-        //*****************************************************************************
+        adminMenu_orderReport.setOnAction(e -> System.out.println("View Report About Orders"));
         adminMenu_logOut.setOnAction(e -> primaryStage.setScene(mainMenuScene));
 
         //***********************************************************
@@ -554,65 +474,7 @@ public class JavaFXMain extends Application {
         scene9 = new Scene(vbox7, 300, 250);
         adminMenu_searchUser.setOnAction(e -> primaryStage.setScene(scene9));
 
-        //************************************************************************
-        searchCashier.setOnAction(e -> {
-            GridPane adminMenu_searchCashierGridPane = new GridPane();
-            adminMenu_searchCashierGridPane.setAlignment(Pos.CENTER);
-
-            Label searchCashierField = new Label("Enter Search Field: ");
-            Label adminMenu_searchCashier_CashierFieldWarning = new Label("Only Name, or ID, or Email can be used");
-            adminMenu_searchCashier_CashierFieldWarning.setTextFill(Color.RED);
-            adminMenu_searchCashier_CashierFieldWarning.setVisible(false);
-            TextField adminMenu_searchCashier_CashierField = new TextField();
-
-            Label searchCashierValue = new Label("Enter Value to Search with: ");
-            TextField adminMenu_searchCashier_CashierValue = new TextField();
-
-            Button adminMenu_searchCashierButton = new Button("Search Cashier");
-            adminMenu_searchCashierButton.setAlignment(Pos.CENTER);
-
-            adminMenu_searchCashierGridPane.add(searchCashierField, 0, 0);
-            adminMenu_searchCashierGridPane.add(adminMenu_searchCashier_CashierField, 1, 0);
-            adminMenu_searchCashierGridPane.add(adminMenu_searchCashier_CashierFieldWarning, 2, 0);
-            adminMenu_searchCashierGridPane.add(searchCashierValue, 0, 1);
-            adminMenu_searchCashierGridPane.add(adminMenu_searchCashier_CashierValue, 1, 1);
-            adminMenu_searchCashierGridPane.add(adminMenu_searchCashierButton, 0, 3);
-
-            adminMenu_searchCashierGridPane.setHgap(10);
-            adminMenu_searchCashierGridPane.setVgap(10);
-
-            Scene searchCashierScene = new Scene(adminMenu_searchCashierGridPane, 600, 250);
-            primaryStage.setScene(searchCashierScene);
-
-            adminMenu_searchCashierButton.setOnAction(e1 -> {
-                if (adminMenu_searchCashier_CashierField.getText().equalsIgnoreCase("name") || adminMenu_searchCashier_CashierField.getText().equalsIgnoreCase("id") || adminMenu_searchCashier_CashierField.getText().equalsIgnoreCase("email")) {
-                    adminMenu_searchCashier_CashierFieldWarning.setVisible(false);
-                    if (admin.searchCashierByField(adminMenu_searchCashier_CashierField.getText(), adminMenu_searchCashier_CashierValue.getText()) == null) {
-                        Alert adminMenu_searchCashier_CashierSearchAlert = new Alert(Alert.AlertType.ERROR);
-                        adminMenu_searchCashier_CashierSearchAlert.setHeaderText("CASHIER NOT FOUND!");
-                        adminMenu_searchCashier_CashierSearchAlert.showAndWait();
-                        adminMenu_searchCashier_CashierValue.setText("");
-                        adminMenu_searchCashier_CashierField.setText("");
-                        primaryStage.setScene(searchCashierScene);
-                    }
-                    else {
-                        Cashier ca = new Cashier(admin.searchCashierByField(adminMenu_searchCashier_CashierField.getText(), adminMenu_searchCashier_CashierValue.getText()));
-                        Alert adminMenu_searchCashier_CashierSearchAlert = new Alert(Alert.AlertType.INFORMATION);
-                        adminMenu_searchCashier_CashierSearchAlert.setTitle("Search Cashier");
-                        adminMenu_searchCashier_CashierSearchAlert.setHeaderText("Cashier found:\n" + ca.toString());
-                        adminMenu_searchCashier_CashierSearchAlert.setContentText("Press OK to continue");
-                        adminMenu_searchCashier_CashierSearchAlert.showAndWait();
-                        primaryStage.setScene(adminMenuScene);
-                    }
-                }
-                else {
-                    adminMenu_searchCashier_CashierFieldWarning.setVisible(true);
-                    adminMenu_searchCashier_CashierField.setText("");
-                }
-            });
-        });
-
-
+        searchCashier.setOnAction(e -> System.out.println("Search for a Cashier"));
         searchCustomer.setOnAction(e -> System.out.println("Search for a Customer"));
         searchSupplier.setOnAction(e -> System.out.println("Search for a Supplier"));
         back4.setOnAction(e -> primaryStage.setScene(adminMenuScene));
