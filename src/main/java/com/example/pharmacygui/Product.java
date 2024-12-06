@@ -27,6 +27,15 @@ public class Product {
         this.supplierName = supplier.getName();
         this.expirationDate = expirationDate;
     }
+    public Product(Product p) {
+        productId = p.getProductId();
+        name = p.getName();
+        price = p.getPrice();
+        quantity = p.getQuantity();
+        supplier = p.supplier;
+        supplierName = p.supplierName;
+        expirationDate = p.expirationDate;
+    }
 
     public String getProductId() {
         return productId;

@@ -107,6 +107,7 @@ public class JavaFXMain extends Application {
             }
         });
 
+        //****************************************************************************
         adminMenu_addProduct.setOnAction(e -> {
             GridPane adminMenu_addProductGridPane = new GridPane();
             adminMenu_addProductGridPane.setAlignment(Pos.CENTER);
@@ -341,9 +342,66 @@ public class JavaFXMain extends Application {
             });
         });
 
+        //**********************************************************************************
+        adminMenu_searchProduct.setOnAction(e -> {
+            GridPane adminMenu_searchProductGridPane = new GridPane();
+            adminMenu_searchProductGridPane.setAlignment(Pos.CENTER);
+
+            Label searchProductField = new Label("Enter Search Field: ");
+            Label adminMenu_searchProduct_ProductFieldWarning = new Label("Only Name or ID can be used!");
+            adminMenu_searchProduct_ProductFieldWarning.setTextFill(Color.RED);
+            adminMenu_searchProduct_ProductFieldWarning.setVisible(false);
+            TextField adminMenu_searchProduct_ProductField = new TextField();
+
+            Label searchProductValue = new Label("Enter Value to Search with: ");
+            TextField adminMenu_searchProduct_ProductValue = new TextField();
+
+            Button adminMenu_searchProductButton = new Button("Search Product");
+            adminMenu_searchProductButton.setAlignment(Pos.CENTER);
+
+            adminMenu_searchProductGridPane.add(searchProductField, 0, 0);
+            adminMenu_searchProductGridPane.add(adminMenu_searchProduct_ProductField, 1, 0);
+            adminMenu_searchProductGridPane.add(adminMenu_searchProduct_ProductFieldWarning, 2, 0);
+            adminMenu_searchProductGridPane.add(searchProductValue, 0, 1);
+            adminMenu_searchProductGridPane.add(adminMenu_searchProduct_ProductValue, 1, 1);
+            adminMenu_searchProductGridPane.add(adminMenu_searchProductButton, 0, 3);
+
+            adminMenu_searchProductGridPane.setHgap(10);
+            adminMenu_searchProductGridPane.setVgap(10);
+
+            Scene searchProduct_scene = new Scene(adminMenu_searchProductGridPane, 600, 600);
+            primaryStage.setScene(searchProduct_scene);
+
+            adminMenu_searchProductButton.setOnAction(e1 -> {
+                if (adminMenu_searchProduct_ProductField.getText().equalsIgnoreCase("name") || adminMenu_searchProduct_ProductField.getText().equalsIgnoreCase("id")) {
+                    adminMenu_searchProduct_ProductFieldWarning.setVisible(false);
+                    if (admin.searchProductByField(adminMenu_searchProduct_ProductField.getText(), adminMenu_searchProduct_ProductValue.getText()) == null) {
+                        Alert adminMenu_searchProduct_ProductSearchAlert = new Alert(Alert.AlertType.ERROR);
+                        adminMenu_searchProduct_ProductSearchAlert.setHeaderText("PRODUCT NOT FOUND!");
+                        adminMenu_searchProduct_ProductSearchAlert.showAndWait();
+                        adminMenu_searchProduct_ProductValue.setText("");
+                        adminMenu_searchProduct_ProductField.setText("");
+                        primaryStage.setScene(searchProduct_scene);
+                    }
+                    else {
+                        Product p = new Product(admin.searchProductByField(adminMenu_searchProduct_ProductField.getText(), adminMenu_searchProduct_ProductValue.getText()));
+                        Alert adminMenu_searchProduct_ProductSearchAlert = new Alert(Alert.AlertType.INFORMATION);
+                        adminMenu_searchProduct_ProductSearchAlert.setTitle("Search Product");
+                        adminMenu_searchProduct_ProductSearchAlert.setHeaderText("Product found:\n" + p.toString());
+                        adminMenu_searchProduct_ProductSearchAlert.setContentText("Press OK to continue");
+                        adminMenu_searchProduct_ProductSearchAlert.showAndWait();
+                        primaryStage.setScene(adminMenuScene);
+                    }
+                }
+                else {
+                    adminMenu_searchProduct_ProductFieldWarning.setVisible(true);
+                    adminMenu_searchProduct_ProductField.setText("");
+                }
+            });
+        });
 
 
-        adminMenu_searchProduct.setOnAction(e -> System.out.println("Search for a Product"));
+
         adminMenu_productReport.setOnAction(e -> System.out.println("View Reports About Products"));
         adminMenu_userReport.setOnAction(e -> System.out.println("View Report About Users"));
         adminMenu_orderReport.setOnAction(e -> System.out.println("View Report About Orders"));
