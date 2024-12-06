@@ -21,6 +21,14 @@ public class Cashier extends User{
         orderHandled = new ArrayList<>();
     }
 
+    public Cashier(Cashier cashier) {
+        id = cashier.id;
+        name = cashier.name;
+        email = cashier.email;
+        role = cashier.role;
+        orderHandled = cashier.orderHandled;
+    }
+
     public ArrayList<Cart> getOrdersHandled() {
         return orderHandled;
     }

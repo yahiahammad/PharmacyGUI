@@ -1,5 +1,12 @@
 package com.example.pharmacygui;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -145,7 +152,7 @@ Admin extends User{
     }
 
     //didn't check it yet
-    public HashSet<Product> getMostSoldProduct(LocalDate start, LocalDate end) {
+    public String getMostSoldProduct(LocalDate start, LocalDate end) {
         int maxQuantity = 0;
         ArrayList<Product> productOccurences = new ArrayList<>();
         HashSet<Product> bestSellerProducts = new HashSet<>();
@@ -170,13 +177,14 @@ Admin extends User{
 
 
         if (maxQuantity == 0) {
-            System.out.println("Product not found");
-            return null;
+            //System.out.println("Product not found");
+            //return null;
+            return "";
         }
 
         for (Product product : productOccurences) {
 
-            String found = null;
+            //String found = null;
 
             if (Collections.frequency(productOccurences, product) == maxQuantity) {
                 bestSellerProducts.add(product);
@@ -185,14 +193,14 @@ Admin extends User{
         }
 
         for (Product product : bestSellerProducts) {
-
-            System.out.println("Most Sold Product is of ID: " + product.getProductId() + " and it was ordered " + maxQuantity + " time(s)");
+            return ("Most Sold Product is of ID: " + product.getProductId() + " and it was ordered " + maxQuantity + " time(s)");
         }
 
-        return bestSellerProducts;
+        //return bestSellerProducts;
+        return "";
     }
 
-    public void getMostRevenueProduct(LocalDate start, LocalDate end) {
+    public String getMostRevenueProduct(LocalDate start, LocalDate end) {
         int maxQuantity = 0;
         ArrayList<Product> productOccurences = new ArrayList<>();
         HashSet<Product> bestSellerProducts = new HashSet<>();
@@ -217,17 +225,15 @@ Admin extends User{
 
 
         if (maxQuantity == 0) {
-            System.out.println("Product not found");
-            return;
+            //System.out.println("Product not found");
+            //return;
+            return "";
         }
 
         for (Product product : productOccurences) {
-
-
             if (Collections.frequency(productOccurences, product) == maxQuantity) {
                 bestSellerProducts.add(product);
             }
-
         }
 
         double maxPrice = 0;
@@ -241,7 +247,7 @@ Admin extends User{
 
         }
         assert bestRevenueProduct != null;
-        System.out.println("Most Revenue Product is of Name: " + bestRevenueProduct.getName() +
+        return ("Most Revenue Product is of Name: " + bestRevenueProduct.getName() +
                 " and it  made revenue of: " + bestRevenueProduct.getPrice() * maxQuantity + " EGP");
 
     }
@@ -292,6 +298,26 @@ Admin extends User{
         //Most revenue Product over a specific period of time
         System.out.println("Most revenue Product over a specific period of time:");
         getMostRevenueProduct(start, end);
+    }
+
+    //javafx version
+    public void viewProductReportJavaFX() {
+        TextArea t = new TextArea();
+        t.appendText("---- Products Report ----\n");
+
+        //List of Suppliers
+        t.appendText("List of Suppliers:\n");//because the suppliers is already an array list
+        for (Supplier supplier : suppliers) {
+            t.appendText(supplier.toString() + "\n");
+        }
+        t.appendText("\n");
+
+        //List of Prices
+        t.appendText("List of Prices:\n"); //loop over each product to print the price
+        for(Product product:products) {
+            t.appendText(product.getName() + " has a price of " + product.getPrice() + "\n");
+        }
+        t.appendText("\n");
     }
 
     //Cashier methods********************************************************************************************
