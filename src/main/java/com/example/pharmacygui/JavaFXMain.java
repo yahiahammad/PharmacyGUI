@@ -212,7 +212,7 @@ public class JavaFXMain extends Application {
 
 
         });
-
+        //********************************************************************
         adminMenu_editProduct.setOnAction(e -> {
             GridPane adminMenu_editProductGridPane = new GridPane();
             adminMenu_editProductGridPane.setAlignment(Pos.CENTER);
@@ -288,7 +288,61 @@ public class JavaFXMain extends Application {
             });
 
         });
-        adminMenu_removeProduct.setOnAction(e -> System.out.println("Remove Product"));
+        //**********************************************************************
+        adminMenu_removeProduct.setOnAction(e -> {
+            GridPane adminMenu_removeProductGridPane = new GridPane();
+            adminMenu_removeProductGridPane.setAlignment(Pos.CENTER);
+
+            Label removeProductName = new Label("Enter Name of Product to be removed: ");
+            Label adminMenu_removeProductNameWarning = new Label("Product Does Not Exist!");
+            adminMenu_removeProductNameWarning.setTextFill(Color.RED);
+            adminMenu_removeProductNameWarning.setVisible(false);
+            TextField adminMenu_removeProductName = new TextField();
+
+            Button adminMenu_removeProductButton = new Button("Remove Product");
+            adminMenu_removeProductButton.setAlignment(Pos.CENTER);
+
+            adminMenu_removeProductGridPane.add(removeProductName, 0, 0);
+            adminMenu_removeProductGridPane.add(adminMenu_removeProductName, 1, 0);
+            adminMenu_removeProductGridPane.add(adminMenu_removeProductNameWarning, 2, 0);
+            adminMenu_removeProductGridPane.add(adminMenu_removeProductButton, 1, 1);
+
+            adminMenu_removeProductGridPane.setHgap(10);
+            adminMenu_removeProductGridPane.setVgap(10);
+
+            Scene removeProduct_scene = new Scene(adminMenu_removeProductGridPane, 600, 300);
+            primaryStage.setScene(removeProduct_scene);
+
+            adminMenu_removeProductButton.setOnAction(e1 -> {
+                if (!CheckProductExistence(admin, adminMenu_removeProductName.getText())) {
+                    adminMenu_removeProductNameWarning.setVisible(true);
+                    adminMenu_removeProductName.setText("");
+                }
+                else {
+                    adminMenu_removeProductNameWarning.setVisible(false);
+                }
+                if (admin.removeProduct(adminMenu_removeProductName.getText())) {
+                    Alert adminMenu_removeProduct_ProductRemovedAlert = new Alert(Alert.AlertType.INFORMATION);
+                    adminMenu_removeProduct_ProductRemovedAlert.setTitle("Remove Product");
+                    try {
+                        admin.saveData();
+                    } catch (IOException ex) {
+                        Alert adminMenu_removeProduct_ProductRemoveFailed = new Alert(Alert.AlertType.ERROR);
+                        adminMenu_removeProduct_ProductRemoveFailed.setTitle("PRODUCT REMOVE FAILED");
+                        adminMenu_removeProduct_ProductRemoveFailed.setHeaderText("Failed to remove product from the database");
+                        adminMenu_removeProduct_ProductRemoveFailed.showAndWait();
+                        primaryStage.setScene(adminMenuScene);
+                    }
+                    adminMenu_removeProduct_ProductRemovedAlert.setHeaderText("Product successfully removed!");
+                    adminMenu_removeProduct_ProductRemovedAlert.setContentText("Press OK to continue");
+                    adminMenu_removeProduct_ProductRemovedAlert.showAndWait();
+                    primaryStage.setScene(adminMenuScene);
+                }
+            });
+        });
+
+
+
         adminMenu_searchProduct.setOnAction(e -> System.out.println("Search for a Product"));
         adminMenu_productReport.setOnAction(e -> System.out.println("View Reports About Products"));
         adminMenu_userReport.setOnAction(e -> System.out.println("View Report About Users"));

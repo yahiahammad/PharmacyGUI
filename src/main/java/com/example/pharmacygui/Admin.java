@@ -122,9 +122,13 @@ Admin extends User{
     }
 
     //I think it won't be changed
-    public void removeProduct(String productId) {
-        products.removeIf(product -> product.getProductId().equals(productId));
-        System.out.println("Product removed successfully");
+    public boolean removeProduct(String name) {
+        if(JavaFXMain.CheckProductExistence(this, name)) {
+            products.removeIf(product -> product.getName().equals(name));
+            //System.out.println("Product removed successfully");
+            return true;
+        }
+        return false;
     }
 
     //20/11 should it just be boolean? no
