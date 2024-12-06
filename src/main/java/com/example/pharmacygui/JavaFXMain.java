@@ -667,8 +667,66 @@ public class JavaFXMain extends Application {
             });
         });
 
+        //*****************************************************************************
+        searchSupplier.setOnAction(e -> {
+            GridPane adminMenu_searchSupplierGridPane = new GridPane();
+            adminMenu_searchSupplierGridPane.setAlignment(Pos.CENTER);
 
-        searchSupplier.setOnAction(e -> System.out.println("Search for a Supplier"));
+            Label searchSupplierField = new Label("Enter Search Field: ");
+            Label adminMenu_searchSupplier_SupplierFieldWarning = new Label("Only Name, or ID, or Email can be used!");
+            adminMenu_searchSupplier_SupplierFieldWarning.setTextFill(Color.RED);
+            adminMenu_searchSupplier_SupplierFieldWarning.setVisible(false);
+            TextField adminMenu_searchSupplier_SupplierField = new TextField();
+
+            Label searchSupplierValue = new Label("Enter Value to Search with: ");
+            TextField adminMenu_searchSupplier_SupplierValue = new TextField();
+
+            Button adminMenu_searchSupplierButton = new Button("Search Supplier");
+            adminMenu_searchSupplierButton.setAlignment(Pos.CENTER);
+
+            adminMenu_searchSupplierGridPane.add(searchSupplierField, 0, 0);
+            adminMenu_searchSupplierGridPane.add(adminMenu_searchSupplier_SupplierField, 1, 0);
+            adminMenu_searchSupplierGridPane.add(adminMenu_searchSupplier_SupplierFieldWarning, 2, 0);
+            adminMenu_searchSupplierGridPane.add(searchSupplierValue, 0, 1);
+            adminMenu_searchSupplierGridPane.add(adminMenu_searchSupplier_SupplierValue, 1, 1);
+            adminMenu_searchSupplierGridPane.add(adminMenu_searchSupplierButton, 0, 3);
+
+            adminMenu_searchSupplierGridPane.setHgap(10);
+            adminMenu_searchSupplierGridPane.setVgap(10);
+
+            Scene searchSupplier_scene = new Scene(adminMenu_searchSupplierGridPane, 600, 600);
+            primaryStage.setScene(searchSupplier_scene);
+
+            adminMenu_searchSupplierButton.setOnAction(e1 -> {
+                if (adminMenu_searchSupplier_SupplierField.getText().equalsIgnoreCase("name") || adminMenu_searchSupplier_SupplierField.getText().equalsIgnoreCase("id") || adminMenu_searchSupplier_SupplierField.getText().equalsIgnoreCase("email")) {
+                    adminMenu_searchSupplier_SupplierFieldWarning.setVisible(false);
+                    if (admin.searchSupplierByField(adminMenu_searchSupplier_SupplierField.getText(), adminMenu_searchSupplier_SupplierValue.getText()) == null) {
+                        Alert adminMenu_searchSupplier_SupplierSearchAlert = new Alert(Alert.AlertType.ERROR);
+                        adminMenu_searchSupplier_SupplierSearchAlert.setHeaderText("SUPPLIER NOT FOUND!");
+                        adminMenu_searchSupplier_SupplierSearchAlert.showAndWait();
+                        adminMenu_searchSupplier_SupplierValue.setText("");
+                        adminMenu_searchSupplier_SupplierField.setText("");
+                        primaryStage.setScene(searchSupplier_scene);
+                    }
+                    else {
+                        Supplier s = new Supplier(admin.searchSupplierByField(adminMenu_searchSupplier_SupplierField.getText(), adminMenu_searchSupplier_SupplierValue.getText()));
+                        Alert adminMenu_searchSupplier_SupplierSearchAlert = new Alert(Alert.AlertType.INFORMATION);
+                        adminMenu_searchSupplier_SupplierSearchAlert.setTitle("Search Supplier");
+                        adminMenu_searchSupplier_SupplierSearchAlert.setHeaderText("Supplier found:\n" + s.toString());
+                        adminMenu_searchSupplier_SupplierSearchAlert.setContentText("Press OK to continue");
+                        adminMenu_searchSupplier_SupplierSearchAlert.showAndWait();
+                        primaryStage.setScene(adminMenuScene);
+                    }
+                }
+                else {
+                    adminMenu_searchSupplier_SupplierFieldWarning.setVisible(true);
+                    adminMenu_searchSupplier_SupplierField.setText("");
+                }
+            });
+        });
+
+
+
         back4.setOnAction(e -> primaryStage.setScene(adminMenuScene));
 
         //***********************************************************

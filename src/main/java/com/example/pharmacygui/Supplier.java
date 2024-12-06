@@ -23,6 +23,14 @@ public class Supplier extends User {
         productSupplied = new ArrayList<>();
     }
 
+    public Supplier(Supplier supplier) {
+        id = supplier.id;
+        name = supplier.name;
+        email = supplier.email;
+        contactInfo = supplier.contactInfo;
+        productSupplied = supplier.productSupplied;
+    }
+
     public String getContactInfo() {
         return contactInfo;
     }
