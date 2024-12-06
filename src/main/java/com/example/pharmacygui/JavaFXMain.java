@@ -1,7 +1,6 @@
 package com.example.pharmacygui;
 
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -11,8 +10,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-import javax.swing.text.DateFormatter;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -63,17 +60,6 @@ public class JavaFXMain extends Application {
 
         adminPasswordBackButton.setOnAction(e -> primaryStage.setScene(mainMenuScene));
         mainMenu_adminButton.setOnAction(e -> primaryStage.setScene(adminLoginScene));
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -200,19 +186,10 @@ public class JavaFXMain extends Application {
                        adminMenu_addProduct_ProductAddedAlert.showAndWait();
                        primaryStage.setScene(adminMenuScene);
                    }
-
                }
-
-
-
-
-
            });
-
-
-
-
         });
+
         //********************************************************************
         adminMenu_editProduct.setOnAction(e -> {
             GridPane adminMenu_editProductGridPane = new GridPane();
@@ -289,6 +266,7 @@ public class JavaFXMain extends Application {
             });
 
         });
+
         //**********************************************************************
         adminMenu_removeProduct.setOnAction(e -> {
             GridPane adminMenu_removeProductGridPane = new GridPane();
@@ -401,7 +379,7 @@ public class JavaFXMain extends Application {
         });
 
 
-
+        //*********************************************************************************************
         adminMenu_productReport.setOnAction(e -> System.out.println("View Reports About Products"));
         adminMenu_userReport.setOnAction(e -> System.out.println("View Report About Users"));
         adminMenu_orderReport.setOnAction(e -> System.out.println("View Report About Orders"));
@@ -474,7 +452,64 @@ public class JavaFXMain extends Application {
         scene9 = new Scene(vbox7, 300, 250);
         adminMenu_searchUser.setOnAction(e -> primaryStage.setScene(scene9));
 
-        searchCashier.setOnAction(e -> System.out.println("Search for a Cashier"));
+        //****************************************************************************
+        searchCashier.setOnAction(e -> {
+                    GridPane adminMenu_searchCashierGridPane = new GridPane();
+                    adminMenu_searchCashierGridPane.setAlignment(Pos.CENTER);
+
+                    Label searchCashierField = new Label("Enter Search Field: ");
+                    Label adminMenu_searchCashier_CashierFieldWarning = new Label("Only Name, or ID, or Email can be used!");
+                    adminMenu_searchCashier_CashierFieldWarning.setTextFill(Color.RED);
+                    adminMenu_searchCashier_CashierFieldWarning.setVisible(false);
+                    TextField adminMenu_searchCashier_CashierField = new TextField();
+
+                    Label searchCashierValue = new Label("Enter Value to Search with: ");
+                    TextField adminMenu_searchCashier_CashierValue = new TextField();
+
+                    Button adminMenu_searchCashierButton = new Button("Search Cashier");
+                    adminMenu_searchCashierButton.setAlignment(Pos.CENTER);
+
+                    adminMenu_searchCashierGridPane.add(searchCashierField, 0, 0);
+                    adminMenu_searchCashierGridPane.add(adminMenu_searchCashier_CashierField, 1, 0);
+                    adminMenu_searchCashierGridPane.add(adminMenu_searchCashier_CashierFieldWarning, 2, 0);
+                    adminMenu_searchCashierGridPane.add(searchCashierValue, 0, 1);
+                    adminMenu_searchCashierGridPane.add(adminMenu_searchCashier_CashierValue, 1, 1);
+                    adminMenu_searchCashierGridPane.add(adminMenu_searchCashierButton, 0, 3);
+
+                    adminMenu_searchCashierGridPane.setHgap(10);
+                    adminMenu_searchCashierGridPane.setVgap(10);
+
+                    Scene searchCashier_scene = new Scene(adminMenu_searchCashierGridPane, 600, 600);
+                    primaryStage.setScene(searchCashier_scene);
+
+                    adminMenu_searchCashierButton.setOnAction(e1 -> {
+                        if (adminMenu_searchCashier_CashierField.getText().equalsIgnoreCase("name") || adminMenu_searchCashier_CashierField.getText().equalsIgnoreCase("id") || adminMenu_searchCashier_CashierField.getText().equalsIgnoreCase("email")) {
+                            adminMenu_searchCashier_CashierFieldWarning.setVisible(false);
+                            if (admin.searchCashierByField(adminMenu_searchCashier_CashierField.getText(), adminMenu_searchCashier_CashierValue.getText()) == null) {
+                                Alert adminMenu_searchCashier_CashierSearchAlert = new Alert(Alert.AlertType.ERROR);
+                                adminMenu_searchCashier_CashierSearchAlert.setHeaderText("CASHIER NOT FOUND!");
+                                adminMenu_searchCashier_CashierSearchAlert.showAndWait();
+                                adminMenu_searchCashier_CashierValue.setText("");
+                                adminMenu_searchCashier_CashierField.setText("");
+                                primaryStage.setScene(searchCashier_scene);
+                            } else {
+                                Cashier ca = new Cashier(admin.searchCashierByField(adminMenu_searchCashier_CashierField.getText(), adminMenu_searchCashier_CashierValue.getText()));
+                                Alert adminMenu_searchCashier_CashierSearchAlert = new Alert(Alert.AlertType.INFORMATION);
+                                adminMenu_searchCashier_CashierSearchAlert.setTitle("Search Cashier");
+                                adminMenu_searchCashier_CashierSearchAlert.setHeaderText("Cashier found:\n" + ca.toString());
+                                adminMenu_searchCashier_CashierSearchAlert.setContentText("Press OK to continue");
+                                adminMenu_searchCashier_CashierSearchAlert.showAndWait();
+                                primaryStage.setScene(adminMenuScene);
+                            }
+                        } else {
+                            adminMenu_searchCashier_CashierFieldWarning.setVisible(true);
+                            adminMenu_searchCashier_CashierField.setText("");
+                        }
+                    });
+                });
+
+
+        //****************************************************************************
         searchCustomer.setOnAction(e -> System.out.println("Search for a Customer"));
         searchSupplier.setOnAction(e -> System.out.println("Search for a Supplier"));
         back4.setOnAction(e -> primaryStage.setScene(adminMenuScene));
