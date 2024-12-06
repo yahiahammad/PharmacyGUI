@@ -1,7 +1,6 @@
 package com.example.pharmacygui;
 
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -12,7 +11,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import javax.swing.text.DateFormatter;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -26,7 +24,7 @@ public class JavaFXMain extends Application {
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Pharmacy Management System");
         primaryStage.getIcons().add(new Image(new FileInputStream("src/main/java/com/example/pharmacygui/resources/Project_Icon.png")));
-        Scene mainMenuScene, adminLoginScene , scene2, scene3, adminMenuScene, scene5, scene6, scene7, scene8, scene9, scene10;
+        Scene mainMenuScene, adminLoginScene , scene2, scene3, adminMenuScene, scene5, adminMenu_addUserScene, scene7, scene8, scene9, scene10;
 
         //**************************************************
         Button mainMenu_adminButton = new Button("Admin");
@@ -155,7 +153,8 @@ public class JavaFXMain extends Application {
             Scene scene = new Scene(adminMenu_addProductGridPane,500,500);
            primaryStage.setScene(scene);
 
-           adminMenu_addProductButton.setOnAction(e1 ->{
+            //************************************************************
+            adminMenu_addProductButton.setOnAction(e1 ->{
                if (CheckProductExistence(admin,adminMenu_addProduct_ProductName.getText()) || !CheckSupplierExistence(admin, adminMenu_addProduct_ProductSupplierID.getText()))
                {
                    if (CheckProductExistence(admin,adminMenu_addProduct_ProductName.getText()))
@@ -350,22 +349,27 @@ public class JavaFXMain extends Application {
         adminMenu_logOut.setOnAction(e -> primaryStage.setScene(mainMenuScene));
 
         //***********************************************************
-        Label label6 = new Label("Click on your choice");
-        Button addCashier = new Button("Add New Cashier");
-        Button addCustomer = new Button("Add New Customer");
-        Button addSupplier = new Button("Add New Supplier");
-        Button back1 = new Button("Back");
+        Label adminMenu_addUser_ChoiceLabel = new Label("Click on your choice");
+        Button adminMenu_addUser_addCashier = new Button("Add New Cashier");
+        Button adminMenu_addUser_addCustomer = new Button("Add New Customer");
+        Button adminMenu_addUser_addSupplier = new Button("Add New Supplier");
+        Button adminMenu_addUser_back = new Button("Back");
 
-        VBox vbox4 = new VBox(label6, addCashier, addCustomer, addSupplier, back1);
-        vbox4.setAlignment(Pos.CENTER);
-        vbox4.setSpacing(10);
-        scene6 = new Scene(vbox4, 300, 250);
-        adminMenu_addUser.setOnAction(e -> primaryStage.setScene(scene6));
+        VBox adminMenu_addUser_Vbox = new VBox(adminMenu_addUser_ChoiceLabel, adminMenu_addUser_addCashier, adminMenu_addUser_addCustomer, adminMenu_addUser_addSupplier, adminMenu_addUser_back);
+        adminMenu_addUser_Vbox.setAlignment(Pos.CENTER);
+        adminMenu_addUser_Vbox.setSpacing(10);
+        adminMenu_addUserScene = new Scene(adminMenu_addUser_Vbox, 300, 250);
+        adminMenu_addUser.setOnAction(e -> primaryStage.setScene(adminMenu_addUserScene));
 
-        addCashier.setOnAction(e -> System.out.println("Add New Cashier"));
-        addCustomer.setOnAction(e -> System.out.println("Add New Customer"));
-        addSupplier.setOnAction(e -> System.out.println("Add New Supplier"));
-        back1.setOnAction(e -> primaryStage.setScene(adminMenuScene));
+
+
+
+        adminMenu_addUser_addCashier.setOnAction(e -> {
+
+        });
+        adminMenu_addUser_addCustomer.setOnAction(e -> System.out.println("Add New Customer"));
+        adminMenu_addUser_addSupplier.setOnAction(e -> System.out.println("Add New Supplier"));
+        adminMenu_addUser_back.setOnAction(e -> primaryStage.setScene(adminMenuScene));
 
         //***********************************************************
         Label label7 = new Label("Click on your choice");
