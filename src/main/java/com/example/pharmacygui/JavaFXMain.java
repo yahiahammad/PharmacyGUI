@@ -1009,29 +1009,61 @@ public class JavaFXMain extends Application {
         //*****************************************************************
         //Admin Menu -> Remove User Menu -> Remove Customer Button
         removeCustomer.setOnAction(e -> {
-            FlowPane removeCustomer_pane = new FlowPane();
-            removeCustomer_pane.setAlignment(Pos.CENTER);
+            GridPane adminMenu_removeCustomerGridPane = new GridPane();
+            adminMenu_removeCustomerGridPane.setAlignment(Pos.CENTER);
 
-            Label removeCustomerLabel = new Label("Please enter the id of the Customer to be removed:");
-            TextField removeCustomerID_textField = new TextField();
+            Label removeCustomerID = new Label("Enter ID of Customer to be removed: ");
+            Label adminMenu_removeCustomerIDWarning = new Label("Customer Does Not Exist!");
+            adminMenu_removeCustomerIDWarning.setTextFill(Color.RED);
+            adminMenu_removeCustomerIDWarning.setVisible(false);
+            TextField adminMenu_removeCustomerID = new TextField();
 
-            removeCustomer_pane.getChildren().addAll(removeCustomerLabel, removeCustomerID_textField);
+            Button adminMenu_removeCustomerButton = new Button("Remove Customer");
+            Button adminMenu_removeCustomerCancelButton = new Button("Cancel");
+            adminMenu_removeCustomerButton.setAlignment(Pos.CENTER);
+            adminMenu_removeCustomerCancelButton.setAlignment(Pos.CENTER);
 
-            String customerId = removeCustomerID_textField.getText();
-            if(CheckCustomerExistence(admin,removeCustomerID_textField.getText() )){
-                admin.removeCustomer(admin.searchCustomerByField("id", customerId).getId());
-                Label checkCustomerExistence_exists=new Label("Customer with this id has been removed");
-                removeCustomer_pane.getChildren().add(checkCustomerExistence_exists);
-            }else{
-                Label checkCustomerExistence_doesntexists=new Label("Customer with this id isnt avaialable to remove");
-                removeCustomer_pane.getChildren().add(checkCustomerExistence_doesntexists);
-            }
+            adminMenu_removeCustomerGridPane.add(removeCustomerID, 0, 0);
+            adminMenu_removeCustomerGridPane.add(adminMenu_removeCustomerID, 1, 0);
+            adminMenu_removeCustomerGridPane.add(adminMenu_removeCustomerIDWarning, 2, 0);
+            adminMenu_removeCustomerGridPane.add(adminMenu_removeCustomerButton, 1, 1);
+            adminMenu_removeCustomerGridPane.add(adminMenu_removeCustomerCancelButton, 1, 2);
 
-            Scene removeCustomer_scene= new Scene(removeCustomer_pane, 300, 250);
+            adminMenu_removeCustomerGridPane.setHgap(10);
+            adminMenu_removeCustomerGridPane.setVgap(10);
+
+            Scene removeCustomer_scene = new Scene(adminMenu_removeCustomerGridPane, 600, 300);
             primaryStage.setScene(removeCustomer_scene);
-            primaryStage.setTitle("Entry of Customer info to remove");
-            primaryStage.show();
 
+            adminMenu_removeCustomerButton.setOnAction(e1 -> {
+                if (!CheckCustomerExistence(admin, adminMenu_removeCustomerID.getText())) {
+                    adminMenu_removeCustomerIDWarning.setVisible(true);
+                    adminMenu_removeCustomerID.setText("");
+                } else {
+                    adminMenu_removeCustomerIDWarning.setVisible(false);
+                    if (admin.removeCustomer(adminMenu_removeCustomerID.getText())) {
+                        Alert adminMenu_removeCustomer_CustomerRemovedAlert = new Alert(Alert.AlertType.INFORMATION);
+                        adminMenu_removeCustomer_CustomerRemovedAlert.setTitle("Remove Customer");
+                        try {
+                            admin.saveData();
+                        } catch (IOException ex) {
+                            Alert adminMenu_removeCustomer_CustomerRemoveFailed = new Alert(Alert.AlertType.ERROR);
+                            adminMenu_removeCustomer_CustomerRemoveFailed.setTitle("CUSTOMER REMOVE FAILED");
+                            adminMenu_removeCustomer_CustomerRemoveFailed.setHeaderText("Failed to remove customer from the database");
+                            adminMenu_removeCustomer_CustomerRemoveFailed.showAndWait();
+                            primaryStage.setScene(adminMenuScene);
+                        }
+                        adminMenu_removeCustomer_CustomerRemovedAlert.setHeaderText("Customer successfully removed!");
+                        adminMenu_removeCustomer_CustomerRemovedAlert.setContentText("Press OK to continue");
+                        adminMenu_removeCustomer_CustomerRemovedAlert.showAndWait();
+                        primaryStage.setScene(adminMenuScene);
+                    }
+                }
+            });
+
+            adminMenu_removeCustomerCancelButton.setOnAction(e1 -> {
+                primaryStage.setScene(adminMenuScene);
+            });
         });
 
         //*****************************************************************
