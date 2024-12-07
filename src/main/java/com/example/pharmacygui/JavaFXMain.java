@@ -981,23 +981,23 @@ public class JavaFXMain extends Application {
                     adminMenu_removeCashierID.setText("");
                 } else {
                     adminMenu_removeCashierIDWarning.setVisible(false);
-                }
-                if (admin.removeCashier(adminMenu_removeCashierID.getText())) {
-                    Alert adminMenu_removeCashier_CashierRemovedAlert = new Alert(Alert.AlertType.INFORMATION);
-                    adminMenu_removeCashier_CashierRemovedAlert.setTitle("Remove Cashier");
-                    try {
-                        admin.saveData();
-                    } catch (IOException ex) {
-                        Alert adminMenu_removeCashier_CashierRemoveFailed = new Alert(Alert.AlertType.ERROR);
-                        adminMenu_removeCashier_CashierRemoveFailed.setTitle("CASHIER REMOVE FAILED");
-                        adminMenu_removeCashier_CashierRemoveFailed.setHeaderText("Failed to remove cashier from the database");
-                        adminMenu_removeCashier_CashierRemoveFailed.showAndWait();
+                    if (admin.removeCashier(adminMenu_removeCashierID.getText())) {
+                        Alert adminMenu_removeCashier_CashierRemovedAlert = new Alert(Alert.AlertType.INFORMATION);
+                        adminMenu_removeCashier_CashierRemovedAlert.setTitle("Remove Cashier");
+                        try {
+                            admin.saveData();
+                        } catch (IOException ex) {
+                            Alert adminMenu_removeCashier_CashierRemoveFailed = new Alert(Alert.AlertType.ERROR);
+                            adminMenu_removeCashier_CashierRemoveFailed.setTitle("CASHIER REMOVE FAILED");
+                            adminMenu_removeCashier_CashierRemoveFailed.setHeaderText("Failed to remove cashier from the database");
+                            adminMenu_removeCashier_CashierRemoveFailed.showAndWait();
+                            primaryStage.setScene(adminMenuScene);
+                        }
+                        adminMenu_removeCashier_CashierRemovedAlert.setHeaderText("Cashier successfully removed!");
+                        adminMenu_removeCashier_CashierRemovedAlert.setContentText("Press OK to continue");
+                        adminMenu_removeCashier_CashierRemovedAlert.showAndWait();
                         primaryStage.setScene(adminMenuScene);
                     }
-                    adminMenu_removeCashier_CashierRemovedAlert.setHeaderText("Cashier successfully removed!");
-                    adminMenu_removeCashier_CashierRemovedAlert.setContentText("Press OK to continue");
-                    adminMenu_removeCashier_CashierRemovedAlert.showAndWait();
-                    primaryStage.setScene(adminMenuScene);
                 }
             });
 
@@ -1037,28 +1037,61 @@ public class JavaFXMain extends Application {
         //*****************************************************************
         //Admin Menu -> Remove User Menu -> Remove Supplier Button
         removeSupplier.setOnAction(e -> {
-            FlowPane removeSupplier_pane = new FlowPane();
-            removeSupplier_pane.setAlignment(Pos.CENTER);
+            GridPane adminMenu_removeSupplierGridPane = new GridPane();
+            adminMenu_removeSupplierGridPane.setAlignment(Pos.CENTER);
 
-            Label removeSupplierLabel = new Label("Please enter the id of the supplier to be removed:");
-            TextField removeSupplierID_textField = new TextField();
+            Label removeSupplierID = new Label("Enter ID of Supplier to be removed: ");
+            Label adminMenu_removeSupplierIDWarning = new Label("Supplier Does Not Exist!");
+            adminMenu_removeSupplierIDWarning.setTextFill(Color.RED);
+            adminMenu_removeSupplierIDWarning.setVisible(false);
+            TextField adminMenu_removeSupplierID = new TextField();
 
-            removeSupplier_pane.getChildren().addAll(removeSupplierID_textField, removeSupplierID_textField);
+            Button adminMenu_removeSupplierButton = new Button("Remove Supplier");
+            Button adminMenu_removeSupplierCancelButton = new Button("Cancel");
+            adminMenu_removeSupplierButton.setAlignment(Pos.CENTER);
+            adminMenu_removeSupplierCancelButton.setAlignment(Pos.CENTER);
 
-            String SupplierId = removeSupplierID_textField.getText();
-            if(CheckSupplierExistence(admin,removeSupplierID_textField.getText() )){
-                admin.removeSupplier(admin.searchCustomerByField("id", SupplierId).getId());
-                Label checkSupplierExistence_exists=new Label("Supplier with this id has been removed");
-                removeSupplier_pane.getChildren().add(checkSupplierExistence_exists);
-            }else{
-                Label checkSupplierExistence_doesntexists=new Label("Supplier with this id isnt avaialable to remove");
-                removeSupplier_pane.getChildren().add(checkSupplierExistence_doesntexists);
-            }
+            adminMenu_removeSupplierGridPane.add(removeSupplierID, 0, 0);
+            adminMenu_removeSupplierGridPane.add(adminMenu_removeSupplierID, 1, 0);
+            adminMenu_removeSupplierGridPane.add(adminMenu_removeSupplierIDWarning, 2, 0);
+            adminMenu_removeSupplierGridPane.add(adminMenu_removeSupplierButton, 1, 1);
+            adminMenu_removeSupplierGridPane.add(adminMenu_removeSupplierCancelButton, 1, 2);
 
-            Scene removeSupplier_scene= new Scene(removeSupplier_pane, 300, 250);
+            adminMenu_removeSupplierGridPane.setHgap(10);
+            adminMenu_removeSupplierGridPane.setVgap(10);
+
+            Scene removeSupplier_scene = new Scene(adminMenu_removeSupplierGridPane, 600, 300);
             primaryStage.setScene(removeSupplier_scene);
-            primaryStage.setTitle("Entry of Supplier info to remove");
-            primaryStage.show();
+
+            adminMenu_removeSupplierButton.setOnAction(e1 -> {
+                if (!CheckSupplierExistence(admin, adminMenu_removeSupplierID.getText())) {
+                    adminMenu_removeSupplierIDWarning.setVisible(true);
+                    adminMenu_removeSupplierID.setText("");
+                } else {
+                    adminMenu_removeSupplierIDWarning.setVisible(false);
+                    if (admin.removeSupplier(adminMenu_removeSupplierID.getText())) {
+                        Alert adminMenu_removeSupplier_SupplierRemovedAlert = new Alert(Alert.AlertType.INFORMATION);
+                        adminMenu_removeSupplier_SupplierRemovedAlert.setTitle("Remove Supplier");
+                        try {
+                            admin.saveData();
+                        } catch (IOException ex) {
+                            Alert adminMenu_removeSupplier_SupplierRemoveFailed = new Alert(Alert.AlertType.ERROR);
+                            adminMenu_removeSupplier_SupplierRemoveFailed.setTitle("SUPPLIER REMOVE FAILED");
+                            adminMenu_removeSupplier_SupplierRemoveFailed.setHeaderText("Failed to remove supplier from the database");
+                            adminMenu_removeSupplier_SupplierRemoveFailed.showAndWait();
+                            primaryStage.setScene(adminMenuScene);
+                        }
+                        adminMenu_removeSupplier_SupplierRemovedAlert.setHeaderText("Supplier successfully removed!");
+                        adminMenu_removeSupplier_SupplierRemovedAlert.setContentText("Press OK to continue");
+                        adminMenu_removeSupplier_SupplierRemovedAlert.showAndWait();
+                        primaryStage.setScene(adminMenuScene);
+                    }
+                }
+            });
+
+            adminMenu_removeSupplierCancelButton.setOnAction(e1 -> {
+                primaryStage.setScene(adminMenuScene);
+            });
         });
 
 

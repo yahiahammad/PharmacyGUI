@@ -584,9 +584,10 @@ Admin extends User{
     }
 
     //20/11
-    public void removeSupplier(String supplierId) {
+    public boolean removeSupplier(String supplierId) {
         suppliers.removeIf(supplier -> supplier.getId().equals(supplierId));
         System.out.println("Supplier removed");
+        return true;
     }
 
     //20/11
