@@ -1311,79 +1311,85 @@ public class JavaFXMain extends Application {
 
         //***********************************************************
         //Customer Menu
-        Scene customerMenuScene;
-        //Customer customerObject = null;
         Label label3 = new Label("What would you like to do?");
         Button viewOrders = new Button("View Orders History");
         Button rateOrder = new Button("Rate Order");
         Button LogOut = new Button("Log Out");
 
+        Label customerLoginLabel = new Label("Enter Customer ID: ");
+        TextField customerLoginIDTextField = new TextField();
+        Button customerLoginButton = new Button("Login");
+        Button customerLoginCancelButton = new Button("Cancel");
+        Label customerLoginMessage = new Label();
+
+        GridPane customerLoginGridPane = new GridPane();
+        customerLoginGridPane.setAlignment(Pos.CENTER);
+
+        customerLoginGridPane.add(customerLoginLabel, 0, 0);
+        customerLoginGridPane.add(customerLoginIDTextField, 1, 0);
+        customerLoginGridPane.add(customerLoginButton, 2, 0);
+        customerLoginGridPane.add(customerLoginCancelButton, 3, 0);
+        customerLoginGridPane.add(customerLoginMessage, 0, 1);
+
+        customerLoginGridPane.setHgap(10);
+        customerLoginGridPane.setVgap(10);
+
+        Scene customerLoginScene = new Scene(customerLoginGridPane, 500, 250);
+
         VBox vbox = new VBox(label3, viewOrders, rateOrder, LogOut);
         vbox.setAlignment(Pos.CENTER);
         vbox.setSpacing(10);
-        customerMenuScene = new Scene(vbox, 300, 250);
-        customer.setOnAction(e -> primaryStage.setScene(customerMenuScene));
+        Scene customerScene = new Scene(vbox, 300, 250);
+        customer.setOnAction(e -> primaryStage.setScene(customerLoginScene));
         LogOut.setOnAction(e -> primaryStage.setScene(mainMenuScene));
 
         //*************************************************************
         //Customer Login
-        Scene customerLoginScene;
-        PasswordField customerPasswordTextField = new PasswordField();
-        String enteredId = customerPasswordTextField.getText();
-        Label customerPasswordLabel = new Label("ID: ");
-        Label customerWrongPasswordLabel = new Label("This ID does not exist, try again");
-        customerWrongPasswordLabel.setTextFill(Color.RED);
-        customerWrongPasswordLabel.setVisible(false);
-        Button customerPasswordBackButton = new Button("Back");
+        customerLoginButton.setOnAction(e -> {
+            String customerId = customerLoginIDTextField.getText();
+            boolean customerExists = CheckCustomerExistence(admin, customerId);
+            if (customerExists) {
+                currentCustomer = new Customer(admin.searchCustomerByField("id", customerId));
 
-        HBox customerLoginHBox = new HBox(customerPasswordLabel, customerPasswordTextField, customerPasswordBackButton);
-        customerLoginHBox.setAlignment(Pos.CENTER);
-        customerLoginHBox.setSpacing(10);
-
-        VBox customerLoginVBox = new VBox(customerLoginHBox, customerWrongPasswordLabel);
-        customerLoginVBox.setAlignment(Pos.CENTER);
-        customerLoginVBox.setSpacing(10);
-
-        customerLoginScene = new Scene(customerLoginVBox, 400, 400);
-
-        customerPasswordBackButton.setOnAction(e -> primaryStage.setScene(customerMenuScene));
-        customer.setOnAction(e -> primaryStage.setScene(customerLoginScene));
-
-        //***********************************************************************************
-        customerPasswordTextField.setOnAction(e -> {
-            if (CheckCustomerExistence(admin, customerPasswordTextField.getText())) {
-                customerPasswordTextField.setText("");
-                primaryStage.setScene(customerMenuScene);
-                currentCustomer = new Customer(admin.searchCustomerByField("id", customerPasswordTextField.getText()));
-
-                //**********************************************************************************
-                //Customer Menu -> View Orders History Button
-                TextArea textArea = new TextArea();
-                Scene customerMenu_viewOrder_scene = new Scene(textArea, 300, 250);
-                viewOrders.setOnAction(e1 -> {
-                    currentCustomer.displayOrderHistory(textArea);
-                    primaryStage.setScene(customerMenu_viewOrder_scene);
-                });
-
-                //**********************************************************************************
-                //Customer Menu -> Rate Order Button
-                //this will get changed
-                Scene customerMenu_rateOrder_scene;
-                Label label4 = new Label("Rate:");
-                TextField textField = new TextField();
-                Button bt = new Button("Done");
-                HBox hb = new HBox();
-                hb.getChildren().addAll(label4, textField, bt);
-                hb.setAlignment(Pos.CENTER);
-                hb.setSpacing(10);
-                customerMenu_rateOrder_scene = new Scene(hb, 300, 50);
-                rateOrder.setOnAction(e1 -> primaryStage.setScene(customerMenu_rateOrder_scene));
-                bt.setOnAction(e1 -> primaryStage.setScene(customerMenuScene));
+                if (currentCustomer != null) {
+                    customerLoginMessage.setText("Login successful!");
+                    primaryStage.setScene(customerScene);
+                } else {
+                    customerLoginMessage.setText("Customer retrieval failed");
+                }
             } else {
-                customerPasswordTextField.setText("");
-                customerWrongPasswordLabel.setVisible(true);
+                customerLoginMessage.setText("Invalid ID. Please try again");
             }
         });
+
+        customerLoginCancelButton.setOnAction(e -> {
+            primaryStage.setScene(customerScene);
+        });
+
+        //*********************************************************************
+        //Customer Menu -> View Orders History Button
+        /*viewOrders.setOnAction(e -> {
+            TextArea textArea = new TextArea();
+            Scene customerMenu_viewOrder_scene = new Scene(textArea, 300, 250);
+            currentCustomer.displayOrderHistory(textArea);
+            primaryStage.setScene(customerMenu_viewOrder_scene);
+        });*/
+
+        //**********************************************************************
+        //Customer Menu -> Rate Order Button
+
+        //this will get changed
+        Scene customerMenu_rateOrder_scene;
+        Label label4 = new Label("Rate:");
+        TextField textField = new TextField();
+        Button bt = new Button("Done");
+        HBox hb = new HBox();
+        hb.getChildren().addAll(label4, textField, bt);
+        hb.setAlignment(Pos.CENTER);
+        hb.setSpacing(10);
+        customerMenu_rateOrder_scene = new Scene(hb, 300, 50);
+        rateOrder.setOnAction(e1 -> primaryStage.setScene(customerMenu_rateOrder_scene));
+        bt.setOnAction(e1 -> primaryStage.setScene(customerScene));
 
         //**********************************************************
         //Cashier Menu
@@ -1398,12 +1404,22 @@ public class JavaFXMain extends Application {
         Label cashierLoginLabel = new Label("Enter Cashier ID: ");
         TextField cashierLoginIDTextField = new TextField();
         Button cashierLoginButton = new Button("Login");
+        Button cashierLoginCancelButton = new Button("Cancel");
         Label cashierLoginMessage = new Label();
 
-        VBox cashierLoginVBox = new VBox(cashierLoginLabel, cashierLoginIDTextField, cashierLoginButton, cashierLoginMessage);
-        cashierLoginVBox.setAlignment(Pos.CENTER);
-        cashierLoginVBox.setSpacing(10);
-        Scene cashierLoginScene = new Scene(cashierLoginVBox, 500, 250);
+        GridPane cashierLoginGridPane = new GridPane();
+        cashierLoginGridPane.setAlignment(Pos.CENTER);
+
+        cashierLoginGridPane.add(cashierLoginLabel, 0, 0);
+        cashierLoginGridPane.add(cashierLoginIDTextField, 1, 0);
+        cashierLoginGridPane.add(cashierLoginButton, 2, 0);
+        cashierLoginGridPane.add(cashierLoginCancelButton, 3, 0);
+        cashierLoginGridPane.add(cashierLoginMessage, 0, 1);
+
+        cashierLoginGridPane.setHgap(10);
+        cashierLoginGridPane.setVgap(10);
+
+        Scene cashierLoginScene = new Scene(cashierLoginGridPane, 500, 250);
 
         VBox vbox3 = new VBox(label5, createCart, addProToCart, removeProFromCart, payment, cancelCart, lg);
         vbox3.setAlignment(Pos.CENTER);
@@ -1429,6 +1445,10 @@ public class JavaFXMain extends Application {
             } else {
                 cashierLoginMessage.setText("Invalid ID. Please try again");
             }
+        });
+
+        cashierLoginCancelButton.setOnAction(e -> {
+            primaryStage.setScene(cashierScene);
         });
 
         //**************************************************************
