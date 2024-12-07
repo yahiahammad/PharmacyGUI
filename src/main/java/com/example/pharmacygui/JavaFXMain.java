@@ -1045,6 +1045,7 @@ public class JavaFXMain extends Application {
                         Alert adminMenu_removeCustomer_CustomerRemovedAlert = new Alert(Alert.AlertType.INFORMATION);
                         adminMenu_removeCustomer_CustomerRemovedAlert.setTitle("Remove Customer");
                         try {
+                            System.out.println("saved");
                             admin.saveData();
                         } catch (IOException ex) {
                             Alert adminMenu_removeCustomer_CustomerRemoveFailed = new Alert(Alert.AlertType.ERROR);

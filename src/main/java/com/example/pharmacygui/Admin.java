@@ -474,7 +474,7 @@ Admin extends User{
 
     //20/11
     public boolean removeCustomer(String customerId) {
-        customers.removeIf(customer -> customer.getId().equals(customerId));
+        cashiers.removeIf(customer -> customer.getId().equals(customerId));
         System.out.println("Customer removed");
         return true;
     }
