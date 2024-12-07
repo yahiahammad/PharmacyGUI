@@ -4,3 +4,5 @@ Emma Davis,Customer_9012,emma.davis@gmail.com,Order_A17D6E3B
 Lucas Harris,Customer_3456,lucas.harris@gmail.com,Order_4F9C83A2
 Isabella Clark,Customer_7890,isabella.clark@gmail.com,Order_D5A72B8F
 test,Customer_0,test@test.co
+Rina,Customer_6,rina@gmail.com
+marly,Customer_7,marly@gmail.com

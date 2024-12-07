@@ -8,3 +8,5 @@ Ibuprofen,Product_6,80.0,154,BASF,2028-02-18
 Cloxide,Product_7,65.0,500,Eva Pharma,2027-04-25
 Flopadex,Product_8,177.0,100,Eva Pharma,2025-09-08
 Genuphil,Product_9,65.0,178,Eva Pharma,2026-12-20
+p1,Product_10,56.3,5,GSK,2026-12-12
+p2,Product_11,67.3,6,GSK,2025-10-13
