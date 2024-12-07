@@ -359,9 +359,10 @@ Admin extends User{
     }
 
     //20/11
-    public void removeCashier(String cashierId) {
+    public boolean removeCashier(String cashierId) {
         cashiers.removeIf(cashier -> cashier.getId().equals(cashierId));
         System.out.println("Cashier removed successfully");
+        return true;
     }
 
     //20/11

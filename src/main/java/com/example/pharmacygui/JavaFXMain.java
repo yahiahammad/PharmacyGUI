@@ -1009,7 +1009,64 @@ public class JavaFXMain extends Application {
 
         //*****************************************************************
         //Admin Menu -> Remove User Menu -> Remove Cashier Button
-        removeCashier.setOnAction(e -> System.out.println("Remove Cashier"));
+        removeCashier.setOnAction(e -> {
+            GridPane adminMenu_removeCashierGridPane = new GridPane();
+            adminMenu_removeCashierGridPane.setAlignment(Pos.CENTER);
+
+            Label removeCashierID = new Label("Enter ID of Cashier to be removed: ");
+            Label adminMenu_removeCashierIDWarning = new Label("Cashier Does Not Exist!");
+            adminMenu_removeCashierIDWarning.setTextFill(Color.RED);
+            adminMenu_removeCashierIDWarning.setVisible(false);
+            TextField adminMenu_removeCashierID = new TextField();
+
+            Button adminMenu_removeCashierButton = new Button("Remove Cashier");
+            Button adminMenu_removeCashierCancelButton = new Button("Cancel");
+            adminMenu_removeCashierButton.setAlignment(Pos.CENTER);
+            adminMenu_removeCashierCancelButton.setAlignment(Pos.CENTER);
+
+            adminMenu_removeCashierGridPane.add(removeCashierID, 0, 0);
+            adminMenu_removeCashierGridPane.add(adminMenu_removeCashierID, 1, 0);
+            adminMenu_removeCashierGridPane.add(adminMenu_removeCashierIDWarning, 2, 0);
+            adminMenu_removeCashierGridPane.add(adminMenu_removeCashierButton, 1, 1);
+            adminMenu_removeCashierGridPane.add(adminMenu_removeCashierCancelButton, 1, 2);
+
+            adminMenu_removeCashierGridPane.setHgap(10);
+            adminMenu_removeCashierGridPane.setVgap(10);
+
+            Scene removeCashier_scene = new Scene(adminMenu_removeCashierGridPane, 600, 300);
+            primaryStage.setScene(removeCashier_scene);
+
+            adminMenu_removeCashierButton.setOnAction(e1 -> {
+                if (!CheckCashierExistence(admin, adminMenu_removeCashierID.getText())) {
+                    adminMenu_removeCashierIDWarning.setVisible(true);
+                    adminMenu_removeCashierID.setText("");
+                }
+                else {
+                    adminMenu_removeCashierIDWarning.setVisible(false);
+                }
+                if (admin.removeCashier(adminMenu_removeCashierID.getText())) {
+                    Alert adminMenu_removeCashier_CashierRemovedAlert = new Alert(Alert.AlertType.INFORMATION);
+                    adminMenu_removeCashier_CashierRemovedAlert.setTitle("Remove Cashier");
+                    try {
+                        admin.saveData();
+                    } catch (IOException ex) {
+                        Alert adminMenu_removeCashier_CashierRemoveFailed = new Alert(Alert.AlertType.ERROR);
+                        adminMenu_removeCashier_CashierRemoveFailed.setTitle("CASHIER REMOVE FAILED");
+                        adminMenu_removeCashier_CashierRemoveFailed.setHeaderText("Failed to remove cashier from the database");
+                        adminMenu_removeCashier_CashierRemoveFailed.showAndWait();
+                        primaryStage.setScene(adminMenuScene);
+                    }
+                    adminMenu_removeCashier_CashierRemovedAlert.setHeaderText("Cashier successfully removed!");
+                    adminMenu_removeCashier_CashierRemovedAlert.setContentText("Press OK to continue");
+                    adminMenu_removeCashier_CashierRemovedAlert.showAndWait();
+                    primaryStage.setScene(adminMenuScene);
+                }
+            });
+
+            adminMenu_removeCashierCancelButton.setOnAction(e1 -> {
+                primaryStage.setScene(adminMenuScene);
+            });
+        });
 
         //*****************************************************************
         //Admin Menu -> Remove User Menu -> Remove Customer Button
