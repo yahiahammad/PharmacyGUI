@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -1007,11 +1008,59 @@ public class JavaFXMain extends Application {
 
         //*****************************************************************
         //Admin Menu -> Remove User Menu -> Remove Customer Button
-        removeCustomer.setOnAction(e -> System.out.println("Remove Customer"));
+        removeCustomer.setOnAction(e -> {
+            FlowPane removeCustomer_pane = new FlowPane();
+            removeCustomer_pane.setAlignment(Pos.CENTER);
+
+            Label removeCustomerLabel = new Label("Please enter the id of the Customer to be removed:");
+            TextField removeCustomerID_textField = new TextField();
+
+            removeCustomer_pane.getChildren().addAll(removeCustomerLabel, removeCustomerID_textField);
+
+            String customerId = removeCustomerID_textField.getText();
+            if(CheckCustomerExistence(admin,removeCustomerID_textField.getText() )){
+                admin.removeCustomer(admin.searchCustomerByField("id", customerId).getId());
+                Label checkCustomerExistence_exists=new Label("Customer with this id has been removed");
+                removeCustomer_pane.getChildren().add(checkCustomerExistence_exists);
+            }else{
+                Label checkCustomerExistence_doesntexists=new Label("Customer with this id isnt avaialable to remove");
+                removeCustomer_pane.getChildren().add(checkCustomerExistence_doesntexists);
+            }
+
+            Scene removeCustomer_scene= new Scene(removeCustomer_pane, 300, 250);
+            primaryStage.setScene(removeCustomer_scene);
+            primaryStage.setTitle("Entry of Customer info to remove");
+            primaryStage.show();
+
+            });
 
         //*****************************************************************
         //Admin Menu -> Remove User Menu -> Remove Supplier Button
-        removeSupplier.setOnAction(e -> System.out.println("Remove Supplier"));
+        removeSupplier.setOnAction(e -> {
+            FlowPane removeSupplier_pane = new FlowPane();
+            removeSupplier_pane.setAlignment(Pos.CENTER);
+
+            Label removeSupplierLabel = new Label("Please enter the id of the supplier to be removed:");
+            TextField removeSupplierID_textField = new TextField();
+
+            removeSupplier_pane.getChildren().addAll(removeSupplierID_textField, removeSupplierID_textField);
+
+            String SupplierId = removeSupplierID_textField.getText();
+            if(CheckSupplierExistence(admin,removeSupplierID_textField.getText() )){
+                admin.removeSupplier(admin.searchCustomerByField("id", SupplierId).getId());
+                Label checkSupplierExistence_exists=new Label("Supplier with this id has been removed");
+                removeSupplier_pane.getChildren().add(checkSupplierExistence_exists);
+            }else{
+                Label checkSupplierExistence_doesntexists=new Label("Supplier with this id isnt avaialable to remove");
+                removeSupplier_pane.getChildren().add(checkSupplierExistence_doesntexists);
+            }
+
+            Scene removeSupplier_scene= new Scene(removeSupplier_pane, 300, 250);
+            primaryStage.setScene(removeSupplier_scene);
+            primaryStage.setTitle("Entry of Supplier info to remove");
+            primaryStage.show();
+        });
+
 
         //***********************************************************
         //Admin Menu -> Search User Menu
@@ -1394,6 +1443,18 @@ public class JavaFXMain extends Application {
         //Cashier Menu -> Create Cart Button
         createCart.setOnAction(e -> {
             if (currentCashier != null) {
+                Cart newCart = new Cart();
+                Label customerIdLabel = new Label("Enter Customer ID: ");
+                TextField customerIdTextField = new TextField();
+                if (CheckCustomerExistence(admin, customerIdTextField.getText())) {
+
+                }
+                else {
+                    Alert customerDoesNotExist = new Alert(Alert.AlertType.ERROR);
+                    customerDoesNotExist.setTitle("CUSTOMER DOES NOT EXIST");
+                    customerDoesNotExist.setHeaderText("customer does not exist");
+
+                }
                 //currentCashier.cancelCart();
             }
         });
