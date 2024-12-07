@@ -5,7 +5,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -13,7 +12,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -30,7 +28,7 @@ public class JavaFXMain extends Application {
         //Pharmacy Management System
         primaryStage.setTitle("Pharmacy Management System");
         primaryStage.getIcons().add(new Image(new FileInputStream("src/main/java/com/example/pharmacygui/resources/Project_Icon.png")));
-        Scene mainMenuScene, adminLoginScene, scene2, scene3, adminMenuScene, scene5, adminMenu_addUserScene, scene7, scene8, scene9, scene10;
+        Scene mainMenuScene, adminLoginScene, adminMenuScene, adminMenu_addUserScene, scene7, scene8, scene9, scene10;
 
         //**************************************************
         //Admin Menu
@@ -1566,30 +1564,133 @@ public class JavaFXMain extends Application {
 
         //**************************************************************
         //Cashier Menu -> Create Cart Button
+        //it's not working
         createCart.setOnAction(e -> {
-            if (currentCashier != null) {
-                Cart newCart = new Cart();
+            //if (currentCashier != null) {
+                GridPane cashierMenu_createCartGridPane = new GridPane();
+                cashierMenu_createCartGridPane.setAlignment(Pos.CENTER);
+
                 Label customerIdLabel = new Label("Enter Customer ID: ");
-                TextField customerIdTextField = new TextField();
-                if (CheckCustomerExistence(admin, customerIdTextField.getText())) {
+                Label cashierMenu_createCart_CustomerIDWarning = new Label("Customer Does Not Exist!");
+                cashierMenu_createCart_CustomerIDWarning.setTextFill(Color.RED);
+                cashierMenu_createCart_CustomerIDWarning.setVisible(false);
+                TextField cashierMenu_createCart_customerId = new TextField();
 
-                }
-                else {
-                    Alert customerDoesNotExist = new Alert(Alert.AlertType.ERROR);
-                    customerDoesNotExist.setTitle("CUSTOMER DOES NOT EXIST");
-                    customerDoesNotExist.setHeaderText("customer does not exist");
+                Button cashierMenu_createCartButton = new Button("Create Cart");
+                Button cashierMenu_createCartCancelButton = new Button("Cancel");
+                cashierMenu_createCartButton.setAlignment(Pos.CENTER);
 
-                }
-                //currentCashier.cancelCart();
-            }
+                cashierMenu_createCartGridPane.add(customerIdLabel, 0, 0);
+                cashierMenu_createCartGridPane.add(cashierMenu_createCart_customerId, 1, 0);
+                cashierMenu_createCartGridPane.add(cashierMenu_createCart_CustomerIDWarning, 2, 0);
+                cashierMenu_createCartGridPane.add(cashierMenu_createCartButton, 1, 1);
+                cashierMenu_createCartGridPane.add(cashierMenu_createCartCancelButton, 1, 2);
+
+                cashierMenu_createCartGridPane.setHgap(10);
+                cashierMenu_createCartGridPane.setVgap(10);
+
+                Scene createCartScene = new Scene(cashierMenu_createCartGridPane, 400, 400);
+                primaryStage.setScene(createCartScene);
+
+                cashierMenu_createCartButton.setOnAction(e1 -> {
+                    if (!CheckCustomerExistence(admin, cashierMenu_createCart_customerId.getText())) {
+                        cashierMenu_createCart_CustomerIDWarning.setVisible(true);
+                        cashierMenu_createCart_CustomerIDWarning.setText("");
+                    } else {
+                        cashierMenu_createCart_CustomerIDWarning.setVisible(false);
+                        Customer cashierCustomer = new Customer(admin.searchCustomerByField("id", cashierMenu_createCart_customerId.getText()));
+                        if (currentCashier.createOrder(cashierCustomer)) {
+                            Alert cashierMenu_createCart_CartCreatedAlert = new Alert(Alert.AlertType.INFORMATION);
+                            cashierMenu_createCart_CartCreatedAlert.setTitle("Create Cart");
+                            try {
+                                admin.saveData();
+                            } catch (IOException ex) {
+                                Alert cashierMenu_createCart_CreatingCartFailed = new Alert(Alert.AlertType.ERROR);
+                                cashierMenu_createCart_CreatingCartFailed.setTitle("CART CREATION FAILED");
+                                cashierMenu_createCart_CreatingCartFailed.setHeaderText("Failed to create cart");
+                                cashierMenu_createCart_CreatingCartFailed.showAndWait();
+                                primaryStage.setScene(cashierScene);
+                            }
+                            cashierMenu_createCart_CartCreatedAlert.setHeaderText("Cart successfully created!");
+                            cashierMenu_createCart_CartCreatedAlert.setContentText("Press OK to continue");
+                            cashierMenu_createCart_CartCreatedAlert.showAndWait();
+                            primaryStage.setScene(cashierScene);
+                        }
+                    }
+                });
+
+                cashierMenu_createCartCancelButton.setOnAction(e1 -> {
+                    primaryStage.setScene(cashierScene);
+                });
+            //}
+            //else {
+            //    Alert cashierNotFound = new Alert(Alert.AlertType.ERROR);
+            //    cashierNotFound.setTitle("CASHIER NOT FOUND");
+            //    cashierNotFound.setHeaderText("Failed to find cashier");
+            //    cashierNotFound.showAndWait();
+            //    primaryStage.setScene(mainMenuScene);
+            //}
         });
 
         //**************************************************************
         //Cashier Menu -> Add Product to Cart Button
         addProToCart.setOnAction(e -> {
-            if (currentCashier != null) {
-                //currentCashier.addProductToCart();
-            }
+            //if (currentCashier != null) {
+                GridPane cashierMenu_addProToCartGridPane = new GridPane();
+                cashierMenu_addProToCartGridPane.setAlignment(Pos.CENTER);
+
+                Label cartId = new Label("Enter Cert ID: ");
+                Label cashierMenu_addProToCart_CartIDWarning = new Label("Cart Does Not Exist!");
+                cashierMenu_addProToCart_CartIDWarning.setTextFill(Color.RED);
+                cashierMenu_addProToCart_CartIDWarning.setVisible(false);
+                TextField cashierMenu_addProToCart_cartId = new TextField();
+
+                Label cartProductName = new Label("Enter Product Name: ");
+                Label cashierMenu_addProToCart_ProductNameWarning = new Label("Product Does Not Exist!");
+                cashierMenu_addProToCart_ProductNameWarning.setTextFill(Color.RED);
+                cashierMenu_addProToCart_ProductNameWarning.setVisible(false);
+                TextField cashierMenu_addProToCart_ProductName = new TextField();
+
+                Label cartProductQuantity = new Label("Enter Product Quantity: ");
+                TextField cashierMenu_addProToCart_ProductQuantity = new TextField();
+
+                Button cashierMenu_addProToCartButton = new Button("Add Product to Cart");
+                Button cashierMenu_addProToCartCancelButton = new Button("Cancel");
+                cashierMenu_addProToCartButton.setAlignment(Pos.CENTER);
+
+                cashierMenu_addProToCartGridPane.add(cartId, 0, 0);
+                cashierMenu_addProToCartGridPane.add(cashierMenu_addProToCart_cartId, 1, 0);
+                cashierMenu_addProToCartGridPane.add(cashierMenu_addProToCart_CartIDWarning, 2, 0);
+                cashierMenu_addProToCartGridPane.add(cartProductName, 0, 1);
+                cashierMenu_addProToCartGridPane.add(cashierMenu_addProToCart_ProductName, 1, 1);
+                cashierMenu_addProToCartGridPane.add(cashierMenu_addProToCart_ProductNameWarning, 2, 1);
+                cashierMenu_addProToCartGridPane.add(cartProductQuantity, 0, 2);
+                cashierMenu_addProToCartGridPane.add(cashierMenu_addProToCart_ProductQuantity, 1, 2);
+                cashierMenu_addProToCartGridPane.add(cashierMenu_addProToCartButton, 0, 3);
+                cashierMenu_addProToCartGridPane.add(cashierMenu_addProToCartCancelButton, 0, 4);
+
+                cashierMenu_addProToCartGridPane.setHgap(10);
+                cashierMenu_addProToCartGridPane.setVgap(10);
+
+                Scene addPtoToCartScene = new Scene(cashierMenu_addProToCartGridPane, 500, 500);
+                primaryStage.setScene(addPtoToCartScene);
+
+                cashierMenu_addProToCartButton.setOnAction(e1 -> {
+                    if (!CheckCartExistence(admin, cashierMenu_addProToCart_cartId.getText())) {
+                        cashierMenu_addProToCart_CartIDWarning.setVisible(true);
+                        cashierMenu_addProToCart_CartIDWarning.setText("");
+                    } else {
+                        cashierMenu_addProToCart_CartIDWarning.setVisible(false);
+                    }
+                    if (!CheckProductExistence(admin, cashierMenu_addProToCart_ProductName.getText())) {
+                        cashierMenu_addProToCart_ProductNameWarning.setVisible(true);
+                        cashierMenu_addProToCart_ProductNameWarning.setText("");
+                    } else {
+                        cashierMenu_addProToCart_ProductNameWarning.setVisible(false);
+                    }
+                   // if (currentCashier.addProductToCart())
+                });
+            //}
         });
 
         //**************************************************************

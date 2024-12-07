@@ -35,10 +35,10 @@ public class Cashier extends User{
         return orderHandled;
     }
 
-    public Cart createOrder(Customer customer) {
+    public boolean createOrder(Customer customer) {
         Cart newOrder = new Cart(customer, this);
         orderHandled.add(newOrder);
-        return newOrder;
+        return true;
     }
 
     public void processPayment(Cart order) {
