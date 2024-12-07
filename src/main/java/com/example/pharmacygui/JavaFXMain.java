@@ -10,6 +10,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import java.io.FileInputStream;
@@ -1356,7 +1358,65 @@ public class JavaFXMain extends Application {
 
         //********************************************************************************
         //Admin Menu -> User Report Menu -> Customer Report Button
-        customerReport.setOnAction(e -> System.out.println("View Report About Customers"));
+        customerReport.setOnAction(e -> {
+            Label label11 = new Label("Number of Orders per each Customer and their details:");
+            label11.setFont(Font.font("System", FontWeight.BOLD, 25));
+            label11.setUnderline(true);
+            GridPane adminMenu_userReportGridPane = new GridPane();
+            adminMenu_userReportGridPane.setAlignment(Pos.CENTER);
+            adminMenu_userReportGridPane.setHgap(15);
+            adminMenu_userReportGridPane.setVgap(15);
+            adminMenu_userReportGridPane.add(label11, 0, 0);
+            int i1 = 1;
+            for (Customer customer1 : admin.getCustomers()) {
+                Label label12 = new Label(customer1.getId() + " Order History:");
+                Label label13 = new Label("Number of Orders for customer: " + customer1.getOrderHistory().size());
+                label12.setFont(Font.font("System", FontWeight.BOLD, 15));
+                adminMenu_userReportGridPane.add(label12, 0, i1);
+                i1++;
+                adminMenu_userReportGridPane.add(label13, 0, i1);
+                i1++;
+                for(Cart order : customer1.getOrderHistory()) {
+                    Label label14 = new Label(order.toString());
+                    adminMenu_userReportGridPane.add(label14, 0, i1);
+                }
+                i1++;
+            }
+
+
+            //Customer with the maximum number of Orders
+            Label label15 = new Label("Customer with the maximum number of Orders: ");
+            label15.setFont(Font.font("System", FontWeight.BOLD, 25));
+            label15.setUnderline(true);
+            adminMenu_userReportGridPane.add(label15, 0, i1);
+            i1++;
+            Customer maxOrderCustomer = null;
+            double maxOrders_customer = 0;
+            for (Customer customer2 : admin.getCustomers()) {
+                if (customer2.getOrderHistory().size() > maxOrders_customer) {
+                    maxOrders_customer = customer2.getOrderHistory().size() ;
+                    maxOrderCustomer = customer2;
+                }
+            }
+            if (maxOrderCustomer != null) {
+                Label label16 = new Label("Customer: " + maxOrderCustomer);
+                adminMenu_userReportGridPane.add(label16, 0, i1);
+                i1++;
+                Label label17 = new Label("Number of Orders: " + maxOrders_customer);
+                adminMenu_userReportGridPane.add(label17, 0, i1);
+            } else {
+                Label label18 = new Label("No customers to determine the maximum no. of Orders");
+                adminMenu_userReportGridPane.add(label18, 0, i1);
+            }
+            i1++;
+            Button back6 = new Button("Back");
+            adminMenu_userReportGridPane.add(back6, 0, i1);
+            back6.setOnAction(e1 -> primaryStage.setScene(adminMenuScene));
+            ScrollPane scrollPane = new ScrollPane(adminMenu_userReportGridPane);
+            scrollPane.setFitToWidth(true);
+            Scene scene11 = new Scene(scrollPane, 900, 700);
+            primaryStage.setScene(scene11);
+        });
 
         //********************************************************************************
         //Admin Menu -> User Report Menu -> Supplier Report Button
