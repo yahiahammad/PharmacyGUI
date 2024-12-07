@@ -22,11 +22,13 @@ public class JavaFXMain extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        //Pharmacy Management System
         primaryStage.setTitle("Pharmacy Management System");
         primaryStage.getIcons().add(new Image(new FileInputStream("src/main/java/com/example/pharmacygui/resources/Project_Icon.png")));
         Scene mainMenuScene, adminLoginScene , scene2, scene3, adminMenuScene, scene5, adminMenu_addUserScene, scene7, scene8, scene9, scene10;
 
         //**************************************************
+        //Admin Menu
         Button mainMenu_adminButton = new Button("Admin");
         Button customer = new Button("Customer");
         Button cashier = new Button("Cashier");
@@ -41,7 +43,7 @@ public class JavaFXMain extends Application {
         exit.setOnAction(e -> primaryStage.close());
 
         //***********************************************************
-
+        //Admin Login
         PasswordField adminPasswordTextField = new PasswordField();
         Label adminPasswordLabel = new Label("Password: ");
         Label adminWrongPasswordLabel = new Label("Wrong Password, try again");
@@ -62,20 +64,8 @@ public class JavaFXMain extends Application {
         adminPasswordBackButton.setOnAction(e -> primaryStage.setScene(mainMenuScene));
         mainMenu_adminButton.setOnAction(e -> primaryStage.setScene(adminLoginScene));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         //************************************************************
+        //Admin Menu
         Button adminMenu_addProduct = new Button("Add New Product");
         Button adminMenu_editProduct = new Button("Edit Product");
         Button adminMenu_removeProduct = new Button("Remove Product");
@@ -106,6 +96,7 @@ public class JavaFXMain extends Application {
         });
 
         //****************************************************************************
+        //Admin Menu -> Add Product Button
         adminMenu_addProduct.setOnAction(e -> {
             GridPane adminMenu_addProductGridPane = new GridPane();
             adminMenu_addProductGridPane.setAlignment(Pos.CENTER);
@@ -157,6 +148,7 @@ public class JavaFXMain extends Application {
            primaryStage.setScene(scene);
 
             //************************************************************
+            //Admin Menu -> Add Product Button
             adminMenu_addProductButton.setOnAction(e1 ->{
                if (CheckProductExistence(admin,adminMenu_addProduct_ProductName.getText()) || !CheckSupplierExistence(admin, adminMenu_addProduct_ProductSupplierID.getText()))
                {
@@ -208,6 +200,7 @@ public class JavaFXMain extends Application {
             });
         });
         //********************************************************************
+        //Admin Menu -> Edit Product Button
         adminMenu_editProduct.setOnAction(e -> {
             GridPane adminMenu_editProductGridPane = new GridPane();
             adminMenu_editProductGridPane.setAlignment(Pos.CENTER);
@@ -228,7 +221,9 @@ public class JavaFXMain extends Application {
             TextField adminMenu_editProduct_ProductValue = new TextField();
 
             Button adminMenu_editProductButton = new Button("Edit Product");
+            Button adminMenu_editProductCancelButton = new Button("Cancel");
             adminMenu_editProductButton.setAlignment(Pos.CENTER);
+            adminMenu_editProductCancelButton.setAlignment(Pos.CENTER);
 
             adminMenu_editProductGridPane.add(productName2, 0, 0);
             adminMenu_editProductGridPane.add(adminMenu_editProduct_ProductName, 1, 0);
@@ -239,6 +234,7 @@ public class JavaFXMain extends Application {
             adminMenu_editProductGridPane.add(productValue, 0, 2);
             adminMenu_editProductGridPane.add(adminMenu_editProduct_ProductValue, 1, 2);
             adminMenu_editProductGridPane.add(adminMenu_editProductButton, 1, 3);
+            adminMenu_editProductGridPane.add(adminMenu_editProductCancelButton, 1, 4);
 
             adminMenu_editProductGridPane.setHgap(10);
             adminMenu_editProductGridPane.setVgap(10);
@@ -278,12 +274,14 @@ public class JavaFXMain extends Application {
                     adminMenu_editProduct_ProductEditedAlert.showAndWait();
                     primaryStage.setScene(adminMenuScene);
                 }
-
-
+                });
+                adminMenu_editProductCancelButton.setOnAction(e1 -> {
+                    primaryStage.setScene(adminMenuScene);
             });
 
         });
         //**********************************************************************
+        //Admin Menu -> Remove Product Button
         adminMenu_removeProduct.setOnAction(e -> {
             GridPane adminMenu_removeProductGridPane = new GridPane();
             adminMenu_removeProductGridPane.setAlignment(Pos.CENTER);
@@ -295,12 +293,15 @@ public class JavaFXMain extends Application {
             TextField adminMenu_removeProductName = new TextField();
 
             Button adminMenu_removeProductButton = new Button("Remove Product");
+            Button adminMenu_removeProductCancelButton = new Button("Cancel");
             adminMenu_removeProductButton.setAlignment(Pos.CENTER);
+            adminMenu_removeProductCancelButton.setAlignment(Pos.CENTER);
 
             adminMenu_removeProductGridPane.add(removeProductName, 0, 0);
             adminMenu_removeProductGridPane.add(adminMenu_removeProductName, 1, 0);
             adminMenu_removeProductGridPane.add(adminMenu_removeProductNameWarning, 2, 0);
             adminMenu_removeProductGridPane.add(adminMenu_removeProductButton, 1, 1);
+            adminMenu_removeProductGridPane.add(adminMenu_removeProductCancelButton, 1, 2);
 
             adminMenu_removeProductGridPane.setHgap(10);
             adminMenu_removeProductGridPane.setVgap(10);
@@ -334,9 +335,14 @@ public class JavaFXMain extends Application {
                     primaryStage.setScene(adminMenuScene);
                 }
             });
+
+            adminMenu_removeProductCancelButton.setOnAction(e1 -> {
+                primaryStage.setScene(adminMenuScene);
+            });
         });
 
         //**********************************************************************************
+        //Admin Menu -> Search Product Button
         adminMenu_searchProduct.setOnAction(e -> {
             GridPane adminMenu_searchProductGridPane = new GridPane();
             adminMenu_searchProductGridPane.setAlignment(Pos.CENTER);
@@ -351,7 +357,9 @@ public class JavaFXMain extends Application {
             TextField adminMenu_searchProduct_ProductValue = new TextField();
 
             Button adminMenu_searchProductButton = new Button("Search Product");
+            Button adminMenu_searchProductCancelButton = new Button("Cancel");
             adminMenu_searchProductButton.setAlignment(Pos.CENTER);
+            adminMenu_searchProductCancelButton.setAlignment(Pos.CENTER);
 
             adminMenu_searchProductGridPane.add(searchProductField, 0, 0);
             adminMenu_searchProductGridPane.add(adminMenu_searchProduct_ProductField, 1, 0);
@@ -359,6 +367,7 @@ public class JavaFXMain extends Application {
             adminMenu_searchProductGridPane.add(searchProductValue, 0, 1);
             adminMenu_searchProductGridPane.add(adminMenu_searchProduct_ProductValue, 1, 1);
             adminMenu_searchProductGridPane.add(adminMenu_searchProductButton, 0, 3);
+            adminMenu_searchProductGridPane.add(adminMenu_searchProductCancelButton, 0, 4);
 
             adminMenu_searchProductGridPane.setHgap(10);
             adminMenu_searchProductGridPane.setVgap(10);
@@ -392,6 +401,10 @@ public class JavaFXMain extends Application {
                     adminMenu_searchProduct_ProductField.setText("");
                 }
             });
+
+            adminMenu_searchProductCancelButton.setOnAction(e1 -> {
+                primaryStage.setScene(adminMenuScene);
+            });
         });
 
 
@@ -402,6 +415,7 @@ public class JavaFXMain extends Application {
         adminMenu_logOut.setOnAction(e -> primaryStage.setScene(mainMenuScene));
 
         //***********************************************************
+        //Admin Menu -> Add User Menu
         Label adminMenu_addUser_ChoiceLabel = new Label("Click on your choice");
         Button adminMenu_addUser_addCashier = new Button("Add New Cashier");
         Button adminMenu_addUser_addCustomer = new Button("Add New Customer");
@@ -413,7 +427,10 @@ public class JavaFXMain extends Application {
         adminMenu_addUser_Vbox.setSpacing(10);
         adminMenu_addUserScene = new Scene(adminMenu_addUser_Vbox, 300, 250);
         adminMenu_addUser.setOnAction(e -> primaryStage.setScene(adminMenu_addUserScene));
+        adminMenu_addUser_back.setOnAction(e -> primaryStage.setScene(adminMenuScene));
 
+        //*******************************************************************************
+        //Admin Menu -> Add User Menu -> Add Cashier Button
         adminMenu_addUser_addCashier.setOnAction(e -> {
 
             Label adminMenu_addUser_addCashierNameLabel = new Label("Enter Name: ");
@@ -500,13 +517,18 @@ public class JavaFXMain extends Application {
             });
         });
 
+        //********************************************************************************
+        //Admin Menu -> Add User Menu -> Add Customer Button
         adminMenu_addUser_addCustomer.setOnAction(e -> {
 
         });
+
+        //********************************************************************************
+        //Admin Menu -> Add User Menu -> Add Supplier Button
         adminMenu_addUser_addSupplier.setOnAction(e -> System.out.println("Add New Supplier"));
-        adminMenu_addUser_back.setOnAction(e -> primaryStage.setScene(adminMenuScene));
 
         //***********************************************************
+        //Admin Menu -> Edit User Menu
         Label label7 = new Label("Click on your choice");
         Button editCashier = new Button("Edit Cashier");
         Button editCustomer = new Button("Edit Customer");
@@ -518,13 +540,22 @@ public class JavaFXMain extends Application {
         vbox5.setSpacing(10);
         scene7 = new Scene(vbox5, 300, 250);
         adminMenu_editUser.setOnAction(e -> primaryStage.setScene(scene7));
-
-        editCashier.setOnAction(e -> System.out.println("Edit Cashier"));
-        editCustomer.setOnAction(e -> System.out.println("Edit Customer"));
-        editSupplier.setOnAction(e -> System.out.println("Edit Supplier"));
         back2.setOnAction(e -> primaryStage.setScene(adminMenuScene));
 
+        //************************************************************
+        //Admin Menu -> Edit User Menu -> Edit Cashier Button
+        editCashier.setOnAction(e -> System.out.println("Edit Cashier"));
+
+        //*************************************************************
+        //Admin Menu -> Edit User Menu -> Edit Customer Button
+        editCustomer.setOnAction(e -> System.out.println("Edit Customer"));
+
+        //*************************************************************
+        //Admin Menu -> Edit User Menu -> Edit Supplier Button
+        editSupplier.setOnAction(e -> System.out.println("Edit Supplier"));
+
         //***********************************************************
+        //Admin Menu -> Remove User Menu
         Label label8 = new Label("Click on you choice");
         Button removeCashier = new Button("Remove Cashier");
         Button removeCustomer = new Button("Remove Customer");
@@ -536,13 +567,22 @@ public class JavaFXMain extends Application {
         vbox6.setSpacing(10);
         scene8 = new Scene(vbox6, 300, 250);
         adminMenu_removeUser.setOnAction(e -> primaryStage.setScene(scene8));
-
-        removeCashier.setOnAction(e -> System.out.println("Remove Cashier"));
-        removeCustomer.setOnAction(e -> System.out.println("Remove Customer"));
-        removeSupplier.setOnAction(e -> System.out.println("Remove Supplier"));
         back3.setOnAction(e -> primaryStage.setScene(adminMenuScene));
 
+        //*****************************************************************
+        //Admin Menu -> Remove User Menu -> Remove Cashier Button
+        removeCashier.setOnAction(e -> System.out.println("Remove Cashier"));
+
+        //*****************************************************************
+        //Admin Menu -> Remove User Menu -> Remove Customer Button
+        removeCustomer.setOnAction(e -> System.out.println("Remove Customer"));
+
+        //*****************************************************************
+        //Admin Menu -> Remove User Menu -> Remove Supplier Button
+        removeSupplier.setOnAction(e -> System.out.println("Remove Supplier"));
+
         //***********************************************************
+        //Admin Menu -> Search User Menu
         Label label9 = new Label("Click on your choice");
         Button searchCashier = new Button("Search for a Cashier");
         Button searchCustomer = new Button("Search for a Customer");
@@ -554,8 +594,10 @@ public class JavaFXMain extends Application {
         vbox7.setSpacing(10);
         scene9 = new Scene(vbox7, 300, 250);
         adminMenu_searchUser.setOnAction(e -> primaryStage.setScene(scene9));
+        back4.setOnAction(e -> primaryStage.setScene(adminMenuScene));
 
         //****************************************************************************
+        //Admin Menu -> Search User Menu -> Search Cashier Button
         searchCashier.setOnAction(e -> {
             GridPane adminMenu_searchCashierGridPane = new GridPane();
             adminMenu_searchCashierGridPane.setAlignment(Pos.CENTER);
@@ -621,6 +663,7 @@ public class JavaFXMain extends Application {
         });
 
         //*************************************************************************************
+        //Admin Menu -> Search User Menu -> Search Customer Button
         searchCustomer.setOnAction(e -> {
             GridPane adminMenu_searchCustomerGridPane = new GridPane();
             adminMenu_searchCustomerGridPane.setAlignment(Pos.CENTER);
@@ -686,6 +729,7 @@ public class JavaFXMain extends Application {
         });
 
         //*****************************************************************************
+        //Admin Menu -> Search User Menu -> Search Supplier Button
         searchSupplier.setOnAction(e -> {
             GridPane adminMenu_searchSupplierGridPane = new GridPane();
             adminMenu_searchSupplierGridPane.setAlignment(Pos.CENTER);
@@ -751,10 +795,8 @@ public class JavaFXMain extends Application {
         });
 
 
-
-        back4.setOnAction(e -> primaryStage.setScene(adminMenuScene));
-
         //***********************************************************
+        //Admin Menu -> User Report Menu
         Label label10 = new Label("Click on your choice");
         Button cashierReport = new Button("View Report About Cashiers");
         Button customerReport = new Button("View Report About Customers");
@@ -766,13 +808,22 @@ public class JavaFXMain extends Application {
         vbox8.setSpacing(10);
         scene10 = new Scene(vbox8, 300, 250);
         adminMenu_userReport.setOnAction(e -> primaryStage.setScene(scene10));
-
-        cashierReport.setOnAction(e -> System.out.println("View Report About Cashiers"));
-        customerReport.setOnAction(e -> System.out.println("View Report About Customers"));
-        supplierReport.setOnAction(e -> System.out.println("View Report About Suppliers"));
         back5.setOnAction(e -> primaryStage.setScene(adminMenuScene));
 
+        //********************************************************************************
+        //Admin Menu -> User Report Menu -> Cashier Report Button
+        cashierReport.setOnAction(e -> System.out.println("View Report About Cashiers"));
+
+        //********************************************************************************
+        //Admin Menu -> User Report Menu -> Customer Report Button
+        customerReport.setOnAction(e -> System.out.println("View Report About Customers"));
+
+        //********************************************************************************
+        //Admin Menu -> User Report Menu -> Supplier Report Button
+        supplierReport.setOnAction(e -> System.out.println("View Report About Suppliers"));
+
         //***********************************************************
+        //Customer Menu
         Scene customerMenuScene;
         //Customer customerObject = null;
         Label label3 = new Label("What would you like to do?");
@@ -788,6 +839,7 @@ public class JavaFXMain extends Application {
         LogOut.setOnAction(e -> primaryStage.setScene(mainMenuScene));
 
         //*************************************************************
+        //Customer Login
         Scene customerLoginScene;
         PasswordField customerPasswordTextField = new PasswordField();
         String enteredId = customerPasswordTextField.getText();
@@ -815,14 +867,18 @@ public class JavaFXMain extends Application {
             if (CheckCustomerExistence(admin, customerPasswordTextField.getText())) {
                 customerPasswordTextField.setText("");
                 primaryStage.setScene(customerMenuScene);
-                System.out.println("entered id: " + enteredId);
-                /*viewOrders.setOnAction(e1 -> {
-                    TextArea textArea = new TextArea();
-                    admin.searchCustomerByField("id", enteredId).displayOrderHistory(textArea);
-                    Scene customerMenu_viewOrder_scene = new Scene(textArea, 300, 250);
-                });*/
 
                 //**********************************************************************************
+                //Customer Menu -> View Orders History Button
+                TextArea textArea = new TextArea();
+                Scene customerMenu_viewOrder_scene = new Scene(textArea, 300, 250);
+                viewOrders.setOnAction(e1 -> {
+                    admin.searchCustomerByField("id", enteredId).displayOrderHistory(textArea);
+                    primaryStage.setScene(customerMenu_viewOrder_scene);
+                });
+
+                //**********************************************************************************
+                //Customer Menu -> Rate Order Button
                 //this will get changed
                 Scene customerMenu_rateOrder_scene;
                 Label label4 = new Label("Rate:");
@@ -843,6 +899,7 @@ public class JavaFXMain extends Application {
         });
 
         //**********************************************************
+        //Cashier Menu
         Label label5 = new Label("What would you like to do?");
         Button createCart = new Button("Create Cart");
         Button addProToCart = new Button("Add Product to Cart");
@@ -856,14 +913,29 @@ public class JavaFXMain extends Application {
         vbox3.setSpacing(10);
         scene5 = new Scene(vbox3, 300, 250);
         cashier.setOnAction(e -> primaryStage.setScene(scene5));
-
-        createCart.setOnAction(e -> System.out.println("Create Cart"));
-        addProToCart.setOnAction(e -> System.out.println("Add Product to Cart"));
-        removeProFromCart.setOnAction(e -> System.out.println("Remove Product from Cart"));
-        payment.setOnAction(e -> System.out.println("Calculate Payment"));
-        cancelCart.setOnAction(e -> System.out.println("Cancel Cart"));
         lg.setOnAction(e -> primaryStage.setScene(mainMenuScene));
 
+        //**************************************************************
+        //Cashier Menu -> Create Cart Button
+        createCart.setOnAction(e -> System.out.println("Create Cart"));
+
+        //**************************************************************
+        //Cashier Menu -> Add Product to Cart Button
+        addProToCart.setOnAction(e -> System.out.println("Add Product to Cart"));
+
+        //**************************************************************
+        //Cashier Menu -> Remove Product from Cart Button
+        removeProFromCart.setOnAction(e -> System.out.println("Remove Product from Cart"));
+
+        //**************************************************************
+        //Cashier Menu -> Calculate Payment Button
+        payment.setOnAction(e -> System.out.println("Calculate Payment"));
+
+        //**************************************************************
+        //Cashier Menu -> Cancel Cart
+        cancelCart.setOnAction(e -> System.out.println("Cancel Cart"));
+
+        //**************************************************************
 
         primaryStage.show();
     }
