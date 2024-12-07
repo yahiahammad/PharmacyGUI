@@ -22,11 +22,13 @@ public class JavaFXMain extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        //Pharmacy Management System
         primaryStage.setTitle("Pharmacy Management System");
         primaryStage.getIcons().add(new Image(new FileInputStream("src/main/java/com/example/pharmacygui/resources/Project_Icon.png")));
         Scene mainMenuScene, adminLoginScene , scene2, scene3, adminMenuScene, scene5, adminMenu_addUserScene, scene7, scene8, scene9, scene10;
 
         //**************************************************
+        //Admin Menu
         Button mainMenu_adminButton = new Button("Admin");
         Button customer = new Button("Customer");
         Button cashier = new Button("Cashier");
@@ -41,7 +43,7 @@ public class JavaFXMain extends Application {
         exit.setOnAction(e -> primaryStage.close());
 
         //***********************************************************
-
+        //Admin Login
         PasswordField adminPasswordTextField = new PasswordField();
         Label adminPasswordLabel = new Label("Password: ");
         Label adminWrongPasswordLabel = new Label("Wrong Password, try again");
@@ -62,20 +64,8 @@ public class JavaFXMain extends Application {
         adminPasswordBackButton.setOnAction(e -> primaryStage.setScene(mainMenuScene));
         mainMenu_adminButton.setOnAction(e -> primaryStage.setScene(adminLoginScene));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         //************************************************************
+        //Admin Menu
         Button adminMenu_addProduct = new Button("Add New Product");
         Button adminMenu_editProduct = new Button("Edit Product");
         Button adminMenu_removeProduct = new Button("Remove Product");
@@ -106,6 +96,7 @@ public class JavaFXMain extends Application {
         });
 
         //****************************************************************************
+        //Admin Menu -> Add Product Button
         adminMenu_addProduct.setOnAction(e -> {
             GridPane adminMenu_addProductGridPane = new GridPane();
             adminMenu_addProductGridPane.setAlignment(Pos.CENTER);
@@ -154,60 +145,62 @@ public class JavaFXMain extends Application {
             adminMenu_addProductGridPane.setVgap(10);
 
             Scene scene = new Scene(adminMenu_addProductGridPane,500,500);
-           primaryStage.setScene(scene);
+            primaryStage.setScene(scene);
 
             //************************************************************
+            //Admin Menu -> Add Product Button
             adminMenu_addProductButton.setOnAction(e1 ->{
-               if (CheckProductExistence(admin,adminMenu_addProduct_ProductName.getText()) || !CheckSupplierExistence(admin, adminMenu_addProduct_ProductSupplierID.getText()))
-               {
-                   if (CheckProductExistence(admin,adminMenu_addProduct_ProductName.getText()))
-                   {
-                       adminMenu_addProduct_ProductNameWarning.setVisible(true);
-                       adminMenu_addProduct_ProductName.setText("");
-                   }
-                   else
-                   {
-                       adminMenu_addProduct_ProductNameWarning.setVisible(false);
-                   }
-                   if (!CheckSupplierExistence(admin, adminMenu_addProduct_ProductSupplierID.getText()))
-                   {
-                       adminMenu_addProduct_SupplierIDWarning.setVisible(true);
-                       adminMenu_addProduct_ProductSupplierID.setText("");
-                   }
-                   else
-                   {
-                       adminMenu_addProduct_SupplierIDWarning.setVisible(false);
-                   }
-               }
-               else
-               {
-                   adminMenu_addProduct_ProductNameWarning.setVisible(false);
-                   adminMenu_addProduct_SupplierIDWarning.setVisible(false);
-                   if (admin.addNewProduct(adminMenu_addProduct_ProductName.getText(),Double.parseDouble(adminMenu_addProduct_ProductPrice.getText()),Integer.parseInt(adminMenu_addProduct_ProductQuantity.getText()), admin.searchSupplierByField("id",adminMenu_addProduct_ProductSupplierID.getText()), LocalDate.parse(adminMenu_addProduct_ProductExpirationDate.getText())))
-                   {
-                       Alert adminMenu_addProduct_ProductAddedAlert = new Alert(Alert.AlertType.INFORMATION);
-                       adminMenu_addProduct_ProductAddedAlert.setTitle("Add Product");
-                       try {
-                           admin.saveData();
-                       } catch (IOException ex) {
-                           Alert adminMenu_addProduct_ProductAddingFailed = new Alert(Alert.AlertType.ERROR);
-                           adminMenu_addProduct_ProductAddingFailed.setTitle("PRODUCT ADDITION FAILED");
-                           adminMenu_addProduct_ProductAddingFailed.setHeaderText("Failed to add product to the database");
-                           adminMenu_addProduct_ProductAddingFailed.showAndWait();
-                           primaryStage.setScene(adminMenuScene);
-                       }
-                       adminMenu_addProduct_ProductAddedAlert.setHeaderText("Product successfully added!");
-                       adminMenu_addProduct_ProductAddedAlert.setContentText("Press OK to continue");
-                       adminMenu_addProduct_ProductAddedAlert.showAndWait();
-                       primaryStage.setScene(adminMenuScene);
-                   }
-               }
-           });
+                if (CheckProductExistence(admin,adminMenu_addProduct_ProductName.getText()) || !CheckSupplierExistence(admin, adminMenu_addProduct_ProductSupplierID.getText()))
+                {
+                    if (CheckProductExistence(admin,adminMenu_addProduct_ProductName.getText()))
+                    {
+                        adminMenu_addProduct_ProductNameWarning.setVisible(true);
+                        adminMenu_addProduct_ProductName.setText("");
+                    }
+                    else
+                    {
+                        adminMenu_addProduct_ProductNameWarning.setVisible(false);
+                    }
+                    if (!CheckSupplierExistence(admin, adminMenu_addProduct_ProductSupplierID.getText()))
+                    {
+                        adminMenu_addProduct_SupplierIDWarning.setVisible(true);
+                        adminMenu_addProduct_ProductSupplierID.setText("");
+                    }
+                    else
+                    {
+                        adminMenu_addProduct_SupplierIDWarning.setVisible(false);
+                    }
+                }
+                else
+                {
+                    adminMenu_addProduct_ProductNameWarning.setVisible(false);
+                    adminMenu_addProduct_SupplierIDWarning.setVisible(false);
+                    if (admin.addNewProduct(adminMenu_addProduct_ProductName.getText(),Double.parseDouble(adminMenu_addProduct_ProductPrice.getText()),Integer.parseInt(adminMenu_addProduct_ProductQuantity.getText()), admin.searchSupplierByField("id",adminMenu_addProduct_ProductSupplierID.getText()), LocalDate.parse(adminMenu_addProduct_ProductExpirationDate.getText())))
+                    {
+                        Alert adminMenu_addProduct_ProductAddedAlert = new Alert(Alert.AlertType.INFORMATION);
+                        adminMenu_addProduct_ProductAddedAlert.setTitle("Add Product");
+                        try {
+                            admin.saveData();
+                        } catch (IOException ex) {
+                            Alert adminMenu_addProduct_ProductAddingFailed = new Alert(Alert.AlertType.ERROR);
+                            adminMenu_addProduct_ProductAddingFailed.setTitle("PRODUCT ADDITION FAILED");
+                            adminMenu_addProduct_ProductAddingFailed.setHeaderText("Failed to add product to the database");
+                            adminMenu_addProduct_ProductAddingFailed.showAndWait();
+                            primaryStage.setScene(adminMenuScene);
+                        }
+                        adminMenu_addProduct_ProductAddedAlert.setHeaderText("Product successfully added!");
+                        adminMenu_addProduct_ProductAddedAlert.setContentText("Press OK to continue");
+                        adminMenu_addProduct_ProductAddedAlert.showAndWait();
+                        primaryStage.setScene(adminMenuScene);
+                    }
+                }
+            });
             adminMenu_addProductCancelButton.setOnAction(e1 ->{
                 primaryStage.setScene(adminMenuScene);
             });
         });
         //********************************************************************
+        //Admin Menu -> Edit Product Button
         adminMenu_editProduct.setOnAction(e -> {
             GridPane adminMenu_editProductGridPane = new GridPane();
             adminMenu_editProductGridPane.setAlignment(Pos.CENTER);
@@ -228,7 +221,9 @@ public class JavaFXMain extends Application {
             TextField adminMenu_editProduct_ProductValue = new TextField();
 
             Button adminMenu_editProductButton = new Button("Edit Product");
+            Button adminMenu_editProductCancelButton = new Button("Cancel");
             adminMenu_editProductButton.setAlignment(Pos.CENTER);
+            adminMenu_editProductCancelButton.setAlignment(Pos.CENTER);
 
             adminMenu_editProductGridPane.add(productName2, 0, 0);
             adminMenu_editProductGridPane.add(adminMenu_editProduct_ProductName, 1, 0);
@@ -239,6 +234,7 @@ public class JavaFXMain extends Application {
             adminMenu_editProductGridPane.add(productValue, 0, 2);
             adminMenu_editProductGridPane.add(adminMenu_editProduct_ProductValue, 1, 2);
             adminMenu_editProductGridPane.add(adminMenu_editProductButton, 1, 3);
+            adminMenu_editProductGridPane.add(adminMenu_editProductCancelButton, 1, 4);
 
             adminMenu_editProductGridPane.setHgap(10);
             adminMenu_editProductGridPane.setVgap(10);
@@ -278,12 +274,14 @@ public class JavaFXMain extends Application {
                     adminMenu_editProduct_ProductEditedAlert.showAndWait();
                     primaryStage.setScene(adminMenuScene);
                 }
-
-
+            });
+            adminMenu_editProductCancelButton.setOnAction(e1 -> {
+                primaryStage.setScene(adminMenuScene);
             });
 
         });
         //**********************************************************************
+        //Admin Menu -> Remove Product Button
         adminMenu_removeProduct.setOnAction(e -> {
             GridPane adminMenu_removeProductGridPane = new GridPane();
             adminMenu_removeProductGridPane.setAlignment(Pos.CENTER);
@@ -295,12 +293,15 @@ public class JavaFXMain extends Application {
             TextField adminMenu_removeProductName = new TextField();
 
             Button adminMenu_removeProductButton = new Button("Remove Product");
+            Button adminMenu_removeProductCancelButton = new Button("Cancel");
             adminMenu_removeProductButton.setAlignment(Pos.CENTER);
+            adminMenu_removeProductCancelButton.setAlignment(Pos.CENTER);
 
             adminMenu_removeProductGridPane.add(removeProductName, 0, 0);
             adminMenu_removeProductGridPane.add(adminMenu_removeProductName, 1, 0);
             adminMenu_removeProductGridPane.add(adminMenu_removeProductNameWarning, 2, 0);
             adminMenu_removeProductGridPane.add(adminMenu_removeProductButton, 1, 1);
+            adminMenu_removeProductGridPane.add(adminMenu_removeProductCancelButton, 1, 2);
 
             adminMenu_removeProductGridPane.setHgap(10);
             adminMenu_removeProductGridPane.setVgap(10);
@@ -334,9 +335,14 @@ public class JavaFXMain extends Application {
                     primaryStage.setScene(adminMenuScene);
                 }
             });
+
+            adminMenu_removeProductCancelButton.setOnAction(e1 -> {
+                primaryStage.setScene(adminMenuScene);
+            });
         });
 
         //**********************************************************************************
+        //Admin Menu -> Search Product Button
         adminMenu_searchProduct.setOnAction(e -> {
             GridPane adminMenu_searchProductGridPane = new GridPane();
             adminMenu_searchProductGridPane.setAlignment(Pos.CENTER);
@@ -351,7 +357,9 @@ public class JavaFXMain extends Application {
             TextField adminMenu_searchProduct_ProductValue = new TextField();
 
             Button adminMenu_searchProductButton = new Button("Search Product");
+            Button adminMenu_searchProductCancelButton = new Button("Cancel");
             adminMenu_searchProductButton.setAlignment(Pos.CENTER);
+            adminMenu_searchProductCancelButton.setAlignment(Pos.CENTER);
 
             adminMenu_searchProductGridPane.add(searchProductField, 0, 0);
             adminMenu_searchProductGridPane.add(adminMenu_searchProduct_ProductField, 1, 0);
@@ -359,6 +367,7 @@ public class JavaFXMain extends Application {
             adminMenu_searchProductGridPane.add(searchProductValue, 0, 1);
             adminMenu_searchProductGridPane.add(adminMenu_searchProduct_ProductValue, 1, 1);
             adminMenu_searchProductGridPane.add(adminMenu_searchProductButton, 0, 3);
+            adminMenu_searchProductGridPane.add(adminMenu_searchProductCancelButton, 0, 4);
 
             adminMenu_searchProductGridPane.setHgap(10);
             adminMenu_searchProductGridPane.setVgap(10);
@@ -392,6 +401,10 @@ public class JavaFXMain extends Application {
                     adminMenu_searchProduct_ProductField.setText("");
                 }
             });
+
+            adminMenu_searchProductCancelButton.setOnAction(e1 -> {
+                primaryStage.setScene(adminMenuScene);
+            });
         });
 
 
@@ -402,6 +415,7 @@ public class JavaFXMain extends Application {
         adminMenu_logOut.setOnAction(e -> primaryStage.setScene(mainMenuScene));
 
         //***********************************************************
+        //Admin Menu -> Add User Menu
         Label adminMenu_addUser_ChoiceLabel = new Label("Click on your choice");
         Button adminMenu_addUser_addCashier = new Button("Add New Cashier");
         Button adminMenu_addUser_addCustomer = new Button("Add New Customer");
@@ -413,7 +427,10 @@ public class JavaFXMain extends Application {
         adminMenu_addUser_Vbox.setSpacing(10);
         adminMenu_addUserScene = new Scene(adminMenu_addUser_Vbox, 300, 250);
         adminMenu_addUser.setOnAction(e -> primaryStage.setScene(adminMenu_addUserScene));
+        adminMenu_addUser_back.setOnAction(e -> primaryStage.setScene(adminMenuScene));
 
+        //*******************************************************************************
+        //Admin Menu -> Add User Menu -> Add Cashier Button
         adminMenu_addUser_addCashier.setOnAction(e -> {
 
             Label adminMenu_addUser_addCashierNameLabel = new Label("Enter Name: ");
@@ -500,13 +517,201 @@ public class JavaFXMain extends Application {
             });
         });
 
+        //********************************************************************************
+        //Admin Menu -> Add User Menu -> Add Customer Button
         adminMenu_addUser_addCustomer.setOnAction(e -> {
+            Label adminMenu_addUser_addCustomerNameLabel = new Label("Enter Name: ");
+            Label adminMenu_addUser_addCustomerInvalidNameLabel = new Label("Invalid Name!");
+            adminMenu_addUser_addCustomerInvalidNameLabel.setTextFill(Color.RED);
+            adminMenu_addUser_addCustomerInvalidNameLabel.setVisible(false);
+            TextField adminMenu_addUser_addCustomerNameTF = new TextField();
+
+            Label adminMenu_addUser_addCustomerEmailLabel = new Label("Enter Email: ");
+            Label adminMenu_addUser_addCustomerInvalidEmailLabel = new Label("Invalid Email!");
+            adminMenu_addUser_addCustomerInvalidEmailLabel.setTextFill(Color.RED);
+            adminMenu_addUser_addCustomerInvalidEmailLabel.setVisible(false);
+            TextField adminMenu_addUser_addCustomerEmailTF = new TextField();
+
+            Button adminMenu_addUser_addCustomerButton = new Button("Add New Customer");
+            Button adminMenu_addUser_addCustomerCancelButton = new Button("Cancel");
+
+            GridPane adminMenu_addUser_addCustomer_GridPane = new GridPane();
+            adminMenu_addUser_addCustomer_GridPane.setHgap(10);
+            adminMenu_addUser_addCustomer_GridPane.setVgap(10);
+            adminMenu_addUser_addCustomer_GridPane.setAlignment(Pos.CENTER);
+            adminMenu_addUser_addCustomer_GridPane.add(adminMenu_addUser_addCustomerNameLabel,0,0);
+            adminMenu_addUser_addCustomer_GridPane.add(adminMenu_addUser_addCustomerNameTF,1,0);
+            adminMenu_addUser_addCustomer_GridPane.add(adminMenu_addUser_addCustomerInvalidNameLabel,2,0);
+            adminMenu_addUser_addCustomer_GridPane.add(adminMenu_addUser_addCustomerEmailLabel,0,1);
+            adminMenu_addUser_addCustomer_GridPane.add(adminMenu_addUser_addCustomerEmailTF,1,1);
+            adminMenu_addUser_addCustomer_GridPane.add(adminMenu_addUser_addCustomerInvalidEmailLabel,2,1);
+            adminMenu_addUser_addCustomer_GridPane.add(adminMenu_addUser_addCustomerButton,1,2);
+            adminMenu_addUser_addCustomer_GridPane.add(adminMenu_addUser_addCustomerCancelButton,1,3);
+
+            Scene scene = new Scene(adminMenu_addUser_addCustomer_GridPane, 600, 250);
+            primaryStage.setScene(scene);
+            adminMenu_addUser_addCustomerButton.setOnAction(e1 -> {
+
+                if (adminMenu_addUser_addCustomerNameTF.getText().equalsIgnoreCase("")) {
+                    adminMenu_addUser_addCustomerInvalidNameLabel.setVisible(true);
+                }
+                else {
+                    adminMenu_addUser_addCustomerInvalidNameLabel.setVisible(false);
+                }
+                if (adminMenu_addUser_addCustomerEmailTF.getText().equalsIgnoreCase("") || !isValidEmailAddress(adminMenu_addUser_addCustomerEmailTF.getText())) {
+                    adminMenu_addUser_addCustomerInvalidEmailLabel.setVisible(true);
+                }
+                else {
+                    adminMenu_addUser_addCustomerInvalidEmailLabel.setVisible(false);
+                }
+                if (adminMenu_addUser_addCustomerNameTF.getText().equalsIgnoreCase("") || adminMenu_addUser_addCustomerEmailTF.getText().equalsIgnoreCase("") || !isValidEmailAddress(adminMenu_addUser_addCustomerEmailTF.getText()))
+                {
+                    if (adminMenu_addUser_addCustomerNameTF.getText().equalsIgnoreCase("")) {
+                        adminMenu_addUser_addCustomerInvalidNameLabel.setVisible(true);
+                    }
+                    else {
+                        adminMenu_addUser_addCustomerInvalidNameLabel.setVisible(false);
+                    }
+                    if (adminMenu_addUser_addCustomerEmailTF.getText().equalsIgnoreCase("") || !isValidEmailAddress(adminMenu_addUser_addCustomerEmailTF.getText())) {
+                        adminMenu_addUser_addCustomerInvalidEmailLabel.setVisible(true);
+                    }
+                    else {
+                        adminMenu_addUser_addCustomerInvalidEmailLabel.setVisible(false);
+                    }
+                }
+                else
+                {
+                    admin.addNewCustomer(adminMenu_addUser_addCustomerNameTF.getText(),adminMenu_addUser_addCustomerEmailTF.getText());
+                    try {
+                        admin.saveData();
+                    } catch (IOException ex) {
+                        Alert adminMenu_addUser_addCustomer_CustomerAdditionFailed = new Alert(Alert.AlertType.ERROR);
+                        adminMenu_addUser_addCustomer_CustomerAdditionFailed.setTitle("Customer ADDITION FAILED");
+                        adminMenu_addUser_addCustomer_CustomerAdditionFailed.setHeaderText("Failed to add Customer to the database");
+                        adminMenu_addUser_addCustomer_CustomerAdditionFailed.showAndWait();
+                        primaryStage.setScene(adminMenuScene);
+                    }
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Add Customer");
+                    alert.setHeaderText("Customer added Successfully!");
+                    alert.showAndWait();
+                    primaryStage.setScene(adminMenuScene);
+                }
+            });
+            adminMenu_addUser_addCustomerCancelButton.setOnAction(e2 -> primaryStage.setScene(adminMenuScene));
 
         });
-        adminMenu_addUser_addSupplier.setOnAction(e -> System.out.println("Add New Supplier"));
-        adminMenu_addUser_back.setOnAction(e -> primaryStage.setScene(adminMenuScene));
+
+        //********************************************************************************
+        //Admin Menu -> Add User Menu -> Add Supplier Button
+        adminMenu_addUser_addSupplier.setOnAction(e -> {
+            Label adminMenu_addUser_addSupplierNameLabel = new Label("Enter Name: ");
+            Label adminMenu_addUser_addSupplierInvalidNameLabel = new Label("Invalid Name!");
+            adminMenu_addUser_addSupplierInvalidNameLabel.setTextFill(Color.RED);
+            adminMenu_addUser_addSupplierInvalidNameLabel.setVisible(false);
+            TextField adminMenu_addUser_addSupplierNameTF = new TextField();
+
+            Label adminMenu_addUser_addSupplierEmailLabel = new Label("Enter Email: ");
+            Label adminMenu_addUser_addSupplierInvalidEmailLabel = new Label("Invalid Email!");
+            adminMenu_addUser_addSupplierInvalidEmailLabel.setTextFill(Color.RED);
+            adminMenu_addUser_addSupplierInvalidEmailLabel.setVisible(false);
+            TextField adminMenu_addUser_addSupplierEmailTF = new TextField();
+
+            Label adminMenu_addUser_addSupplierContactLabel = new Label("Enter Contact info: ");
+            Label adminMenu_addUser_addSupplierInvalidContactLabel = new Label("Invalid Contact!");
+            adminMenu_addUser_addSupplierInvalidContactLabel.setTextFill(Color.RED);
+            adminMenu_addUser_addSupplierInvalidContactLabel.setVisible(false);
+            TextField adminMenu_addUser_addSupplierContactTF = new TextField();
+
+
+            Button adminMenu_addUser_addSupplierButton = new Button("Add New Supplier");
+            Button adminMenu_addUser_addSupplierCancelButton = new Button("Cancel");
+
+            GridPane adminMenu_addUser_addSupplier_GridPane = new GridPane();
+            adminMenu_addUser_addSupplier_GridPane.setHgap(10);
+            adminMenu_addUser_addSupplier_GridPane.setVgap(10);
+            adminMenu_addUser_addSupplier_GridPane.setAlignment(Pos.CENTER);
+            adminMenu_addUser_addSupplier_GridPane.add(adminMenu_addUser_addSupplierNameLabel,0,0);
+            adminMenu_addUser_addSupplier_GridPane.add(adminMenu_addUser_addSupplierNameTF,1,0);
+            adminMenu_addUser_addSupplier_GridPane.add(adminMenu_addUser_addSupplierInvalidNameLabel,2,0);
+            adminMenu_addUser_addSupplier_GridPane.add(adminMenu_addUser_addSupplierEmailLabel,0,1);
+            adminMenu_addUser_addSupplier_GridPane.add(adminMenu_addUser_addSupplierEmailTF,1,1);
+            adminMenu_addUser_addSupplier_GridPane.add(adminMenu_addUser_addSupplierInvalidEmailLabel,2,1);
+            adminMenu_addUser_addSupplier_GridPane.add(adminMenu_addUser_addSupplierContactLabel,0,2);
+            adminMenu_addUser_addSupplier_GridPane.add(adminMenu_addUser_addSupplierContactTF,1,2);
+            adminMenu_addUser_addSupplier_GridPane.add(adminMenu_addUser_addSupplierInvalidContactLabel,2,2);
+            adminMenu_addUser_addSupplier_GridPane.add(adminMenu_addUser_addSupplierButton,1,3);
+            adminMenu_addUser_addSupplier_GridPane.add(adminMenu_addUser_addSupplierCancelButton,2,3);
+
+            Scene scene = new Scene(adminMenu_addUser_addSupplier_GridPane, 600, 250);
+            primaryStage.setScene(scene);
+            adminMenu_addUser_addSupplierButton.setOnAction(e1 -> {
+
+                if (adminMenu_addUser_addSupplierNameTF.getText().equalsIgnoreCase("")) {
+                    adminMenu_addUser_addSupplierInvalidNameLabel.setVisible(true);
+                }
+                else {
+                    adminMenu_addUser_addSupplierInvalidNameLabel.setVisible(false);
+                }
+                if (adminMenu_addUser_addSupplierEmailTF.getText().equalsIgnoreCase("") || !isValidEmailAddress(adminMenu_addUser_addSupplierEmailTF.getText())) {
+                    adminMenu_addUser_addSupplierInvalidEmailLabel.setVisible(true);
+                }
+                else {
+                    adminMenu_addUser_addSupplierInvalidEmailLabel.setVisible(false);
+                }
+                if (adminMenu_addUser_addSupplierContactTF.getText().equalsIgnoreCase(""))
+                {
+                    adminMenu_addUser_addSupplierInvalidContactLabel.setVisible(true);
+                }
+                else {
+                    adminMenu_addUser_addSupplierInvalidContactLabel.setVisible(false);
+                }
+                if (adminMenu_addUser_addSupplierNameTF.getText().equalsIgnoreCase("") || adminMenu_addUser_addSupplierEmailTF.getText().equalsIgnoreCase("") || !isValidEmailAddress(adminMenu_addUser_addSupplierEmailTF.getText()) || adminMenu_addUser_addSupplierContactTF.getText().equalsIgnoreCase(""))
+                {
+                    if (adminMenu_addUser_addSupplierNameTF.getText().equalsIgnoreCase("")) {
+                        adminMenu_addUser_addSupplierInvalidNameLabel.setVisible(true);
+                    }
+                    else {
+                        adminMenu_addUser_addSupplierInvalidNameLabel.setVisible(false);
+                    }
+                    if (adminMenu_addUser_addSupplierEmailTF.getText().equalsIgnoreCase("") || !isValidEmailAddress(adminMenu_addUser_addSupplierEmailTF.getText())) {
+                        adminMenu_addUser_addSupplierInvalidEmailLabel.setVisible(true);
+                    }
+                    else {
+                        adminMenu_addUser_addSupplierInvalidEmailLabel.setVisible(false);
+                    }
+                    if (adminMenu_addUser_addSupplierContactTF.getText().equalsIgnoreCase(""))
+                    {
+                        adminMenu_addUser_addSupplierInvalidContactLabel.setVisible(true);
+                    }
+                    else {
+                        adminMenu_addUser_addSupplierInvalidContactLabel.setVisible(false);
+                    }
+                }
+                else
+                {
+                    admin.addNewSupplier(adminMenu_addUser_addSupplierNameTF.getText(),adminMenu_addUser_addSupplierEmailTF.getText(),adminMenu_addUser_addSupplierContactTF.getText());
+                    try {
+                        admin.saveData();
+                    } catch (IOException ex) {
+                        Alert adminMenu_addUser_addSupplier_SupplierAdditionFailed = new Alert(Alert.AlertType.ERROR);
+                        adminMenu_addUser_addSupplier_SupplierAdditionFailed.setTitle("Supplier ADDITION FAILED");
+                        adminMenu_addUser_addSupplier_SupplierAdditionFailed.setHeaderText("Failed to add Supplier to the database");
+                        adminMenu_addUser_addSupplier_SupplierAdditionFailed.showAndWait();
+                        primaryStage.setScene(adminMenuScene);
+                    }
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Add Supplier");
+                    alert.setHeaderText("Supplier added Successfully!");
+                    alert.showAndWait();
+                    primaryStage.setScene(adminMenuScene);
+                }
+            });
+            adminMenu_addUser_addSupplierCancelButton.setOnAction(e2 -> primaryStage.setScene(adminMenuScene));
+        });
 
         //***********************************************************
+        //Admin Menu -> Edit User Menu
         Label label7 = new Label("Click on your choice");
         Button editCashier = new Button("Edit Cashier");
         Button editCustomer = new Button("Edit Customer");
@@ -518,13 +723,277 @@ public class JavaFXMain extends Application {
         vbox5.setSpacing(10);
         scene7 = new Scene(vbox5, 300, 250);
         adminMenu_editUser.setOnAction(e -> primaryStage.setScene(scene7));
-
-        editCashier.setOnAction(e -> System.out.println("Edit Cashier"));
-        editCustomer.setOnAction(e -> System.out.println("Edit Customer"));
-        editSupplier.setOnAction(e -> System.out.println("Edit Supplier"));
         back2.setOnAction(e -> primaryStage.setScene(adminMenuScene));
 
+        //************************************************************
+        //Admin Menu -> Edit User Menu -> Edit Cashier Button
+        editCashier.setOnAction(e -> {
+            GridPane adminMenu_editUser_editCashierGridPane = new GridPane();
+            adminMenu_editUser_editCashierGridPane.setAlignment(Pos.CENTER);
+            adminMenu_editUser_editCashierGridPane.setHgap(10);
+            adminMenu_editUser_editCashierGridPane.setVgap(10);
+
+            Label adminMenu_editUser_editCashierID = new Label("Cashier ID: ");
+            TextField adminMenu_editUser_editCashierIDTF = new TextField();
+            Label adminMenu_editUser_editCashierInvalidIDLabel = new Label("Cashier ID Invalid");
+            adminMenu_editUser_editCashierInvalidIDLabel.setTextFill(Color.RED);
+            adminMenu_editUser_editCashierInvalidIDLabel.setVisible(false);
+
+            Label adminMenu_editUser_editCashierField = new Label("Enter edit field: ");
+            TextField adminMenu_editUser_editCashierFieldTF = new TextField();
+            Label adminMenu_editUser_editCashierInvalidFieldLabel = new Label("Only Name Or E-mail can be used!");
+            adminMenu_editUser_editCashierInvalidFieldLabel.setTextFill(Color.RED);
+            adminMenu_editUser_editCashierInvalidFieldLabel.setVisible(false);
+
+            Label adminMenu_editUser_editCashierValue = new Label("Enter edit value: ");
+            TextField adminMenu_editUser_editCashierValueTF = new TextField();
+
+            Button adminMenu_editUser_editCashierCancelButton = new Button("Cancel");
+            Button adminMenu_editUser_editCashierSaveButton = new Button("Save");
+
+            adminMenu_editUser_editCashierGridPane.add(adminMenu_editUser_editCashierID, 0, 0);
+            adminMenu_editUser_editCashierGridPane.add(adminMenu_editUser_editCashierIDTF, 1, 0);
+            adminMenu_editUser_editCashierGridPane.add(adminMenu_editUser_editCashierInvalidIDLabel, 2, 0);
+            adminMenu_editUser_editCashierGridPane.add(adminMenu_editUser_editCashierField, 0, 1);
+            adminMenu_editUser_editCashierGridPane.add(adminMenu_editUser_editCashierFieldTF, 1, 1);
+            adminMenu_editUser_editCashierGridPane.add(adminMenu_editUser_editCashierInvalidFieldLabel, 2, 1);
+            adminMenu_editUser_editCashierGridPane.add(adminMenu_editUser_editCashierValue, 0, 2);
+            adminMenu_editUser_editCashierGridPane.add(adminMenu_editUser_editCashierValueTF, 1, 2);
+            adminMenu_editUser_editCashierGridPane.add(adminMenu_editUser_editCashierCancelButton, 1, 3);
+            adminMenu_editUser_editCashierGridPane.add(adminMenu_editUser_editCashierSaveButton, 0, 3);
+
+            Scene scene = new Scene(adminMenu_editUser_editCashierGridPane,400,400);
+            primaryStage.setScene(scene);
+
+            adminMenu_editUser_editCashierSaveButton.setOnAction(e1 ->{
+                if (!CheckCashierExistence(admin,adminMenu_editUser_editCashierIDTF.getText()))
+                {
+                    adminMenu_editUser_editCashierInvalidIDLabel.setVisible(true);
+                }
+                else {
+                    adminMenu_editUser_editCashierInvalidIDLabel.setVisible(false);
+                }
+                if (!(adminMenu_editUser_editCashierFieldTF.getText().equalsIgnoreCase("name") || adminMenu_editUser_editCashierFieldTF.getText().equalsIgnoreCase("email")) || adminMenu_editUser_editCashierFieldTF.getText().equalsIgnoreCase("")) {
+                    adminMenu_editUser_editCashierInvalidFieldLabel.setVisible(true);
+                }
+                else {
+                    adminMenu_editUser_editCashierInvalidFieldLabel.setVisible(false);
+                }
+                if (!CheckCashierExistence(admin,adminMenu_editUser_editCashierIDTF.getText()) ||!(adminMenu_editUser_editCashierFieldTF.getText().equalsIgnoreCase("name") || adminMenu_editUser_editCashierFieldTF.getText().equalsIgnoreCase("email")) || adminMenu_editUser_editCashierFieldTF.getText().equalsIgnoreCase("")){
+                    if (!CheckCashierExistence(admin,adminMenu_editUser_editCashierIDTF.getText()))
+                    {
+                        adminMenu_editUser_editCashierInvalidIDLabel.setVisible(true);
+                    }
+                    else {
+                        adminMenu_editUser_editCashierInvalidIDLabel.setVisible(false);
+                    }
+                    if (!(adminMenu_editUser_editCashierFieldTF.getText().equalsIgnoreCase("name") || adminMenu_editUser_editCashierFieldTF.getText().equalsIgnoreCase("email")) || adminMenu_editUser_editCashierFieldTF.getText().equalsIgnoreCase("")) {
+                        adminMenu_editUser_editCashierInvalidFieldLabel.setVisible(true);
+                    }
+                    else {
+                        adminMenu_editUser_editCashierInvalidFieldLabel.setVisible(false);
+                    }
+                }
+                else {
+                    admin.editCashier(adminMenu_editUser_editCashierIDTF.getText(),adminMenu_editUser_editCashierFieldTF.getText(),adminMenu_editUser_editCashierValueTF.getText());
+                    try {
+                        admin.saveData();
+                    } catch (IOException ex) {
+                        Alert adminMenu_editUser_editCashier_CashierAdditionFailed = new Alert(Alert.AlertType.ERROR);
+                        adminMenu_editUser_editCashier_CashierAdditionFailed.setTitle("CASHIER EDITING FAILED");
+                        adminMenu_editUser_editCashier_CashierAdditionFailed.setHeaderText("Failed to edit cashier in the database");
+                        adminMenu_editUser_editCashier_CashierAdditionFailed.showAndWait();
+                        primaryStage.setScene(adminMenuScene);
+                    }
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Edit Cashier");
+                    alert.setHeaderText("Cashier edited Successfully!");
+                    alert.showAndWait();
+                    primaryStage.setScene(adminMenuScene);
+                }
+            });
+        });
+
+        //*************************************************************
+        //Admin Menu -> Edit User Menu -> Edit Customer Button
+        editCustomer.setOnAction(e -> {
+            GridPane adminMenu_editUser_editCustomerGridPane = new GridPane();
+            adminMenu_editUser_editCustomerGridPane.setAlignment(Pos.CENTER);
+            adminMenu_editUser_editCustomerGridPane.setHgap(10);
+            adminMenu_editUser_editCustomerGridPane.setVgap(10);
+
+            Label adminMenu_editUser_editCustomerID = new Label("Customer ID: ");
+            TextField adminMenu_editUser_editCustomerIDTF = new TextField();
+            Label adminMenu_editUser_editCustomerInvalidIDLabel = new Label("Customer ID Invalid");
+            adminMenu_editUser_editCustomerInvalidIDLabel.setTextFill(Color.RED);
+            adminMenu_editUser_editCustomerInvalidIDLabel.setVisible(false);
+
+            Label adminMenu_editUser_editCustomerField = new Label("Enter edit field: ");
+            TextField adminMenu_editUser_editCustomerFieldTF = new TextField();
+            Label adminMenu_editUser_editCustomerInvalidFieldLabel = new Label("Only Name Or E-mail can be used!");
+            adminMenu_editUser_editCustomerInvalidFieldLabel.setTextFill(Color.RED);
+            adminMenu_editUser_editCustomerInvalidFieldLabel.setVisible(false);
+
+            Label adminMenu_editUser_editCustomerValue = new Label("Enter edit value: ");
+            TextField adminMenu_editUser_editCustomerValueTF = new TextField();
+
+            Button adminMenu_editUser_editCustomerCancelButton = new Button("Cancel");
+            Button adminMenu_editUser_editCustomerSaveButton = new Button("Save");
+
+            adminMenu_editUser_editCustomerGridPane.add(adminMenu_editUser_editCustomerID, 0, 0);
+            adminMenu_editUser_editCustomerGridPane.add(adminMenu_editUser_editCustomerIDTF, 1, 0);
+            adminMenu_editUser_editCustomerGridPane.add(adminMenu_editUser_editCustomerInvalidIDLabel, 2, 0);
+            adminMenu_editUser_editCustomerGridPane.add(adminMenu_editUser_editCustomerField, 0, 1);
+            adminMenu_editUser_editCustomerGridPane.add(adminMenu_editUser_editCustomerFieldTF, 1, 1);
+            adminMenu_editUser_editCustomerGridPane.add(adminMenu_editUser_editCustomerInvalidFieldLabel, 2, 1);
+            adminMenu_editUser_editCustomerGridPane.add(adminMenu_editUser_editCustomerValue, 0, 2);
+            adminMenu_editUser_editCustomerGridPane.add(adminMenu_editUser_editCustomerValueTF, 1, 2);
+            adminMenu_editUser_editCustomerGridPane.add(adminMenu_editUser_editCustomerCancelButton, 1, 3);
+            adminMenu_editUser_editCustomerGridPane.add(adminMenu_editUser_editCustomerSaveButton, 0, 3);
+
+            Scene scene = new Scene(adminMenu_editUser_editCustomerGridPane,400,400);
+            primaryStage.setScene(scene);
+
+            adminMenu_editUser_editCustomerSaveButton.setOnAction(e1 ->{
+                if (!CheckCustomerExistence(admin,adminMenu_editUser_editCustomerIDTF.getText()))
+                {
+                    adminMenu_editUser_editCustomerInvalidIDLabel.setVisible(true);
+                }
+                else {
+                    adminMenu_editUser_editCustomerInvalidIDLabel.setVisible(false);
+                }
+                if (!(adminMenu_editUser_editCustomerFieldTF.getText().equalsIgnoreCase("name") || adminMenu_editUser_editCustomerFieldTF.getText().equalsIgnoreCase("email")) || adminMenu_editUser_editCustomerFieldTF.getText().equalsIgnoreCase("")) {
+                    adminMenu_editUser_editCustomerInvalidFieldLabel.setVisible(true);
+                }
+                else {
+                    adminMenu_editUser_editCustomerInvalidFieldLabel.setVisible(false);
+                }
+                if (!CheckCustomerExistence(admin,adminMenu_editUser_editCustomerIDTF.getText()) ||!(adminMenu_editUser_editCustomerFieldTF.getText().equalsIgnoreCase("name") || adminMenu_editUser_editCustomerFieldTF.getText().equalsIgnoreCase("email")) || adminMenu_editUser_editCustomerFieldTF.getText().equalsIgnoreCase("")){
+                    if (!CheckCustomerExistence(admin,adminMenu_editUser_editCustomerIDTF.getText()))
+                    {
+                        adminMenu_editUser_editCustomerInvalidIDLabel.setVisible(true);
+                    }
+                    else {
+                        adminMenu_editUser_editCustomerInvalidIDLabel.setVisible(false);
+                    }
+                    if (!(adminMenu_editUser_editCustomerFieldTF.getText().equalsIgnoreCase("name") || adminMenu_editUser_editCustomerFieldTF.getText().equalsIgnoreCase("email")) || adminMenu_editUser_editCustomerFieldTF.getText().equalsIgnoreCase("")) {
+                        adminMenu_editUser_editCustomerInvalidFieldLabel.setVisible(true);
+                    }
+                    else {
+                        adminMenu_editUser_editCustomerInvalidFieldLabel.setVisible(false);
+                    }
+                }
+                else {
+                    admin.editCustomer(adminMenu_editUser_editCustomerIDTF.getText(),adminMenu_editUser_editCustomerFieldTF.getText(),adminMenu_editUser_editCustomerValueTF.getText());
+                    try {
+                        admin.saveData();
+                    } catch (IOException ex) {
+                        Alert adminMenu_editUser_editCustomer_CustomerAdditionFailed = new Alert(Alert.AlertType.ERROR);
+                        adminMenu_editUser_editCustomer_CustomerAdditionFailed.setTitle("CUSTOMER EDITING FAILED");
+                        adminMenu_editUser_editCustomer_CustomerAdditionFailed.setHeaderText("Failed to edit cashier in the database");
+                        adminMenu_editUser_editCustomer_CustomerAdditionFailed.showAndWait();
+                        primaryStage.setScene(adminMenuScene);
+                    }
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Edit Customer");
+                    alert.setHeaderText("Customer edited Successfully!");
+                    alert.showAndWait();
+                    primaryStage.setScene(adminMenuScene);
+                }
+            });
+        });
+
+        //*************************************************************
+        //Admin Menu -> Edit User Menu -> Edit Supplier Button
+        editSupplier.setOnAction(e -> {
+            GridPane adminMenu_editUser_editSupplierGridPane = new GridPane();
+            adminMenu_editUser_editSupplierGridPane.setAlignment(Pos.CENTER);
+            adminMenu_editUser_editSupplierGridPane.setHgap(10);
+            adminMenu_editUser_editSupplierGridPane.setVgap(10);
+
+            Label adminMenu_editUser_editSupplierID = new Label("Supplier ID: ");
+            TextField adminMenu_editUser_editSupplierIDTF = new TextField();
+            Label adminMenu_editUser_editSupplierInvalidIDLabel = new Label("Supplier ID Invalid");
+            adminMenu_editUser_editSupplierInvalidIDLabel.setTextFill(Color.RED);
+            adminMenu_editUser_editSupplierInvalidIDLabel.setVisible(false);
+
+            Label adminMenu_editUser_editSupplierField = new Label("Enter edit field: ");
+            TextField adminMenu_editUser_editSupplierFieldTF = new TextField();
+            Label adminMenu_editUser_editSupplierInvalidFieldLabel = new Label("Only Name Or E-mail can be used!");
+            adminMenu_editUser_editSupplierInvalidFieldLabel.setTextFill(Color.RED);
+            adminMenu_editUser_editSupplierInvalidFieldLabel.setVisible(false);
+
+            Label adminMenu_editUser_editSupplierValue = new Label("Enter edit value: ");
+            TextField adminMenu_editUser_editSupplierValueTF = new TextField();
+
+            Button adminMenu_editUser_editSupplierCancelButton = new Button("Cancel");
+            Button adminMenu_editUser_editSupplierSaveButton = new Button("Save");
+
+            adminMenu_editUser_editSupplierGridPane.add(adminMenu_editUser_editSupplierID, 0, 0);
+            adminMenu_editUser_editSupplierGridPane.add(adminMenu_editUser_editSupplierIDTF, 1, 0);
+            adminMenu_editUser_editSupplierGridPane.add(adminMenu_editUser_editSupplierInvalidIDLabel, 2, 0);
+            adminMenu_editUser_editSupplierGridPane.add(adminMenu_editUser_editSupplierField, 0, 1);
+            adminMenu_editUser_editSupplierGridPane.add(adminMenu_editUser_editSupplierFieldTF, 1, 1);
+            adminMenu_editUser_editSupplierGridPane.add(adminMenu_editUser_editSupplierInvalidFieldLabel, 2, 1);
+            adminMenu_editUser_editSupplierGridPane.add(adminMenu_editUser_editSupplierValue, 0, 2);
+            adminMenu_editUser_editSupplierGridPane.add(adminMenu_editUser_editSupplierValueTF, 1, 2);
+            adminMenu_editUser_editSupplierGridPane.add(adminMenu_editUser_editSupplierCancelButton, 1, 3);
+            adminMenu_editUser_editSupplierGridPane.add(adminMenu_editUser_editSupplierSaveButton, 0, 3);
+
+            Scene scene = new Scene(adminMenu_editUser_editSupplierGridPane,400,400);
+            primaryStage.setScene(scene);
+
+            adminMenu_editUser_editSupplierSaveButton.setOnAction(e1 ->{
+                if (!CheckSupplierExistence(admin,adminMenu_editUser_editSupplierIDTF.getText()))
+                {
+                    adminMenu_editUser_editSupplierInvalidIDLabel.setVisible(true);
+                }
+                else {
+                    adminMenu_editUser_editSupplierInvalidIDLabel.setVisible(false);
+                }
+                if (!(adminMenu_editUser_editSupplierFieldTF.getText().equalsIgnoreCase("name") || adminMenu_editUser_editSupplierFieldTF.getText().equalsIgnoreCase("email")) || adminMenu_editUser_editSupplierFieldTF.getText().equalsIgnoreCase("")) {
+                    adminMenu_editUser_editSupplierInvalidFieldLabel.setVisible(true);
+                }
+                else {
+                    adminMenu_editUser_editSupplierInvalidFieldLabel.setVisible(false);
+                }
+                if (!CheckSupplierExistence(admin,adminMenu_editUser_editSupplierIDTF.getText()) ||!(adminMenu_editUser_editSupplierFieldTF.getText().equalsIgnoreCase("name") || adminMenu_editUser_editSupplierFieldTF.getText().equalsIgnoreCase("email")) || adminMenu_editUser_editSupplierFieldTF.getText().equalsIgnoreCase("")){
+                    if (!CheckSupplierExistence(admin,adminMenu_editUser_editSupplierIDTF.getText()))
+                    {
+                        adminMenu_editUser_editSupplierInvalidIDLabel.setVisible(true);
+                    }
+                    else {
+                        adminMenu_editUser_editSupplierInvalidIDLabel.setVisible(false);
+                    }
+                    if (!(adminMenu_editUser_editSupplierFieldTF.getText().equalsIgnoreCase("name") || adminMenu_editUser_editSupplierFieldTF.getText().equalsIgnoreCase("email")) || adminMenu_editUser_editSupplierFieldTF.getText().equalsIgnoreCase("")) {
+                        adminMenu_editUser_editSupplierInvalidFieldLabel.setVisible(true);
+                    }
+                    else {
+                        adminMenu_editUser_editSupplierInvalidFieldLabel.setVisible(false);
+                    }
+                }
+                else {
+                    admin.editSupplier(adminMenu_editUser_editSupplierIDTF.getText(),adminMenu_editUser_editSupplierFieldTF.getText(),adminMenu_editUser_editSupplierValueTF.getText());
+                    try {
+                        admin.saveData();
+                    } catch (IOException ex) {
+                        Alert adminMenu_editUser_editSupplier_SupplierAdditionFailed = new Alert(Alert.AlertType.ERROR);
+                        adminMenu_editUser_editSupplier_SupplierAdditionFailed.setTitle("SUPPLIER EDITING FAILED");
+                        adminMenu_editUser_editSupplier_SupplierAdditionFailed.setHeaderText("Failed to edit cashier in the database");
+                        adminMenu_editUser_editSupplier_SupplierAdditionFailed.showAndWait();
+                        primaryStage.setScene(adminMenuScene);
+                    }
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Edit Supplier");
+                    alert.setHeaderText("Supplier edited Successfully!");
+                    alert.showAndWait();
+                    primaryStage.setScene(adminMenuScene);
+                }
+            });
+        });
+
         //***********************************************************
+        //Admin Menu -> Remove User Menu
         Label label8 = new Label("Click on you choice");
         Button removeCashier = new Button("Remove Cashier");
         Button removeCustomer = new Button("Remove Customer");
@@ -536,13 +1005,22 @@ public class JavaFXMain extends Application {
         vbox6.setSpacing(10);
         scene8 = new Scene(vbox6, 300, 250);
         adminMenu_removeUser.setOnAction(e -> primaryStage.setScene(scene8));
-
-        removeCashier.setOnAction(e -> System.out.println("Remove Cashier"));
-        removeCustomer.setOnAction(e -> System.out.println("Remove Customer"));
-        removeSupplier.setOnAction(e -> System.out.println("Remove Supplier"));
         back3.setOnAction(e -> primaryStage.setScene(adminMenuScene));
 
+        //*****************************************************************
+        //Admin Menu -> Remove User Menu -> Remove Cashier Button
+        removeCashier.setOnAction(e -> System.out.println("Remove Cashier"));
+
+        //*****************************************************************
+        //Admin Menu -> Remove User Menu -> Remove Customer Button
+        removeCustomer.setOnAction(e -> System.out.println("Remove Customer"));
+
+        //*****************************************************************
+        //Admin Menu -> Remove User Menu -> Remove Supplier Button
+        removeSupplier.setOnAction(e -> System.out.println("Remove Supplier"));
+
         //***********************************************************
+        //Admin Menu -> Search User Menu
         Label label9 = new Label("Click on your choice");
         Button searchCashier = new Button("Search for a Cashier");
         Button searchCustomer = new Button("Search for a Customer");
@@ -554,8 +1032,10 @@ public class JavaFXMain extends Application {
         vbox7.setSpacing(10);
         scene9 = new Scene(vbox7, 300, 250);
         adminMenu_searchUser.setOnAction(e -> primaryStage.setScene(scene9));
+        back4.setOnAction(e -> primaryStage.setScene(adminMenuScene));
 
         //****************************************************************************
+        //Admin Menu -> Search User Menu -> Search Cashier Button
         searchCashier.setOnAction(e -> {
             GridPane adminMenu_searchCashierGridPane = new GridPane();
             adminMenu_searchCashierGridPane.setAlignment(Pos.CENTER);
@@ -621,6 +1101,7 @@ public class JavaFXMain extends Application {
         });
 
         //*************************************************************************************
+        //Admin Menu -> Search User Menu -> Search Customer Button
         searchCustomer.setOnAction(e -> {
             GridPane adminMenu_searchCustomerGridPane = new GridPane();
             adminMenu_searchCustomerGridPane.setAlignment(Pos.CENTER);
@@ -686,6 +1167,7 @@ public class JavaFXMain extends Application {
         });
 
         //*****************************************************************************
+        //Admin Menu -> Search User Menu -> Search Supplier Button
         searchSupplier.setOnAction(e -> {
             GridPane adminMenu_searchSupplierGridPane = new GridPane();
             adminMenu_searchSupplierGridPane.setAlignment(Pos.CENTER);
@@ -751,10 +1233,8 @@ public class JavaFXMain extends Application {
         });
 
 
-
-        back4.setOnAction(e -> primaryStage.setScene(adminMenuScene));
-
         //***********************************************************
+        //Admin Menu -> User Report Menu
         Label label10 = new Label("Click on your choice");
         Button cashierReport = new Button("View Report About Cashiers");
         Button customerReport = new Button("View Report About Customers");
@@ -766,39 +1246,98 @@ public class JavaFXMain extends Application {
         vbox8.setSpacing(10);
         scene10 = new Scene(vbox8, 300, 250);
         adminMenu_userReport.setOnAction(e -> primaryStage.setScene(scene10));
-
-        cashierReport.setOnAction(e -> System.out.println("View Report About Cashiers"));
-        customerReport.setOnAction(e -> System.out.println("View Report About Customers"));
-        supplierReport.setOnAction(e -> System.out.println("View Report About Suppliers"));
         back5.setOnAction(e -> primaryStage.setScene(adminMenuScene));
 
+        //********************************************************************************
+        //Admin Menu -> User Report Menu -> Cashier Report Button
+        cashierReport.setOnAction(e -> System.out.println("View Report About Cashiers"));
+
+        //********************************************************************************
+        //Admin Menu -> User Report Menu -> Customer Report Button
+        customerReport.setOnAction(e -> System.out.println("View Report About Customers"));
+
+        //********************************************************************************
+        //Admin Menu -> User Report Menu -> Supplier Report Button
+        supplierReport.setOnAction(e -> System.out.println("View Report About Suppliers"));
+
         //***********************************************************
+        //Customer Menu
+        Scene customerMenuScene;
+        //Customer customerObject = null;
         Label label3 = new Label("What would you like to do?");
         Button viewOrders = new Button("View Orders History");
         Button rateOrder = new Button("Rate Order");
         Button LogOut = new Button("Log Out");
-        viewOrders.setOnAction(e -> System.out.println("View Orders History"));
-        LogOut.setOnAction(e -> primaryStage.setScene(mainMenuScene));
 
         VBox vbox = new VBox(label3, viewOrders, rateOrder, LogOut);
         vbox.setAlignment(Pos.CENTER);
         vbox.setSpacing(10);
-        scene2 = new Scene(vbox, 300, 250);
-        customer.setOnAction(e -> primaryStage.setScene(scene2));
+        customerMenuScene = new Scene(vbox, 300, 250);
+        customer.setOnAction(e -> primaryStage.setScene(customerMenuScene));
+        LogOut.setOnAction(e -> primaryStage.setScene(mainMenuScene));
 
-        //*****************************************************
-        Label label4 = new Label("Rate:");
-        TextField textField = new TextField();
-        Button bt = new Button("Done");
-        HBox hb = new HBox();
-        hb.getChildren().addAll(label4, textField, bt);
-        hb.setAlignment(Pos.CENTER);
-        hb.setSpacing(10);
-        scene3 = new Scene(hb, 300, 50);
-        rateOrder.setOnAction(e -> primaryStage.setScene(scene3));
-        bt.setOnAction(e -> primaryStage.setScene(scene2));
+        //*************************************************************
+        //Customer Login
+        Scene customerLoginScene;
+        PasswordField customerPasswordTextField = new PasswordField();
+        String enteredId = customerPasswordTextField.getText();
+        Label customerPasswordLabel = new Label("ID: ");
+        Label customerWrongPasswordLabel = new Label("This ID does not exist, try again");
+        customerWrongPasswordLabel.setTextFill(Color.RED);
+        customerWrongPasswordLabel.setVisible(false);
+        Button customerPasswordBackButton = new Button("Back");
+
+        HBox customerLoginHBox = new HBox(customerPasswordLabel, customerPasswordTextField, customerPasswordBackButton);
+        customerLoginHBox.setAlignment(Pos.CENTER);
+        customerLoginHBox.setSpacing(10);
+
+        VBox customerLoginVBox = new VBox(customerLoginHBox, customerWrongPasswordLabel);
+        customerLoginVBox.setAlignment(Pos.CENTER);
+        customerLoginVBox.setSpacing(10);
+
+        customerLoginScene = new Scene(customerLoginVBox, 400, 400);
+
+        customerPasswordBackButton.setOnAction(e -> primaryStage.setScene(customerMenuScene));
+        customer.setOnAction(e -> primaryStage.setScene(customerLoginScene));
+
+        //***********************************************************************************
+        customerPasswordTextField.setOnAction(e -> {
+            if (CheckCustomerExistence(admin, customerPasswordTextField.getText())) {
+                customerPasswordTextField.setText("");
+                primaryStage.setScene(customerMenuScene);
+
+                //**********************************************************************************
+                //Customer Menu -> View Orders History Button
+                TextArea textArea = new TextArea();
+                Scene customerMenu_viewOrder_scene = new Scene(textArea, 300, 250);
+                viewOrders.setOnAction(e1 -> {
+                    admin.searchCustomerByField("id", enteredId).displayOrderHistory(textArea);
+                    primaryStage.setScene(customerMenu_viewOrder_scene);
+                });
+
+                //**********************************************************************************
+                //Customer Menu -> Rate Order Button
+                //this will get changed
+                Scene customerMenu_rateOrder_scene;
+                Label label4 = new Label("Rate:");
+                TextField textField = new TextField();
+                Button bt = new Button("Done");
+                HBox hb = new HBox();
+                hb.getChildren().addAll(label4, textField, bt);
+                hb.setAlignment(Pos.CENTER);
+                hb.setSpacing(10);
+                customerMenu_rateOrder_scene = new Scene(hb, 300, 50);
+                rateOrder.setOnAction(e1 -> primaryStage.setScene(customerMenu_rateOrder_scene));
+                bt.setOnAction(e1 -> primaryStage.setScene(customerMenuScene));
+            }
+            else {
+                customerPasswordTextField.setText("");
+                customerWrongPasswordLabel.setVisible(true);
+            }
+        });
 
         //**********************************************************
+        //Cashier Menu
         Label label5 = new Label("What would you like to do?");
         Button createCart = new Button("Create Cart");
         Button addProToCart = new Button("Add Product to Cart");
@@ -812,14 +1351,29 @@ public class JavaFXMain extends Application {
         vbox3.setSpacing(10);
         scene5 = new Scene(vbox3, 300, 250);
         cashier.setOnAction(e -> primaryStage.setScene(scene5));
-
-        createCart.setOnAction(e -> System.out.println("Create Cart"));
-        addProToCart.setOnAction(e -> System.out.println("Add Product to Cart"));
-        removeProFromCart.setOnAction(e -> System.out.println("Remove Product from Cart"));
-        payment.setOnAction(e -> System.out.println("Calculate Payment"));
-        cancelCart.setOnAction(e -> System.out.println("Cancel Cart"));
         lg.setOnAction(e -> primaryStage.setScene(mainMenuScene));
 
+        //**************************************************************
+        //Cashier Menu -> Create Cart Button
+        createCart.setOnAction(e -> System.out.println("Create Cart"));
+
+        //**************************************************************
+        //Cashier Menu -> Add Product to Cart Button
+        addProToCart.setOnAction(e -> System.out.println("Add Product to Cart"));
+
+        //**************************************************************
+        //Cashier Menu -> Remove Product from Cart Button
+        removeProFromCart.setOnAction(e -> System.out.println("Remove Product from Cart"));
+
+        //**************************************************************
+        //Cashier Menu -> Calculate Payment Button
+        payment.setOnAction(e -> System.out.println("Calculate Payment"));
+
+        //**************************************************************
+        //Cashier Menu -> Cancel Cart
+        cancelCart.setOnAction(e -> System.out.println("Cancel Cart"));
+
+        //**************************************************************
 
         primaryStage.show();
     }
@@ -840,7 +1394,7 @@ public class JavaFXMain extends Application {
     }
 
     public static boolean CheckCustomerExistence(Admin admin, String customerId) {
-       return (admin.searchCustomerByField("id", customerId) != null);
+        return (admin.searchCustomerByField("id", customerId) != null);
     }
     public static boolean CheckCashierExistence(Admin admin, String cashierId) {
         return (admin.searchCashierByField("id", cashierId) != null);
