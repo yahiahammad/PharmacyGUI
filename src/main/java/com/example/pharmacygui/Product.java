@@ -29,6 +29,7 @@ public class Product {
     }
     public Product(Product p) {
         productId = p.getProductId();
+        n++;
         name = p.getName();
         price = p.getPrice();
         quantity = p.getQuantity();

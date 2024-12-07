@@ -18,11 +18,13 @@ public class Cashier extends User{
     public Cashier(String name,String id, String email) {
         super(name, Role.CASHIER, email);
         this.id = id;
+        n++;
         orderHandled = new ArrayList<>();
     }
 
     public Cashier(Cashier cashier) {
         id = cashier.id;
+        n++;
         name = cashier.name;
         email = cashier.email;
         role = cashier.role;

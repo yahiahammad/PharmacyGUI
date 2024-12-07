@@ -355,7 +355,6 @@ Admin extends User{
                     return;
                 }
             }
-            System.out.println("Product not found");
         }
     }
 
@@ -469,7 +468,6 @@ Admin extends User{
                     return;
                 }
             }
-            System.out.println("Customer not found");
         }
     }
 
@@ -562,7 +560,6 @@ Admin extends User{
         if(!exists) {
             Supplier supplier = new Supplier(sName, sEmail, sContactInfo);
             suppliers.add(supplier);
-            System.out.println("Supplier added successfully to the pharmacy");
         }
     }
 
@@ -582,7 +579,6 @@ Admin extends User{
                     return;
                 }
             }
-            System.out.println("Supplier not found");
         }
     }
 

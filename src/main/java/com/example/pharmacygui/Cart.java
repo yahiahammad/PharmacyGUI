@@ -45,6 +45,7 @@ public class Cart {
 
     public Cart(String id, Status status, Customer customer, Cashier cashier, double totalPrice, LocalDate orderDate) {
         this.id = id;
+        n++;
         this.status = status;
         this.customer = customer;
         this.cashier = cashier;

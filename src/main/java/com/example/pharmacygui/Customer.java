@@ -19,11 +19,13 @@ public class Customer extends User{
     public Customer(String name, String email, String id) {
         super(name, Role.CUSTOMER, email);
         this.id = id;
+        n++;
         orderHistory = new ArrayList<>();
     }
 
     public Customer(Customer customer) {
         id = customer.id;
+        n++;
         name = customer.name;
         email = customer.email;
         role = customer.role;
