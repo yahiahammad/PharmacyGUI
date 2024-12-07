@@ -15,6 +15,9 @@ import javafx.stage.Stage;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.concurrent.TimeUnit;
+
+import static java.lang.System.in;
 
 
 public class JavaFXMain extends Application {
@@ -945,6 +948,63 @@ public class JavaFXMain extends Application {
         scene8 = new Scene(vbox6, 300, 250);
         adminMenu_removeUser.setOnAction(e -> primaryStage.setScene(scene8));
         back3.setOnAction(e -> primaryStage.setScene(adminMenuScene));
+
+        removeCustomer.setOnAction(e-> {
+            FlowPane removeCustomer_pane = new FlowPane();
+            removeCustomer_pane.setAlignment(Pos.CENTER);
+
+            Label removeCustomerLabel = new Label("Please enter the id of the Customer to be removed:");
+            TextField removeCustomerID_textField = new TextField();
+
+            removeCustomer_pane.getChildren().addAll(removeCustomerLabel, removeCustomerID_textField);
+
+            String customerId = removeCustomerID_textField.getText();
+            if(CheckCustomerExistence(admin,removeCustomerID_textField.getText() )){
+                admin.removeCustomer(admin.searchCustomerByField("id", customerId).getId());
+                Label checkCustomerExistence_exists=new Label("Customer with this id has been removed");
+                removeCustomer_pane.getChildren().add(checkCustomerExistence_exists);
+            }else{
+                Label checkCustomerExistence_doesntexists=new Label("Customer with this id isnt avaialable to remove");
+                removeCustomer_pane.getChildren().add(checkCustomerExistence_doesntexists);
+            }
+
+            Scene removeCustomer_scene= new Scene(removeCustomer_pane, 300, 250);
+            primaryStage.setScene(removeCustomer_scene);
+            primaryStage.setTitle("Entry of Customer info to remove");
+            primaryStage.show();
+
+            }
+
+        );
+
+        removeSupplier.setOnAction(e-> {
+                    FlowPane removeSupplier_pane = new FlowPane();
+                    removeSupplier_pane.setAlignment(Pos.CENTER);
+
+                    Label removeSupplierLabel = new Label("Please enter the id of the supplier to be removed:");
+                    TextField removeSupplierID_textField = new TextField();
+
+                    removeSupplier_pane.getChildren().addAll(removeSupplierID_textField, removeSupplierID_textField);
+
+                    String SupplierId = removeSupplierID_textField.getText();
+                    if(CheckSupplierExistence(admin,removeSupplierID_textField.getText() )){
+                        admin.removeSupplier(admin.searchCustomerByField("id", SupplierId).getId());
+                        Label checkSupplierExistence_exists=new Label("Supplier with this id has been removed");
+                        removeSupplier_pane.getChildren().add(checkSupplierExistence_exists);
+                    }else{
+                        Label checkSupplierExistence_doesntexists=new Label("Supplier with this id isnt avaialable to remove");
+                        removeSupplier_pane.getChildren().add(checkSupplierExistence_doesntexists);
+                    }
+
+                    Scene removeSupplier_scene= new Scene(removeSupplier_pane, 300, 250);
+                    primaryStage.setScene(removeSupplier_scene);
+                    primaryStage.setTitle("Entry of Supplier info to remove");
+                    primaryStage.show();
+
+                }
+
+        );
+
 
         //*****************************************************************
         //Admin Menu -> Remove User Menu -> Remove Cashier Button
