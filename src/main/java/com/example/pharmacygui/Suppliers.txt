@@ -1,4 +1,7 @@
 GSK,Supplier_10234,ae.egypt@gsk.com,contact,Panadol,Augmentin,Amoxil,Septrin,Zyrtec
 BASF,Supplier_56789,bilgi@basf.com,contact,Folic Acid,Ibuprofen
 Eva Pharma,Supplier_89321,info@evapharma.com,contact,Cloxide,Flopadex,Genuphil
-test,Supplier_0,test@test.test,test
+test,Supplier_0,dabw@iad.co,test
+adwad,Supplier_1,adwad@adda.cda,adwda
+dawd,Supplier_2,dawdw@dadda.co,awdda
+adwda,Supplier_6,dadw@dawd.com,awddaw

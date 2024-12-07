@@ -19,12 +19,14 @@ public class Supplier extends User {
     public Supplier(String name, String id, String email, String contactInfo) {
         super(name, Role.SUPPLIER, email);
         this.id = id;
+        n++;
         this.contactInfo = contactInfo;
         productSupplied = new ArrayList<>();
     }
 
     public Supplier(Supplier supplier) {
         id = supplier.id;
+        n++;
         name = supplier.name;
         email = supplier.email;
         contactInfo = supplier.contactInfo;

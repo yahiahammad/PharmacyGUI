@@ -1,30 +1,14 @@
 package com.example.pharmacygui;
 
-import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
-public class PharmacyMain extends Application {
+public class PharmacyMain {
 
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-
-
-
+    public static void main() throws InterruptedException, IOException{
         Admin admin = new Admin("Rina", "Rina123@gmail.com", "1234");
         Cashier cashier = null;
         int choice;
@@ -772,8 +756,6 @@ public class PharmacyMain extends Application {
         return email;
     }
 
-    public static void main(String[] args) throws InterruptedException, IOException {
-        launch(args);
-    }
+
 
 }// end of class
