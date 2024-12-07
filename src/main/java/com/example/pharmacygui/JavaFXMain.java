@@ -1045,7 +1045,6 @@ public class JavaFXMain extends Application {
                         Alert adminMenu_removeCustomer_CustomerRemovedAlert = new Alert(Alert.AlertType.INFORMATION);
                         adminMenu_removeCustomer_CustomerRemovedAlert.setTitle("Remove Customer");
                         try {
-                            System.out.println("saved");
                             admin.saveData();
                         } catch (IOException ex) {
                             Alert adminMenu_removeCustomer_CustomerRemoveFailed = new Alert(Alert.AlertType.ERROR);
@@ -1568,61 +1567,61 @@ public class JavaFXMain extends Application {
         //it's not working
         createCart.setOnAction(e -> {
             //if (currentCashier != null) {
-                GridPane cashierMenu_createCartGridPane = new GridPane();
-                cashierMenu_createCartGridPane.setAlignment(Pos.CENTER);
+            GridPane cashierMenu_createCartGridPane = new GridPane();
+            cashierMenu_createCartGridPane.setAlignment(Pos.CENTER);
 
-                Label customerIdLabel = new Label("Enter Customer ID: ");
-                Label cashierMenu_createCart_CustomerIDWarning = new Label("Customer Does Not Exist!");
-                cashierMenu_createCart_CustomerIDWarning.setTextFill(Color.RED);
-                cashierMenu_createCart_CustomerIDWarning.setVisible(false);
-                TextField cashierMenu_createCart_customerId = new TextField();
+            Label customerIdLabel = new Label("Enter Customer ID: ");
+            Label cashierMenu_createCart_CustomerIDWarning = new Label("Customer Does Not Exist!");
+            cashierMenu_createCart_CustomerIDWarning.setTextFill(Color.RED);
+            cashierMenu_createCart_CustomerIDWarning.setVisible(false);
+            TextField cashierMenu_createCart_customerId = new TextField();
 
-                Button cashierMenu_createCartButton = new Button("Create Cart");
-                Button cashierMenu_createCartCancelButton = new Button("Cancel");
-                cashierMenu_createCartButton.setAlignment(Pos.CENTER);
+            Button cashierMenu_createCartButton = new Button("Create Cart");
+            Button cashierMenu_createCartCancelButton = new Button("Cancel");
+            cashierMenu_createCartButton.setAlignment(Pos.CENTER);
 
-                cashierMenu_createCartGridPane.add(customerIdLabel, 0, 0);
-                cashierMenu_createCartGridPane.add(cashierMenu_createCart_customerId, 1, 0);
-                cashierMenu_createCartGridPane.add(cashierMenu_createCart_CustomerIDWarning, 2, 0);
-                cashierMenu_createCartGridPane.add(cashierMenu_createCartButton, 1, 1);
-                cashierMenu_createCartGridPane.add(cashierMenu_createCartCancelButton, 1, 2);
+            cashierMenu_createCartGridPane.add(customerIdLabel, 0, 0);
+            cashierMenu_createCartGridPane.add(cashierMenu_createCart_customerId, 1, 0);
+            cashierMenu_createCartGridPane.add(cashierMenu_createCart_CustomerIDWarning, 2, 0);
+            cashierMenu_createCartGridPane.add(cashierMenu_createCartButton, 1, 1);
+            cashierMenu_createCartGridPane.add(cashierMenu_createCartCancelButton, 1, 2);
 
-                cashierMenu_createCartGridPane.setHgap(10);
-                cashierMenu_createCartGridPane.setVgap(10);
+            cashierMenu_createCartGridPane.setHgap(10);
+            cashierMenu_createCartGridPane.setVgap(10);
 
-                Scene createCartScene = new Scene(cashierMenu_createCartGridPane, 400, 400);
-                primaryStage.setScene(createCartScene);
+            Scene createCartScene = new Scene(cashierMenu_createCartGridPane, 400, 400);
+            primaryStage.setScene(createCartScene);
 
-                cashierMenu_createCartButton.setOnAction(e1 -> {
-                    if (!CheckCustomerExistence(admin, cashierMenu_createCart_customerId.getText())) {
-                        cashierMenu_createCart_CustomerIDWarning.setVisible(true);
-                        cashierMenu_createCart_CustomerIDWarning.setText("");
-                    } else {
-                        cashierMenu_createCart_CustomerIDWarning.setVisible(false);
-                        Customer cashierCustomer = new Customer(admin.searchCustomerByField("id", cashierMenu_createCart_customerId.getText()));
-                        if (currentCashier.createOrder(cashierCustomer)) {
-                            Alert cashierMenu_createCart_CartCreatedAlert = new Alert(Alert.AlertType.INFORMATION);
-                            cashierMenu_createCart_CartCreatedAlert.setTitle("Create Cart");
-                            try {
-                                admin.saveData();
-                            } catch (IOException ex) {
-                                Alert cashierMenu_createCart_CreatingCartFailed = new Alert(Alert.AlertType.ERROR);
-                                cashierMenu_createCart_CreatingCartFailed.setTitle("CART CREATION FAILED");
-                                cashierMenu_createCart_CreatingCartFailed.setHeaderText("Failed to create cart");
-                                cashierMenu_createCart_CreatingCartFailed.showAndWait();
-                                primaryStage.setScene(cashierScene);
-                            }
-                            cashierMenu_createCart_CartCreatedAlert.setHeaderText("Cart successfully created!");
-                            cashierMenu_createCart_CartCreatedAlert.setContentText("Press OK to continue");
-                            cashierMenu_createCart_CartCreatedAlert.showAndWait();
+            cashierMenu_createCartButton.setOnAction(e1 -> {
+                if (!CheckCustomerExistence(admin, cashierMenu_createCart_customerId.getText())) {
+                    cashierMenu_createCart_CustomerIDWarning.setVisible(true);
+                    cashierMenu_createCart_CustomerIDWarning.setText("");
+                } else {
+                    cashierMenu_createCart_CustomerIDWarning.setVisible(false);
+                    Customer cashierCustomer = new Customer(admin.searchCustomerByField("id", cashierMenu_createCart_customerId.getText()));
+                    if (currentCashier.createOrder(cashierCustomer)) {
+                        Alert cashierMenu_createCart_CartCreatedAlert = new Alert(Alert.AlertType.INFORMATION);
+                        cashierMenu_createCart_CartCreatedAlert.setTitle("Create Cart");
+                        try {
+                            admin.saveData();
+                        } catch (IOException ex) {
+                            Alert cashierMenu_createCart_CreatingCartFailed = new Alert(Alert.AlertType.ERROR);
+                            cashierMenu_createCart_CreatingCartFailed.setTitle("CART CREATION FAILED");
+                            cashierMenu_createCart_CreatingCartFailed.setHeaderText("Failed to create cart");
+                            cashierMenu_createCart_CreatingCartFailed.showAndWait();
                             primaryStage.setScene(cashierScene);
                         }
+                        cashierMenu_createCart_CartCreatedAlert.setHeaderText("Cart successfully created!");
+                        cashierMenu_createCart_CartCreatedAlert.setContentText("Press OK to continue");
+                        cashierMenu_createCart_CartCreatedAlert.showAndWait();
+                        primaryStage.setScene(cashierScene);
                     }
-                });
+                }
+            });
 
-                cashierMenu_createCartCancelButton.setOnAction(e1 -> {
-                    primaryStage.setScene(cashierScene);
-                });
+            cashierMenu_createCartCancelButton.setOnAction(e1 -> {
+                primaryStage.setScene(cashierScene);
+            });
             //}
             //else {
             //    Alert cashierNotFound = new Alert(Alert.AlertType.ERROR);
@@ -1637,60 +1636,60 @@ public class JavaFXMain extends Application {
         //Cashier Menu -> Add Product to Cart Button
         addProToCart.setOnAction(e -> {
             //if (currentCashier != null) {
-                GridPane cashierMenu_addProToCartGridPane = new GridPane();
-                cashierMenu_addProToCartGridPane.setAlignment(Pos.CENTER);
+            GridPane cashierMenu_addProToCartGridPane = new GridPane();
+            cashierMenu_addProToCartGridPane.setAlignment(Pos.CENTER);
 
-                Label cartId = new Label("Enter Cert ID: ");
-                Label cashierMenu_addProToCart_CartIDWarning = new Label("Cart Does Not Exist!");
-                cashierMenu_addProToCart_CartIDWarning.setTextFill(Color.RED);
-                cashierMenu_addProToCart_CartIDWarning.setVisible(false);
-                TextField cashierMenu_addProToCart_cartId = new TextField();
+            Label cartId = new Label("Enter Cert ID: ");
+            Label cashierMenu_addProToCart_CartIDWarning = new Label("Cart Does Not Exist!");
+            cashierMenu_addProToCart_CartIDWarning.setTextFill(Color.RED);
+            cashierMenu_addProToCart_CartIDWarning.setVisible(false);
+            TextField cashierMenu_addProToCart_cartId = new TextField();
 
-                Label cartProductName = new Label("Enter Product Name: ");
-                Label cashierMenu_addProToCart_ProductNameWarning = new Label("Product Does Not Exist!");
-                cashierMenu_addProToCart_ProductNameWarning.setTextFill(Color.RED);
-                cashierMenu_addProToCart_ProductNameWarning.setVisible(false);
-                TextField cashierMenu_addProToCart_ProductName = new TextField();
+            Label cartProductName = new Label("Enter Product Name: ");
+            Label cashierMenu_addProToCart_ProductNameWarning = new Label("Product Does Not Exist!");
+            cashierMenu_addProToCart_ProductNameWarning.setTextFill(Color.RED);
+            cashierMenu_addProToCart_ProductNameWarning.setVisible(false);
+            TextField cashierMenu_addProToCart_ProductName = new TextField();
 
-                Label cartProductQuantity = new Label("Enter Product Quantity: ");
-                TextField cashierMenu_addProToCart_ProductQuantity = new TextField();
+            Label cartProductQuantity = new Label("Enter Product Quantity: ");
+            TextField cashierMenu_addProToCart_ProductQuantity = new TextField();
 
-                Button cashierMenu_addProToCartButton = new Button("Add Product to Cart");
-                Button cashierMenu_addProToCartCancelButton = new Button("Cancel");
-                cashierMenu_addProToCartButton.setAlignment(Pos.CENTER);
+            Button cashierMenu_addProToCartButton = new Button("Add Product to Cart");
+            Button cashierMenu_addProToCartCancelButton = new Button("Cancel");
+            cashierMenu_addProToCartButton.setAlignment(Pos.CENTER);
 
-                cashierMenu_addProToCartGridPane.add(cartId, 0, 0);
-                cashierMenu_addProToCartGridPane.add(cashierMenu_addProToCart_cartId, 1, 0);
-                cashierMenu_addProToCartGridPane.add(cashierMenu_addProToCart_CartIDWarning, 2, 0);
-                cashierMenu_addProToCartGridPane.add(cartProductName, 0, 1);
-                cashierMenu_addProToCartGridPane.add(cashierMenu_addProToCart_ProductName, 1, 1);
-                cashierMenu_addProToCartGridPane.add(cashierMenu_addProToCart_ProductNameWarning, 2, 1);
-                cashierMenu_addProToCartGridPane.add(cartProductQuantity, 0, 2);
-                cashierMenu_addProToCartGridPane.add(cashierMenu_addProToCart_ProductQuantity, 1, 2);
-                cashierMenu_addProToCartGridPane.add(cashierMenu_addProToCartButton, 0, 3);
-                cashierMenu_addProToCartGridPane.add(cashierMenu_addProToCartCancelButton, 0, 4);
+            cashierMenu_addProToCartGridPane.add(cartId, 0, 0);
+            cashierMenu_addProToCartGridPane.add(cashierMenu_addProToCart_cartId, 1, 0);
+            cashierMenu_addProToCartGridPane.add(cashierMenu_addProToCart_CartIDWarning, 2, 0);
+            cashierMenu_addProToCartGridPane.add(cartProductName, 0, 1);
+            cashierMenu_addProToCartGridPane.add(cashierMenu_addProToCart_ProductName, 1, 1);
+            cashierMenu_addProToCartGridPane.add(cashierMenu_addProToCart_ProductNameWarning, 2, 1);
+            cashierMenu_addProToCartGridPane.add(cartProductQuantity, 0, 2);
+            cashierMenu_addProToCartGridPane.add(cashierMenu_addProToCart_ProductQuantity, 1, 2);
+            cashierMenu_addProToCartGridPane.add(cashierMenu_addProToCartButton, 0, 3);
+            cashierMenu_addProToCartGridPane.add(cashierMenu_addProToCartCancelButton, 0, 4);
 
-                cashierMenu_addProToCartGridPane.setHgap(10);
-                cashierMenu_addProToCartGridPane.setVgap(10);
+            cashierMenu_addProToCartGridPane.setHgap(10);
+            cashierMenu_addProToCartGridPane.setVgap(10);
 
-                Scene addPtoToCartScene = new Scene(cashierMenu_addProToCartGridPane, 500, 500);
-                primaryStage.setScene(addPtoToCartScene);
+            Scene addPtoToCartScene = new Scene(cashierMenu_addProToCartGridPane, 500, 500);
+            primaryStage.setScene(addPtoToCartScene);
 
-                cashierMenu_addProToCartButton.setOnAction(e1 -> {
-                    if (!CheckCartExistence(admin, cashierMenu_addProToCart_cartId.getText())) {
-                        cashierMenu_addProToCart_CartIDWarning.setVisible(true);
-                        cashierMenu_addProToCart_CartIDWarning.setText("");
-                    } else {
-                        cashierMenu_addProToCart_CartIDWarning.setVisible(false);
-                    }
-                    if (!CheckProductExistence(admin, cashierMenu_addProToCart_ProductName.getText())) {
-                        cashierMenu_addProToCart_ProductNameWarning.setVisible(true);
-                        cashierMenu_addProToCart_ProductNameWarning.setText("");
-                    } else {
-                        cashierMenu_addProToCart_ProductNameWarning.setVisible(false);
-                    }
-                   // if (currentCashier.addProductToCart())
-                });
+            cashierMenu_addProToCartButton.setOnAction(e1 -> {
+                if (!CheckCartExistence(admin, cashierMenu_addProToCart_cartId.getText())) {
+                    cashierMenu_addProToCart_CartIDWarning.setVisible(true);
+                    cashierMenu_addProToCart_CartIDWarning.setText("");
+                } else {
+                    cashierMenu_addProToCart_CartIDWarning.setVisible(false);
+                }
+                if (!CheckProductExistence(admin, cashierMenu_addProToCart_ProductName.getText())) {
+                    cashierMenu_addProToCart_ProductNameWarning.setVisible(true);
+                    cashierMenu_addProToCart_ProductNameWarning.setText("");
+                } else {
+                    cashierMenu_addProToCart_ProductNameWarning.setVisible(false);
+                }
+                // if (currentCashier.addProductToCart())
+            });
             //}
         });
 
