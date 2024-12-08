@@ -55,9 +55,28 @@ public class Cart {
         this.orderDate = orderDate;
     }
 
+    public Cart(Cart cart) {
+        this.id = cart.getId();
+        this.status = cart.getStatus();
+        this.customer = cart.getCustomer();
+        this.cashier = cart.getCashier();
+        this.productList = cart.getProductList();
+        this.quantityList = cart.getQuantityList();
+        this.totalPrice = cart.getTotalPrice();
+        this.orderDate = cart.getOrderDate();
+    }
+
     public void cancelCart()
     {
         status = Status.CANCELLED;
+    }
+
+    public void addToProductList(Product product) {
+        productList.add(product);
+    }
+
+    public void addToQuantityList(Integer quantity) {
+        quantityList.add(quantity);
     }
 
 

@@ -38,6 +38,7 @@ public class Cashier extends User{
     public boolean createOrder(Customer customer) {
         Cart newOrder = new Cart(customer, this);
         orderHandled.add(newOrder);
+        customer.addOrder(newOrder);
         return true;
     }
 
