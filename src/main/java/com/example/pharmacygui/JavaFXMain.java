@@ -1409,7 +1409,7 @@ public class JavaFXMain extends Application {
             i1++;
             Button back6 = new Button("Back");
             adminMenu_userReportGridPane.add(back6, 0, i1);
-            back6.setOnAction(e1 -> primaryStage.setScene(scene10));
+            back6.setOnAction(e1 -> primaryStage.setScene(adminMenuScene));
             ScrollPane scrollPane = new ScrollPane(adminMenu_userReportGridPane);
             scrollPane.setFitToWidth(true);
             Scene scene11 = new Scene(scrollPane, 900, 700);
@@ -1418,91 +1418,7 @@ public class JavaFXMain extends Application {
 
         //********************************************************************************
         //Admin Menu -> User Report Menu -> Supplier Report Button
-        supplierReport.setOnAction(e -> {
-            Label label19 = new Label("Number of Orders per each Supplier and their details:");
-            label19.setFont(Font.font("System", FontWeight.BOLD, 25));
-            label19.setUnderline(true);
-            GridPane adminMenu_supplierReportGridPane = new GridPane();
-            adminMenu_supplierReportGridPane.setAlignment(Pos.CENTER);
-            adminMenu_supplierReportGridPane.setHgap(15);
-            adminMenu_supplierReportGridPane.setVgap(15);
-            adminMenu_supplierReportGridPane.add(label19, 0, 0);
-            int i2 = 1;
-            for (Supplier supplier : admin.getSuppliers()) {
-                Label label20 = new Label(supplier.getName() + " Orders Details:");
-                Label label21 = new Label("Number of Orders: " + supplier.getProductCount());
-                label20.setFont(Font.font("System", FontWeight.BOLD, 15));
-                adminMenu_supplierReportGridPane.add(label20, 0, i2);
-                i2++;
-                adminMenu_supplierReportGridPane.add(label21, 0, i2);
-                i2++;
-                for(Product order : supplier.getProductSupplied()) {
-                    Label label22 = new Label(order.toString());
-                    adminMenu_supplierReportGridPane.add(label22, 0, i2);
-                    i2++;
-                }
-                i2++;
-            }
-            //Supplier with maximum number of Orders
-            Label label23 = new Label("Supplier with maximum number of Orders:");
-            label23.setFont(Font.font("System", FontWeight.BOLD, 25));
-            label23.setUnderline(true);
-            adminMenu_supplierReportGridPane.add(label23, 0, i2);
-            i2++;
-            int maxOrders_sup = 0;
-            Supplier maxOrderSupplier = null;
-            for (Supplier supplier : admin.getSuppliers()) {
-                if(supplier.getProductCount() > maxOrders_sup)
-                {
-                    maxOrders_sup = supplier.getProductCount();
-                    maxOrderSupplier = supplier;
-                }
-            }
-            if (maxOrderSupplier != null) {
-                Label label24 = new Label("Supplier: " + maxOrderSupplier);
-                adminMenu_supplierReportGridPane.add(label24, 0, i2);
-                i2++;
-                Label label25 = new Label("Number of Orders: " + maxOrders_sup);
-                adminMenu_supplierReportGridPane.add(label25, 0, i2);
-            } else {
-                Label label26 = new Label("No suppliers to determine the maximum no. of Orders");
-                adminMenu_supplierReportGridPane.add(label26, 0, i2);
-            }
-            i2++;
-            //Supplier with maximum number of revenue
-            Label label27 = new Label("Supplier with maximum number of revenue:");
-            label27.setFont(Font.font("System", FontWeight.BOLD, 25));
-            label27.setUnderline(true);
-            adminMenu_supplierReportGridPane.add(label27, 0, i2);
-            i2++;
-            Supplier maxRevSupplier = null;
-            double maxRevSupplierRev = 0.0;
-            for (Supplier supplier : admin.getSuppliers()) {
-                if (supplier.getTotalPriceOfAllOrders() > maxRevSupplierRev) {
-                    maxRevSupplierRev = supplier.getTotalPriceOfAllOrders();
-                    maxRevSupplier = supplier;
-                }
-            }
-            if (maxRevSupplier != null) {
-                Label label28 = new Label("Supplier: " + maxRevSupplier);
-                adminMenu_supplierReportGridPane.add(label28, 0, i2);
-                i2++;
-                Label label29 = new Label("Revenue: " + maxRevSupplierRev);
-                adminMenu_supplierReportGridPane.add(label29, 0, i2);
-                i2++;
-            } else {
-                Label label30 = new Label("No suppliers to determine the maximum revenue");
-                adminMenu_supplierReportGridPane.add(label30, 0, i2);
-            }
-            i2++;
-            Button back7 = new Button("Back");
-            adminMenu_supplierReportGridPane.add(back7, 0, i2);
-            back7.setOnAction(e1 -> primaryStage.setScene(scene10));
-            ScrollPane scrollPane = new ScrollPane(adminMenu_supplierReportGridPane);
-            scrollPane.setFitToWidth(true);
-            Scene scene12 = new Scene(scrollPane, 900, 700);
-            primaryStage.setScene(scene12);
-        });
+        supplierReport.setOnAction(e -> System.out.println("View Report About Suppliers"));
 
         //***********************************************************
         //Customer Menu
@@ -1558,48 +1474,33 @@ public class JavaFXMain extends Application {
         });
 
         customerLoginCancelButton.setOnAction(e -> {
-            primaryStage.setScene(mainMenuScene);
+            primaryStage.setScene(customerScene);
         });
 
         //*********************************************************************
         //Customer Menu -> View Orders History Button
-        viewOrders.setOnAction(e -> {
+        /*viewOrders.setOnAction(e -> {
             TextArea textArea = new TextArea();
             Scene customerMenu_viewOrder_scene = new Scene(textArea, 300, 250);
             currentCustomer.displayOrderHistory(textArea);
             primaryStage.setScene(customerMenu_viewOrder_scene);
-        });
+        });*/
 
         //**********************************************************************
         //Customer Menu -> Rate Order Button
 
         //this will get changed
         Scene customerMenu_rateOrder_scene;
-        Label orderRatting = new Label("Rate:");
-        Label rateWarning = new Label("Ratting has to be between 1 and 10");
-        rateWarning.setTextFill(Color.RED);
-        rateWarning.setVisible(false);
-        TextField rate = new TextField();
-        Button doneRatting = new Button("Done");
-        Button cancelRatting = new Button("Cancel");
-
-        GridPane rateOrderGridPane = new GridPane();
-        rateOrderGridPane.setAlignment(Pos.CENTER);
-
-        rateOrderGridPane.add(orderRatting, 0, 0);
-        rateOrderGridPane.add(rate, 1, 0);
-        rateOrderGridPane.add(rateWarning, 2, 0);
-        rateOrderGridPane.add(doneRatting, 0, 1);
-        rateOrderGridPane.add(cancelRatting, 0, 2);
-
-        customerMenu_rateOrder_scene = new Scene(rateOrderGridPane, 400, 200);
+        Label label4 = new Label("Rate:");
+        TextField textField = new TextField();
+        Button bt = new Button("Done");
+        HBox hb = new HBox();
+        hb.getChildren().addAll(label4, textField, bt);
+        hb.setAlignment(Pos.CENTER);
+        hb.setSpacing(10);
+        customerMenu_rateOrder_scene = new Scene(hb, 300, 50);
         rateOrder.setOnAction(e1 -> primaryStage.setScene(customerMenu_rateOrder_scene));
-        doneRatting.setOnAction(e1 -> {
-            primaryStage.setScene(customerScene);
-        });
-        cancelRatting.setOnAction(e1 -> {
-            primaryStage.setScene(customerScene);
-        });
+        bt.setOnAction(e1 -> primaryStage.setScene(customerScene));
 
         //**********************************************************
         //Cashier Menu
@@ -1658,7 +1559,7 @@ public class JavaFXMain extends Application {
         });
 
         cashierLoginCancelButton.setOnAction(e -> {
-            primaryStage.setScene(mainMenuScene);
+            primaryStage.setScene(cashierScene);
         });
 
         //**************************************************************
