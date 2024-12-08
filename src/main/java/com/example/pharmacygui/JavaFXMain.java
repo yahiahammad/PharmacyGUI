@@ -1545,16 +1545,15 @@ public class JavaFXMain extends Application {
             String cashierId = cashierLoginIDTextField.getText();
             boolean cashierExists = CheckCashierExistence(admin, cashierId);
             if (cashierExists) {
-                currentCashier = new Cashier(admin.searchCashierByField("id", cashierId));
+                currentCashier = admin.searchCashierByField("id", cashierId);
 
                 if (currentCashier != null) {
-                    cashierLoginMessage.setText("Login successful!");
                     primaryStage.setScene(cashierScene);
                 } else {
                     cashierLoginMessage.setText("Cashier retrieval failed");
                 }
             } else {
-                cashierLoginMessage.setText("Invalid ID. Please try again");
+                cashierLoginMessage.setText("Invalid ID.\n Please try again");
             }
         });
 
@@ -1566,7 +1565,7 @@ public class JavaFXMain extends Application {
         //Cashier Menu -> Create Cart Button
         //it's not working
         createCart.setOnAction(e -> {
-            //if (currentCashier != null) {
+            if (currentCashier != null) {
             GridPane cashierMenu_createCartGridPane = new GridPane();
             cashierMenu_createCartGridPane.setAlignment(Pos.CENTER);
 
@@ -1589,7 +1588,7 @@ public class JavaFXMain extends Application {
             cashierMenu_createCartGridPane.setHgap(10);
             cashierMenu_createCartGridPane.setVgap(10);
 
-            Scene createCartScene = new Scene(cashierMenu_createCartGridPane, 400, 400);
+            Scene createCartScene = new Scene(cashierMenu_createCartGridPane, 600, 400);
             primaryStage.setScene(createCartScene);
 
             cashierMenu_createCartButton.setOnAction(e1 -> {
@@ -1598,8 +1597,9 @@ public class JavaFXMain extends Application {
                     cashierMenu_createCart_CustomerIDWarning.setText("");
                 } else {
                     cashierMenu_createCart_CustomerIDWarning.setVisible(false);
-                    Customer cashierCustomer = new Customer(admin.searchCustomerByField("id", cashierMenu_createCart_customerId.getText()));
+                    Customer cashierCustomer = (admin.searchCustomerByField("id", cashierMenu_createCart_customerId.getText()));
                     if (currentCashier.createOrder(cashierCustomer)) {
+                        admin.getOrders().add(currentCashier.getOrdersHandled().getLast());
                         Alert cashierMenu_createCart_CartCreatedAlert = new Alert(Alert.AlertType.INFORMATION);
                         cashierMenu_createCart_CartCreatedAlert.setTitle("Create Cart");
                         try {
@@ -1622,14 +1622,14 @@ public class JavaFXMain extends Application {
             cashierMenu_createCartCancelButton.setOnAction(e1 -> {
                 primaryStage.setScene(cashierScene);
             });
-            //}
-            //else {
-            //    Alert cashierNotFound = new Alert(Alert.AlertType.ERROR);
-            //    cashierNotFound.setTitle("CASHIER NOT FOUND");
-            //    cashierNotFound.setHeaderText("Failed to find cashier");
-            //    cashierNotFound.showAndWait();
-            //    primaryStage.setScene(mainMenuScene);
-            //}
+            }
+            else {
+                Alert cashierNotFound = new Alert(Alert.AlertType.ERROR);
+                cashierNotFound.setTitle("CASHIER NOT FOUND");
+                cashierNotFound.setHeaderText("Failed to find cashier");
+                cashierNotFound.showAndWait();
+                primaryStage.setScene(mainMenuScene);
+            }
         });
 
         //**************************************************************
@@ -1639,7 +1639,7 @@ public class JavaFXMain extends Application {
             GridPane cashierMenu_addProToCartGridPane = new GridPane();
             cashierMenu_addProToCartGridPane.setAlignment(Pos.CENTER);
 
-            Label cartId = new Label("Enter Cert ID: ");
+            Label cartId = new Label("Enter Cart ID: ");
             Label cashierMenu_addProToCart_CartIDWarning = new Label("Cart Does Not Exist!");
             cashierMenu_addProToCart_CartIDWarning.setTextFill(Color.RED);
             cashierMenu_addProToCart_CartIDWarning.setVisible(false);
