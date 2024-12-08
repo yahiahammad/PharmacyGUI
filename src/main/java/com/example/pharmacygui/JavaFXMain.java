@@ -1746,7 +1746,7 @@ public class JavaFXMain extends Application {
         //**********************************************************************
         //Customer Menu -> Rate Order Button
 
-        //had yghyr el rateOrder() el fe class Customer ashan el moshkela feha
+        //this will get changed
         Scene customerMenu_rateOrder_scene;
         Label customerMenu_OrderIDLabel = new Label("Order ID: ");
         TextField customerMenu_OrderIDTF = new TextField();
@@ -1887,62 +1887,62 @@ public class JavaFXMain extends Application {
         //it's not working
         createCart.setOnAction(e -> {
             if (currentCashier != null) {
-            GridPane cashierMenu_createCartGridPane = new GridPane();
-            cashierMenu_createCartGridPane.setAlignment(Pos.CENTER);
+                GridPane cashierMenu_createCartGridPane = new GridPane();
+                cashierMenu_createCartGridPane.setAlignment(Pos.CENTER);
 
-            Label customerIdLabel = new Label("Enter Customer ID: ");
-            Label cashierMenu_createCart_CustomerIDWarning = new Label("Customer Does Not Exist!");
-            cashierMenu_createCart_CustomerIDWarning.setTextFill(Color.RED);
-            cashierMenu_createCart_CustomerIDWarning.setVisible(false);
-            TextField cashierMenu_createCart_customerId = new TextField();
+                Label customerIdLabel = new Label("Enter Customer ID: ");
+                Label cashierMenu_createCart_CustomerIDWarning = new Label("Customer Does Not Exist!");
+                cashierMenu_createCart_CustomerIDWarning.setTextFill(Color.RED);
+                cashierMenu_createCart_CustomerIDWarning.setVisible(false);
+                TextField cashierMenu_createCart_customerId = new TextField();
 
-            Button cashierMenu_createCartButton = new Button("Create Cart");
-            Button cashierMenu_createCartCancelButton = new Button("Cancel");
-            cashierMenu_createCartButton.setAlignment(Pos.CENTER);
+                Button cashierMenu_createCartButton = new Button("Create Cart");
+                Button cashierMenu_createCartCancelButton = new Button("Cancel");
+                cashierMenu_createCartButton.setAlignment(Pos.CENTER);
 
-            cashierMenu_createCartGridPane.add(customerIdLabel, 0, 0);
-            cashierMenu_createCartGridPane.add(cashierMenu_createCart_customerId, 1, 0);
-            cashierMenu_createCartGridPane.add(cashierMenu_createCart_CustomerIDWarning, 2, 0);
-            cashierMenu_createCartGridPane.add(cashierMenu_createCartButton, 1, 1);
-            cashierMenu_createCartGridPane.add(cashierMenu_createCartCancelButton, 1, 2);
+                cashierMenu_createCartGridPane.add(customerIdLabel, 0, 0);
+                cashierMenu_createCartGridPane.add(cashierMenu_createCart_customerId, 1, 0);
+                cashierMenu_createCartGridPane.add(cashierMenu_createCart_CustomerIDWarning, 2, 0);
+                cashierMenu_createCartGridPane.add(cashierMenu_createCartButton, 1, 1);
+                cashierMenu_createCartGridPane.add(cashierMenu_createCartCancelButton, 1, 2);
 
-            cashierMenu_createCartGridPane.setHgap(10);
-            cashierMenu_createCartGridPane.setVgap(10);
+                cashierMenu_createCartGridPane.setHgap(10);
+                cashierMenu_createCartGridPane.setVgap(10);
 
-            Scene createCartScene = new Scene(cashierMenu_createCartGridPane, 600, 400);
-            primaryStage.setScene(createCartScene);
+                Scene createCartScene = new Scene(cashierMenu_createCartGridPane, 600, 400);
+                primaryStage.setScene(createCartScene);
 
-            cashierMenu_createCartButton.setOnAction(e1 -> {
-                if (!CheckCustomerExistence(admin, cashierMenu_createCart_customerId.getText())) {
-                    cashierMenu_createCart_CustomerIDWarning.setVisible(true);
-                    cashierMenu_createCart_CustomerIDWarning.setText("");
-                } else {
-                    cashierMenu_createCart_CustomerIDWarning.setVisible(false);
-                    Customer cashierCustomer = (admin.searchCustomerByField("id", cashierMenu_createCart_customerId.getText()));
-                    if (currentCashier.createOrder(cashierCustomer)) {
-                        admin.getOrders().add(currentCashier.getOrdersHandled().getLast());
-                        Alert cashierMenu_createCart_CartCreatedAlert = new Alert(Alert.AlertType.INFORMATION);
-                        cashierMenu_createCart_CartCreatedAlert.setTitle("Create Cart");
-                        try {
-                            admin.saveData();
-                        } catch (IOException ex) {
-                            Alert cashierMenu_createCart_CreatingCartFailed = new Alert(Alert.AlertType.ERROR);
-                            cashierMenu_createCart_CreatingCartFailed.setTitle("CART CREATION FAILED");
-                            cashierMenu_createCart_CreatingCartFailed.setHeaderText("Failed to create cart");
-                            cashierMenu_createCart_CreatingCartFailed.showAndWait();
+                cashierMenu_createCartButton.setOnAction(e1 -> {
+                    if (!CheckCustomerExistence(admin, cashierMenu_createCart_customerId.getText())) {
+                        cashierMenu_createCart_CustomerIDWarning.setVisible(true);
+                        cashierMenu_createCart_CustomerIDWarning.setText("");
+                    } else {
+                        cashierMenu_createCart_CustomerIDWarning.setVisible(false);
+                        Customer cashierCustomer = (admin.searchCustomerByField("id", cashierMenu_createCart_customerId.getText()));
+                        if (currentCashier.createOrder(cashierCustomer)) {
+                            admin.getOrders().add(currentCashier.getOrdersHandled().getLast());
+                            Alert cashierMenu_createCart_CartCreatedAlert = new Alert(Alert.AlertType.INFORMATION);
+                            cashierMenu_createCart_CartCreatedAlert.setTitle("Create Cart");
+                            try {
+                                admin.saveData();
+                            } catch (IOException ex) {
+                                Alert cashierMenu_createCart_CreatingCartFailed = new Alert(Alert.AlertType.ERROR);
+                                cashierMenu_createCart_CreatingCartFailed.setTitle("CART CREATION FAILED");
+                                cashierMenu_createCart_CreatingCartFailed.setHeaderText("Failed to create cart");
+                                cashierMenu_createCart_CreatingCartFailed.showAndWait();
+                                primaryStage.setScene(cashierScene);
+                            }
+                            cashierMenu_createCart_CartCreatedAlert.setHeaderText("Cart successfully created!");
+                            cashierMenu_createCart_CartCreatedAlert.setContentText("Press OK to continue");
+                            cashierMenu_createCart_CartCreatedAlert.showAndWait();
                             primaryStage.setScene(cashierScene);
                         }
-                        cashierMenu_createCart_CartCreatedAlert.setHeaderText("Cart successfully created!");
-                        cashierMenu_createCart_CartCreatedAlert.setContentText("Press OK to continue");
-                        cashierMenu_createCart_CartCreatedAlert.showAndWait();
-                        primaryStage.setScene(cashierScene);
                     }
-                }
-            });
+                });
 
-            cashierMenu_createCartCancelButton.setOnAction(e1 -> {
-                primaryStage.setScene(cashierScene);
-            });
+                cashierMenu_createCartCancelButton.setOnAction(e1 -> {
+                    primaryStage.setScene(cashierScene);
+                });
             }
             else {
                 Alert cashierNotFound = new Alert(Alert.AlertType.ERROR);
@@ -2121,52 +2121,52 @@ public class JavaFXMain extends Application {
         //**************************************************************
         //Cashier Menu -> Calculate Payment Button
         payment.setOnAction(e -> {
-           GridPane cashierMenu_calculatePaymentGridPane = new GridPane();
-           cashierMenu_calculatePaymentGridPane.setAlignment(Pos.CENTER);
-           cashierMenu_calculatePaymentGridPane.setHgap(10);
-           cashierMenu_calculatePaymentGridPane.setVgap(10);
+            GridPane cashierMenu_calculatePaymentGridPane = new GridPane();
+            cashierMenu_calculatePaymentGridPane.setAlignment(Pos.CENTER);
+            cashierMenu_calculatePaymentGridPane.setHgap(10);
+            cashierMenu_calculatePaymentGridPane.setVgap(10);
 
-           Label cashierCartId = new Label("Enter Cart ID: ");
-           Label cashierMenu_CartIDWarning = new Label("Cart Does Not Exist!");
-           cashierMenu_CartIDWarning.setTextFill(Color.RED);
-           cashierMenu_CartIDWarning.setVisible(false);
-           TextField cashierMenu_CartID = new TextField();
+            Label cashierCartId = new Label("Enter Cart ID: ");
+            Label cashierMenu_CartIDWarning = new Label("Cart Does Not Exist!");
+            cashierMenu_CartIDWarning.setTextFill(Color.RED);
+            cashierMenu_CartIDWarning.setVisible(false);
+            TextField cashierMenu_CartID = new TextField();
 
-           Button cashierMenu_cartIDButton = new Button("Calculate Payment");
-           Button cashierMenu_cartIDCancelButton = new Button("Cancel");
-           cashierMenu_cartIDButton.setAlignment(Pos.CENTER);
-           cashierMenu_cartIDCancelButton.setAlignment(Pos.CENTER);
+            Button cashierMenu_cartIDButton = new Button("Calculate Payment");
+            Button cashierMenu_cartIDCancelButton = new Button("Cancel");
+            cashierMenu_cartIDButton.setAlignment(Pos.CENTER);
+            cashierMenu_cartIDCancelButton.setAlignment(Pos.CENTER);
 
-           cashierMenu_calculatePaymentGridPane.add(cashierCartId, 0, 0);
-           cashierMenu_calculatePaymentGridPane.add(cashierMenu_CartID, 1, 0);
-           cashierMenu_calculatePaymentGridPane.add(cashierMenu_CartIDWarning, 2, 0);
-           cashierMenu_calculatePaymentGridPane.add(cashierMenu_cartIDButton, 0, 1);
-           cashierMenu_calculatePaymentGridPane.add(cashierMenu_cartIDCancelButton, 0, 2);
+            cashierMenu_calculatePaymentGridPane.add(cashierCartId, 0, 0);
+            cashierMenu_calculatePaymentGridPane.add(cashierMenu_CartID, 1, 0);
+            cashierMenu_calculatePaymentGridPane.add(cashierMenu_CartIDWarning, 2, 0);
+            cashierMenu_calculatePaymentGridPane.add(cashierMenu_cartIDButton, 0, 1);
+            cashierMenu_calculatePaymentGridPane.add(cashierMenu_cartIDCancelButton, 0, 2);
 
-           Scene calculatePaymentScene = new Scene(cashierMenu_calculatePaymentGridPane, 600, 400);
-           primaryStage.setScene(calculatePaymentScene);
+            Scene calculatePaymentScene = new Scene(cashierMenu_calculatePaymentGridPane, 600, 400);
+            primaryStage.setScene(calculatePaymentScene);
 
-           cashierMenu_cartIDButton.setOnAction(e1 -> {
-              if (!CheckCartExistence(admin, cashierMenu_CartID.getText())) {
-                  cashierMenu_CartIDWarning.setVisible(true);
-                  cashierMenu_CartID.setText("");
-              } else {
-                  cashierMenu_CartIDWarning.setVisible(false);
-                  Cart cart = new Cart(admin.searchCartByField("id", cashierMenu_CartID.getText()));
-                  double price;
-                  price = cart.calculateTotalPrice();
-                  Alert cashierMenu_paymentAlert = new Alert(Alert.AlertType.INFORMATION);
-                  cashierMenu_paymentAlert.setTitle("Payment Calculation");
-                  cashierMenu_paymentAlert.setHeaderText("Payment for Cart " + cashierMenu_CartID.getText() + " is: " + price);
-                  cashierMenu_paymentAlert.setContentText("Press OK to continue");
-                  cashierMenu_paymentAlert.showAndWait();
-                  primaryStage.setScene(cashierScene);
-              }
-           });
+            cashierMenu_cartIDButton.setOnAction(e1 -> {
+                if (!CheckCartExistence(admin, cashierMenu_CartID.getText())) {
+                    cashierMenu_CartIDWarning.setVisible(true);
+                    cashierMenu_CartID.setText("");
+                } else {
+                    cashierMenu_CartIDWarning.setVisible(false);
+                    Cart cart = new Cart(admin.searchCartByField("id", cashierMenu_CartID.getText()));
+                    double price;
+                    price = cart.calculateTotalPrice();
+                    Alert cashierMenu_paymentAlert = new Alert(Alert.AlertType.INFORMATION);
+                    cashierMenu_paymentAlert.setTitle("Payment Calculation");
+                    cashierMenu_paymentAlert.setHeaderText("Payment for Cart " + cashierMenu_CartID.getText() + " is: " + price);
+                    cashierMenu_paymentAlert.setContentText("Press OK to continue");
+                    cashierMenu_paymentAlert.showAndWait();
+                    primaryStage.setScene(cashierScene);
+                }
+            });
 
-           cashierMenu_cartIDCancelButton.setOnAction(e1 -> {
-              primaryStage.setScene(cashierScene);
-           });
+            cashierMenu_cartIDCancelButton.setOnAction(e1 -> {
+                primaryStage.setScene(cashierScene);
+            });
         });
 
         //**************************************************************
