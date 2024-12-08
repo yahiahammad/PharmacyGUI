@@ -1409,7 +1409,7 @@ public class JavaFXMain extends Application {
             i1++;
             Button back6 = new Button("Back");
             adminMenu_userReportGridPane.add(back6, 0, i1);
-            back6.setOnAction(e1 -> primaryStage.setScene(adminMenuScene));
+            back6.setOnAction(e1 -> primaryStage.setScene(scene10));
             ScrollPane scrollPane = new ScrollPane(adminMenu_userReportGridPane);
             scrollPane.setFitToWidth(true);
             Scene scene11 = new Scene(scrollPane, 900, 700);
@@ -1418,7 +1418,96 @@ public class JavaFXMain extends Application {
 
         //********************************************************************************
         //Admin Menu -> User Report Menu -> Supplier Report Button
-        supplierReport.setOnAction(e -> System.out.println("View Report About Suppliers"));
+        supplierReport.setOnAction(e -> {
+            Label label19 = new Label("Number of Orders per each Supplier and their details:");
+            label19.setFont(Font.font("System", FontWeight.BOLD, 25));
+            label19.setUnderline(true);
+            GridPane adminMenu_supplierReportGridPane = new GridPane();
+            adminMenu_supplierReportGridPane.setAlignment(Pos.CENTER);
+            adminMenu_supplierReportGridPane.setHgap(15);
+            adminMenu_supplierReportGridPane.setVgap(15);
+            adminMenu_supplierReportGridPane.add(label19, 0, 0);
+            int i2 = 1;
+            for (Supplier supplier : admin.getSuppliers()) {
+                Label label20 = new Label(supplier.getName() + " Orders Details:");
+                Label label21 = new Label("Number of Orders: " + supplier.getProductCount());
+                label20.setFont(Font.font("System", FontWeight.BOLD, 15));
+                adminMenu_supplierReportGridPane.add(label20, 0, i2);
+                i2++;
+                adminMenu_supplierReportGridPane.add(label21, 0, i2);
+                i2++;
+                for(Product order : supplier.getProductSupplied()) {
+                    Label label22 = new Label(order.toString());
+                    adminMenu_supplierReportGridPane.add(label22, 0, i2);
+                    i2++;
+                }
+                i2++;
+            }
+
+
+            //Supplier with maximum number of Orders
+            Label label23 = new Label("Supplier with maximum number of Orders:");
+            label23.setFont(Font.font("System", FontWeight.BOLD, 25));
+            label23.setUnderline(true);
+            adminMenu_supplierReportGridPane.add(label23, 0, i2);
+            i2++;
+            int maxOrders_sup = 0;
+            Supplier maxOrderSupplier = null;
+            for (Supplier supplier : admin.getSuppliers()) {
+                if(supplier.getProductCount() > maxOrders_sup)
+                {
+                    maxOrders_sup = supplier.getProductCount();
+                    maxOrderSupplier = supplier;
+                }
+            }
+            if (maxOrderSupplier != null) {
+                Label label24 = new Label("Supplier: " + maxOrderSupplier);
+                adminMenu_supplierReportGridPane.add(label24, 0, i2);
+                i2++;
+                Label label25 = new Label("Number of Orders: " + maxOrders_sup);
+                adminMenu_supplierReportGridPane.add(label25, 0, i2);
+            } else {
+                Label label26 = new Label("No suppliers to determine the maximum no. of Orders");
+                adminMenu_supplierReportGridPane.add(label26, 0, i2);
+            }
+            i2++;
+
+
+
+            //Supplier with maximum number of revenue
+            Label label27 = new Label("Supplier with maximum number of revenue:");
+            label27.setFont(Font.font("System", FontWeight.BOLD, 25));
+            label27.setUnderline(true);
+            adminMenu_supplierReportGridPane.add(label27, 0, i2);
+            i2++;
+            Supplier maxRevSupplier = null;
+            double maxRevSupplierRev = 0.0;
+            for (Supplier supplier : admin.getSuppliers()) {
+                if (supplier.getTotalPriceOfAllOrders() > maxRevSupplierRev) {
+                    maxRevSupplierRev = supplier.getTotalPriceOfAllOrders();
+                    maxRevSupplier = supplier;
+                }
+            }
+            if (maxRevSupplier != null) {
+                Label label28 = new Label("Supplier: " + maxRevSupplier);
+                adminMenu_supplierReportGridPane.add(label28, 0, i2);
+                i2++;
+                Label label29 = new Label("Revenue: " + maxRevSupplierRev);
+                adminMenu_supplierReportGridPane.add(label29, 0, i2);
+                i2++;
+            } else {
+                Label label30 = new Label("No suppliers to determine the maximum revenue");
+                adminMenu_supplierReportGridPane.add(label30, 0, i2);
+            }
+            i2++;
+            Button back7 = new Button("Back");
+            adminMenu_supplierReportGridPane.add(back7, 0, i2);
+            back7.setOnAction(e1 -> primaryStage.setScene(scene10));
+            ScrollPane scrollPane = new ScrollPane(adminMenu_supplierReportGridPane);
+            scrollPane.setFitToWidth(true);
+            Scene scene12 = new Scene(scrollPane, 900, 700);
+            primaryStage.setScene(scene12);
+        });
 
         //***********************************************************
         //Customer Menu
