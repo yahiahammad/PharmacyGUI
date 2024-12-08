@@ -1746,7 +1746,7 @@ public class JavaFXMain extends Application {
         //**********************************************************************
         //Customer Menu -> Rate Order Button
 
-        //this will get changed
+        //had yghyr el rateOrder() el fe class Customer ashan el moshkela feha
         Scene customerMenu_rateOrder_scene;
         Label customerMenu_OrderIDLabel = new Label("Order ID: ");
         TextField customerMenu_OrderIDTF = new TextField();
