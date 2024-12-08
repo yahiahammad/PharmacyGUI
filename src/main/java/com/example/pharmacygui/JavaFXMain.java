@@ -85,7 +85,7 @@ public class JavaFXMain extends Application {
         Button adminMenu_orderReport = new Button("View Report About Orders");
         Button adminMenu_logOut = new Button("Log Out");
 
-        VBox vbox2 = new VBox(new Label("What would you like to do?"), adminMenu_addProduct, adminMenu_editProduct, adminMenu_removeProduct, adminMenu_searchProduct, adminMenu_addUser, adminMenu_editUser, adminMenu_removeUser, adminMenu_searchUser, adminMenu_userReport, adminMenu_orderReport, adminMenu_logOut);
+        VBox vbox2 = new VBox(new Label("What would you like to do?"), adminMenu_addProduct, adminMenu_editProduct, adminMenu_removeProduct, adminMenu_searchProduct, adminMenu_productReport, adminMenu_addUser, adminMenu_editUser, adminMenu_removeUser, adminMenu_searchUser, adminMenu_userReport, adminMenu_orderReport, adminMenu_logOut);
         vbox2.setAlignment(Pos.CENTER);
         vbox2.setSpacing(10);
         adminMenuScene = new Scene(vbox2, 350, 450);
@@ -402,40 +402,49 @@ public class JavaFXMain extends Application {
         //*********************************************************************************************
         //Admin Menu -> View Reports About Products Button
         adminMenu_productReport.setOnAction(e -> {
-            /*Label reportTitle = new Label ("Product Report: Suppliers and Product Prices: ");
-            reportTitle.setFont(Font.font("System", FontWeight.BOLD, 25));
-            reportTitle.setUnderline(true);
+            Label titleLabel = new Label("Product Report: Suppliers and Product Details");
+            titleLabel.setFont(Font.font("System", FontWeight.BOLD, 25));
+            titleLabel.setUnderline(true);
 
+            // Create a GridPane to display the product details
             GridPane productReportGridPane = new GridPane();
             productReportGridPane.setAlignment(Pos.CENTER);
             productReportGridPane.setHgap(15);
             productReportGridPane.setVgap(15);
-            productReportGridPane.add(reportTitle, 0, 0);
+            productReportGridPane.add(titleLabel, 0, 0);
 
             int rowIndex = 1;
-            for (Product product : products) {
-                Label supplierLabel = new Label("Supplier: " + product.getSupplierName());
-                supplierLabel.setFont(Font.font("System", FontWeight.BOLD, 25));
-                Label productLabel = new Label("Product: " + product.getProductName());
-                Label priceLabel = new Label("Price: " + product.getProductPrice());
 
-                productReportGridPane.add(supplierLabel, 0, rowIndex);
-                rowIndex++;
-                productReportGridPane.add(productLabel, 0, rowIndex);
-                rowIndex++;
-                productReportGridPane.add(priceLabel, 0, rowIndex);
+            // Fetch the products from the Admin class
+            for (Product product : admin.getProducts()) {
+                // Display product information
+                Label supplierLabel = new Label("Supplier: " + product.getSuppliers().getName());
+                supplierLabel.setFont(Font.font("System", FontWeight.BOLD, 15));
+
+                Label productNameLabel = new Label("Product: " + product.getName());
+                Label productPriceLabel = new Label("Price: $" + product.getPrice());
+                Label productQuantityLabel = new Label("Quantity: " + product.getQuantity());
+                Label expirationDateLabel = new Label("Expiration Date: " + product.getExpirationDate());
+
+                productReportGridPane.add(supplierLabel, 0, rowIndex++);
+                productReportGridPane.add(productNameLabel, 0, rowIndex++);
+                productReportGridPane.add(productPriceLabel, 0, rowIndex++);
+                productReportGridPane.add(productQuantityLabel, 0, rowIndex++);
+                productReportGridPane.add(expirationDateLabel, 0, rowIndex++);
                 rowIndex++;
             }
 
+            // Back Button to return to the Admin Menu
             Button backButton = new Button("Back");
             productReportGridPane.add(backButton, 0, rowIndex);
             backButton.setOnAction(e1 -> primaryStage.setScene(adminMenuScene));
 
+            // ScrollPane for large data
             ScrollPane scrollPane = new ScrollPane(productReportGridPane);
             scrollPane.setFitToWidth(true);
 
-            Scene producReportScene = new Scene(scrollPane, 900, 700);
-            primaryStage.setScene(producReportScene);*/
+            Scene productReportScene = new Scene(scrollPane, 900, 700);
+            primaryStage.setScene(productReportScene);
         });
 
         //*********************************************************************************************

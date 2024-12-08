@@ -84,6 +84,13 @@ public class Product {
         this.quantitySold = quantitySold;
     }
 
+    public LocalDate getExpirationDate() {
+        return expirationDate;
+    }
+    public void setExpirationDate(LocalDate expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
     public int getNumberOfOrders() {
         return numberOfOrders;
     }
