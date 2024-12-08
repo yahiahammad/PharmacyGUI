@@ -1746,31 +1746,80 @@ public class JavaFXMain extends Application {
         //**********************************************************************
         //Customer Menu -> Rate Order Button
 
-        //this will get changed
+        //had yghyr el rateOrder() el fe class Customer ashan el moshkela feha
         Scene customerMenu_rateOrder_scene;
-        Label orderRatting = new Label("Rate:");
-        Label rateWarning = new Label("Ratting has to be between 1 and 10");
-        rateWarning.setTextFill(Color.RED);
-        rateWarning.setVisible(false);
-        TextField rate = new TextField();
-        Button doneRatting = new Button("Done");
-        Button cancelRatting = new Button("Cancel");
+        Label customerMenu_OrderIDLabel = new Label("Order ID: ");
+        TextField customerMenu_OrderIDTF = new TextField();
+        Label customerMenu_OrderIDWarningLabel = new Label("Invalid Order ID. Please try again");
+        customerMenu_OrderIDWarningLabel.setVisible(false);
+        customerMenu_OrderIDWarningLabel.setTextFill(Color.RED);
+
+        Label customerMenu_orderRating = new Label("Rate:");
+        Label customerMenu_rateWarningLabel = new Label("Rating has to be between 1 and 10");
+        customerMenu_rateWarningLabel.setTextFill(Color.RED);
+        customerMenu_rateWarningLabel.setVisible(false);
+        TextField customerMenu_rateTF = new TextField();
+        Button customerMenu_doneRating = new Button("Done");
+        Button customerMenu_cancelRating = new Button("Cancel");
 
         GridPane rateOrderGridPane = new GridPane();
         rateOrderGridPane.setAlignment(Pos.CENTER);
 
-        rateOrderGridPane.add(orderRatting, 0, 0);
-        rateOrderGridPane.add(rate, 1, 0);
-        rateOrderGridPane.add(rateWarning, 2, 0);
-        rateOrderGridPane.add(doneRatting, 0, 1);
-        rateOrderGridPane.add(cancelRatting, 0, 2);
+        rateOrderGridPane.add(customerMenu_OrderIDLabel, 0, 0);
+        rateOrderGridPane.add(customerMenu_OrderIDTF, 1, 0);
+        rateOrderGridPane.add(customerMenu_OrderIDWarningLabel, 2, 0);
+        rateOrderGridPane.add(customerMenu_orderRating, 0, 1);
+        rateOrderGridPane.add(customerMenu_rateTF, 1, 1);
+        rateOrderGridPane.add(customerMenu_rateWarningLabel, 2, 1);
+        rateOrderGridPane.add(customerMenu_doneRating, 1, 2);
+        rateOrderGridPane.add(customerMenu_cancelRating, 2, 2);
+        rateOrderGridPane.setHgap(10);
+        rateOrderGridPane.setVgap(10);
 
-        customerMenu_rateOrder_scene = new Scene(rateOrderGridPane, 400, 200);
+
+        customerMenu_rateOrder_scene = new Scene(rateOrderGridPane, 600, 300);
         rateOrder.setOnAction(e1 -> primaryStage.setScene(customerMenu_rateOrder_scene));
-        doneRatting.setOnAction(e1 -> {
+        customerMenu_doneRating.setOnAction(e1 -> {
+
+            if (!(Integer.parseInt(customerMenu_rateTF.getText()) <= 10 && Integer.parseInt(customerMenu_rateTF.getText()) > 0) )
+            {
+                customerMenu_rateWarningLabel.setVisible(true);
+            }
+            else{
+                customerMenu_rateWarningLabel.setVisible(false);
+            }
+            if (!(currentCustomer.getOrderHistory().contains(admin.searchCartByField("id", customerMenu_OrderIDTF.getText()))))
+            {
+                customerMenu_OrderIDWarningLabel.setVisible(true);
+            }
+            else {
+                customerMenu_OrderIDWarningLabel.setVisible(false);
+            }
+            if (!(!(currentCustomer.getOrderHistory().contains(admin.searchCartByField("id", customerMenu_OrderIDTF.getText()))) || !(Integer.parseInt(customerMenu_rateTF.getText()) <= 10 && Integer.parseInt(customerMenu_rateTF.getText()) > 0)))
+            {
+                currentCustomer.rateOrder(admin.searchCartByField("id", customerMenu_OrderIDTF.getText()),Integer.parseInt(customerMenu_rateTF.getText()));
+                try {
+                    admin.saveData();
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Rate Order");
+                    alert.setHeaderText("Successfully rated order!");
+                    alert.showAndWait();
+                    primaryStage.setScene(customerScene);
+                }
+                catch (IOException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(e.getMessage());
+                    alert.showAndWait();
+                    primaryStage.setScene(mainMenuScene);
+                }
+            }
+
+
+
             primaryStage.setScene(customerScene);
         });
-        cancelRatting.setOnAction(e1 -> {
+        customerMenu_cancelRating.setOnAction(e1 -> {
             primaryStage.setScene(customerScene);
         });
 
