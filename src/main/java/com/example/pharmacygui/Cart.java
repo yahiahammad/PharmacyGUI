@@ -138,7 +138,6 @@ public class Cart {
         calculateTotalPrice();
     }
 
-    //needs to check if I need to remove just a number of that product and not the whole thing
     public void removeProduct(Product product) {
         int index = productList.indexOf(product);
         if (index != -1) {

@@ -104,8 +104,9 @@ public class Cashier extends User{
         cart.addProduct(product, quantity);
         return true;
     }
-    public void removeProductFromCart(Cart cart, Product product, int quantity) {
+    public boolean removeProductFromCart(Cart cart, Product product) {
         cart.removeProduct(product);
+        return true;
     }
 
     @Override
