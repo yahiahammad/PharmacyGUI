@@ -1734,11 +1734,10 @@ public class JavaFXMain extends Application {
         //**************************************************************
         //Cashier Menu -> Add Product to Cart Button
         addProToCart.setOnAction(e -> {
-            //if (currentCashier != null) {
             GridPane cashierMenu_addProToCartGridPane = new GridPane();
             cashierMenu_addProToCartGridPane.setAlignment(Pos.CENTER);
 
-            Label cartId = new Label("Enter Cert ID: ");
+            Label cartId = new Label("Enter Cart ID: ");
             Label cashierMenu_addProToCart_CartIDWarning = new Label("Cart Does Not Exist!");
             cashierMenu_addProToCart_CartIDWarning.setTextFill(Color.RED);
             cashierMenu_addProToCart_CartIDWarning.setVisible(false);
@@ -1771,25 +1770,51 @@ public class JavaFXMain extends Application {
             cashierMenu_addProToCartGridPane.setHgap(10);
             cashierMenu_addProToCartGridPane.setVgap(10);
 
-            Scene addPtoToCartScene = new Scene(cashierMenu_addProToCartGridPane, 500, 500);
-            primaryStage.setScene(addPtoToCartScene);
+            Scene addProToCartScene = new Scene(cashierMenu_addProToCartGridPane, 500, 500);
+            primaryStage.setScene(addProToCartScene);
 
             cashierMenu_addProToCartButton.setOnAction(e1 -> {
-                if (!CheckCartExistence(admin, cashierMenu_addProToCart_cartId.getText())) {
-                    cashierMenu_addProToCart_CartIDWarning.setVisible(true);
-                    cashierMenu_addProToCart_CartIDWarning.setText("");
+                if (!CheckCartExistence(admin, cashierMenu_addProToCart_cartId.getText()) || !CheckProductExistence(admin, cashierMenu_addProToCart_ProductName.getText())) {
+                    if (!CheckCartExistence(admin, cashierMenu_addProToCart_cartId.getText())) {
+                        cashierMenu_addProToCart_CartIDWarning.setVisible(true);
+                        cashierMenu_addProToCart_CartIDWarning.setText("");
+                    } else {
+                        cashierMenu_addProToCart_CartIDWarning.setVisible(false);
+                    }
+                    if (!CheckProductExistence(admin, cashierMenu_addProToCart_ProductName.getText())) {
+                        cashierMenu_addProToCart_ProductNameWarning.setVisible(true);
+                        cashierMenu_addProToCart_ProductNameWarning.setText("");
+                    } else {
+                        cashierMenu_addProToCart_ProductNameWarning.setVisible(false);
+                    }
                 } else {
                     cashierMenu_addProToCart_CartIDWarning.setVisible(false);
-                }
-                if (!CheckProductExistence(admin, cashierMenu_addProToCart_ProductName.getText())) {
-                    cashierMenu_addProToCart_ProductNameWarning.setVisible(true);
-                    cashierMenu_addProToCart_ProductNameWarning.setText("");
-                } else {
                     cashierMenu_addProToCart_ProductNameWarning.setVisible(false);
+                    Cart cashierCart = new Cart(admin.searchCartByField("id", cashierMenu_addProToCart_cartId.getText()));
+                    Product cashierProduct = new Product(admin.searchProductByField("name", cashierMenu_addProToCart_ProductName.getText()));
+
+                    if (currentCashier.addProductToCart(cashierCart, cashierProduct, Integer.parseInt(cashierMenu_addProToCart_ProductQuantity.getText()))) {
+                        Alert cashierMenu_addProductToCart_ProductAddedAlert = new Alert(Alert.AlertType.INFORMATION);
+                        cashierMenu_addProductToCart_ProductAddedAlert.setTitle("Add Product To Cart");
+                        try {
+                            admin.saveData();
+                        } catch (IOException ex) {
+                            Alert cashierMenu_addProductToCart_ProductAddingFailled = new Alert(Alert.AlertType.ERROR);
+                            cashierMenu_addProductToCart_ProductAddingFailled.setTitle("PRODUCT ADDITION TO CART FAILED");
+                            cashierMenu_addProductToCart_ProductAddingFailled.setHeaderText("Failed to add product to cart");
+                            cashierMenu_addProductToCart_ProductAddingFailled.showAndWait();
+                            primaryStage.setScene(cashierScene);
+                        }
+                        cashierMenu_addProductToCart_ProductAddedAlert.setHeaderText("Product successfully added!");
+                        cashierMenu_addProductToCart_ProductAddedAlert.setContentText("Press OK to continue");
+                        cashierMenu_addProductToCart_ProductAddedAlert.showAndWait();
+                        primaryStage.setScene(cashierScene);
+                    }
                 }
-                // if (currentCashier.addProductToCart())
             });
-            //}
+            cashierMenu_addProToCartCancelButton.setOnAction(e1 -> {
+                primaryStage.setScene(cashierScene);
+            });
         });
 
         //**************************************************************
