@@ -1748,29 +1748,78 @@ public class JavaFXMain extends Application {
 
         //this will get changed
         Scene customerMenu_rateOrder_scene;
-        Label orderRatting = new Label("Rate:");
-        Label rateWarning = new Label("Ratting has to be between 1 and 10");
-        rateWarning.setTextFill(Color.RED);
-        rateWarning.setVisible(false);
-        TextField rate = new TextField();
-        Button doneRatting = new Button("Done");
-        Button cancelRatting = new Button("Cancel");
+        Label customerMenu_OrderIDLabel = new Label("Order ID: ");
+        TextField customerMenu_OrderIDTF = new TextField();
+        Label customerMenu_OrderIDWarningLabel = new Label("Invalid Order ID. Please try again");
+        customerMenu_OrderIDWarningLabel.setVisible(false);
+        customerMenu_OrderIDWarningLabel.setTextFill(Color.RED);
+
+        Label customerMenu_orderRating = new Label("Rate:");
+        Label customerMenu_rateWarningLabel = new Label("Rating has to be between 1 and 10");
+        customerMenu_rateWarningLabel.setTextFill(Color.RED);
+        customerMenu_rateWarningLabel.setVisible(false);
+        TextField customerMenu_rateTF = new TextField();
+        Button customerMenu_doneRating = new Button("Done");
+        Button customerMenu_cancelRating = new Button("Cancel");
 
         GridPane rateOrderGridPane = new GridPane();
         rateOrderGridPane.setAlignment(Pos.CENTER);
 
-        rateOrderGridPane.add(orderRatting, 0, 0);
-        rateOrderGridPane.add(rate, 1, 0);
-        rateOrderGridPane.add(rateWarning, 2, 0);
-        rateOrderGridPane.add(doneRatting, 0, 1);
-        rateOrderGridPane.add(cancelRatting, 0, 2);
+        rateOrderGridPane.add(customerMenu_OrderIDLabel, 0, 0);
+        rateOrderGridPane.add(customerMenu_OrderIDTF, 1, 0);
+        rateOrderGridPane.add(customerMenu_OrderIDWarningLabel, 2, 0);
+        rateOrderGridPane.add(customerMenu_orderRating, 0, 1);
+        rateOrderGridPane.add(customerMenu_rateTF, 1, 1);
+        rateOrderGridPane.add(customerMenu_rateWarningLabel, 2, 1);
+        rateOrderGridPane.add(customerMenu_doneRating, 1, 2);
+        rateOrderGridPane.add(customerMenu_cancelRating, 2, 2);
+        rateOrderGridPane.setHgap(10);
+        rateOrderGridPane.setVgap(10);
 
-        customerMenu_rateOrder_scene = new Scene(rateOrderGridPane, 400, 200);
+
+        customerMenu_rateOrder_scene = new Scene(rateOrderGridPane, 600, 300);
         rateOrder.setOnAction(e1 -> primaryStage.setScene(customerMenu_rateOrder_scene));
-        doneRatting.setOnAction(e1 -> {
+        customerMenu_doneRating.setOnAction(e1 -> {
+
+            if (!(Integer.parseInt(customerMenu_rateTF.getText()) <= 10 && Integer.parseInt(customerMenu_rateTF.getText()) > 0) )
+            {
+                customerMenu_rateWarningLabel.setVisible(true);
+            }
+            else{
+                customerMenu_rateWarningLabel.setVisible(false);
+            }
+            if (!(currentCustomer.getOrderHistory().contains(admin.searchCartByField("id", customerMenu_OrderIDTF.getText()))))
+            {
+                customerMenu_OrderIDWarningLabel.setVisible(true);
+            }
+            else {
+                customerMenu_OrderIDWarningLabel.setVisible(false);
+            }
+            if (!(!(currentCustomer.getOrderHistory().contains(admin.searchCartByField("id", customerMenu_OrderIDTF.getText()))) || !(Integer.parseInt(customerMenu_rateTF.getText()) <= 10 && Integer.parseInt(customerMenu_rateTF.getText()) > 0)))
+            {
+                currentCustomer.rateOrder(admin.searchCartByField("id", customerMenu_OrderIDTF.getText()),Integer.parseInt(customerMenu_rateTF.getText()));
+                try {
+                    admin.saveData();
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Rate Order");
+                    alert.setHeaderText("Successfully rated order!");
+                    alert.showAndWait();
+                    primaryStage.setScene(customerScene);
+                }
+                catch (IOException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(e.getMessage());
+                    alert.showAndWait();
+                    primaryStage.setScene(mainMenuScene);
+                }
+            }
+
+
+
             primaryStage.setScene(customerScene);
         });
-        cancelRatting.setOnAction(e1 -> {
+        customerMenu_cancelRating.setOnAction(e1 -> {
             primaryStage.setScene(customerScene);
         });
 
@@ -2072,9 +2121,52 @@ public class JavaFXMain extends Application {
         //**************************************************************
         //Cashier Menu -> Calculate Payment Button
         payment.setOnAction(e -> {
-            if (currentCashier != null) {
-                //currentCashier.processPayment();
-            }
+           GridPane cashierMenu_calculatePaymentGridPane = new GridPane();
+           cashierMenu_calculatePaymentGridPane.setAlignment(Pos.CENTER);
+           cashierMenu_calculatePaymentGridPane.setHgap(10);
+           cashierMenu_calculatePaymentGridPane.setVgap(10);
+
+           Label cashierCartId = new Label("Enter Cart ID: ");
+           Label cashierMenu_CartIDWarning = new Label("Cart Does Not Exist!");
+           cashierMenu_CartIDWarning.setTextFill(Color.RED);
+           cashierMenu_CartIDWarning.setVisible(false);
+           TextField cashierMenu_CartID = new TextField();
+
+           Button cashierMenu_cartIDButton = new Button("Calculate Payment");
+           Button cashierMenu_cartIDCancelButton = new Button("Cancel");
+           cashierMenu_cartIDButton.setAlignment(Pos.CENTER);
+           cashierMenu_cartIDCancelButton.setAlignment(Pos.CENTER);
+
+           cashierMenu_calculatePaymentGridPane.add(cashierCartId, 0, 0);
+           cashierMenu_calculatePaymentGridPane.add(cashierMenu_CartID, 1, 0);
+           cashierMenu_calculatePaymentGridPane.add(cashierMenu_CartIDWarning, 2, 0);
+           cashierMenu_calculatePaymentGridPane.add(cashierMenu_cartIDButton, 0, 1);
+           cashierMenu_calculatePaymentGridPane.add(cashierMenu_cartIDCancelButton, 0, 2);
+
+           Scene calculatePaymentScene = new Scene(cashierMenu_calculatePaymentGridPane, 600, 400);
+           primaryStage.setScene(calculatePaymentScene);
+
+           cashierMenu_cartIDButton.setOnAction(e1 -> {
+              if (!CheckCartExistence(admin, cashierMenu_CartID.getText())) {
+                  cashierMenu_CartIDWarning.setVisible(true);
+                  cashierMenu_CartID.setText("");
+              } else {
+                  cashierMenu_CartIDWarning.setVisible(false);
+                  Cart cart = new Cart(admin.searchCartByField("id", cashierMenu_CartID.getText()));
+                  double price;
+                  price = cart.calculateTotalPrice();
+                  Alert cashierMenu_paymentAlert = new Alert(Alert.AlertType.INFORMATION);
+                  cashierMenu_paymentAlert.setTitle("Payment Calculation");
+                  cashierMenu_paymentAlert.setHeaderText("Payment for Cart " + cashierMenu_CartID.getText() + " is: " + price);
+                  cashierMenu_paymentAlert.setContentText("Press OK to continue");
+                  cashierMenu_paymentAlert.showAndWait();
+                  primaryStage.setScene(cashierScene);
+              }
+           });
+
+           cashierMenu_cartIDCancelButton.setOnAction(e1 -> {
+              primaryStage.setScene(cashierScene);
+           });
         });
 
         //**************************************************************
