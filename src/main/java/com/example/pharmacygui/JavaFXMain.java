@@ -1838,7 +1838,7 @@ public class JavaFXMain extends Application {
         //Cashier Menu -> Create Cart Button
         //it's not working
         createCart.setOnAction(e -> {
-            //if (currentCashier != null) {
+            if (currentCashier != null) {
             GridPane cashierMenu_createCartGridPane = new GridPane();
             cashierMenu_createCartGridPane.setAlignment(Pos.CENTER);
 
@@ -1861,7 +1861,7 @@ public class JavaFXMain extends Application {
             cashierMenu_createCartGridPane.setHgap(10);
             cashierMenu_createCartGridPane.setVgap(10);
 
-            Scene createCartScene = new Scene(cashierMenu_createCartGridPane, 400, 400);
+            Scene createCartScene = new Scene(cashierMenu_createCartGridPane, 600, 400);
             primaryStage.setScene(createCartScene);
 
             cashierMenu_createCartButton.setOnAction(e1 -> {
@@ -1870,8 +1870,9 @@ public class JavaFXMain extends Application {
                     cashierMenu_createCart_CustomerIDWarning.setText("");
                 } else {
                     cashierMenu_createCart_CustomerIDWarning.setVisible(false);
-                    Customer cashierCustomer = new Customer(admin.searchCustomerByField("id", cashierMenu_createCart_customerId.getText()));
+                    Customer cashierCustomer = (admin.searchCustomerByField("id", cashierMenu_createCart_customerId.getText()));
                     if (currentCashier.createOrder(cashierCustomer)) {
+                        admin.getOrders().add(currentCashier.getOrdersHandled().getLast());
                         Alert cashierMenu_createCart_CartCreatedAlert = new Alert(Alert.AlertType.INFORMATION);
                         cashierMenu_createCart_CartCreatedAlert.setTitle("Create Cart");
                         try {
@@ -1894,14 +1895,14 @@ public class JavaFXMain extends Application {
             cashierMenu_createCartCancelButton.setOnAction(e1 -> {
                 primaryStage.setScene(cashierScene);
             });
-            //}
-            //else {
-            //    Alert cashierNotFound = new Alert(Alert.AlertType.ERROR);
-            //    cashierNotFound.setTitle("CASHIER NOT FOUND");
-            //    cashierNotFound.setHeaderText("Failed to find cashier");
-            //    cashierNotFound.showAndWait();
-            //    primaryStage.setScene(mainMenuScene);
-            //}
+            }
+            else {
+                Alert cashierNotFound = new Alert(Alert.AlertType.ERROR);
+                cashierNotFound.setTitle("CASHIER NOT FOUND");
+                cashierNotFound.setHeaderText("Failed to find cashier");
+                cashierNotFound.showAndWait();
+                primaryStage.setScene(mainMenuScene);
+            }
         });
 
         //**************************************************************
