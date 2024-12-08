@@ -1817,16 +1817,15 @@ public class JavaFXMain extends Application {
             String cashierId = cashierLoginIDTextField.getText();
             boolean cashierExists = CheckCashierExistence(admin, cashierId);
             if (cashierExists) {
-                currentCashier = new Cashier(admin.searchCashierByField("id", cashierId));
+                currentCashier = admin.searchCashierByField("id", cashierId);
 
                 if (currentCashier != null) {
-                    cashierLoginMessage.setText("Login successful!");
                     primaryStage.setScene(cashierScene);
                 } else {
                     cashierLoginMessage.setText("Cashier retrieval failed");
                 }
             } else {
-                cashierLoginMessage.setText("Invalid ID. Please try again");
+                cashierLoginMessage.setText("Invalid ID.\n Please try again");
             }
         });
 
