@@ -1,10 +1,12 @@
 package com.example.pharmacygui;
 
+import eu.hansolo.tilesfx.tools.FlowGridPane;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -15,6 +17,9 @@ import javafx.stage.Stage;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Scanner;
 
 
 public class JavaFXMain extends Application {
@@ -396,7 +401,7 @@ public class JavaFXMain extends Application {
 
         adminMenu_productReport.setOnAction(e -> System.out.println("View Reports About Products"));
         adminMenu_userReport.setOnAction(e -> System.out.println("View Report About Users"));
-        adminMenu_orderReport.setOnAction(e -> System.out.println("View Report About Orders"));
+
         adminMenu_logOut.setOnAction(e -> primaryStage.setScene(mainMenuScene));
 
         //***********************************************************
@@ -1343,7 +1348,7 @@ public class JavaFXMain extends Application {
         Button supplierReport = new Button("View Report About Suppliers");
         Button back5 = new Button("Back");
 
-        VBox vbox8 = new VBox(cashierReport, customerReport, supplierReport, back5);
+        VBox vbox8 = new VBox(label10, cashierReport, customerReport, supplierReport, back5);
         vbox8.setAlignment(Pos.CENTER);
         vbox8.setSpacing(10);
         scene10 = new Scene(vbox8, 300, 250);
@@ -1412,6 +1417,7 @@ public class JavaFXMain extends Application {
             back6.setOnAction(e1 -> primaryStage.setScene(scene10));
             ScrollPane scrollPane = new ScrollPane(adminMenu_userReportGridPane);
             scrollPane.setFitToWidth(true);
+            scrollPane.setFitToHeight(true);
             Scene scene11 = new Scene(scrollPane, 900, 700);
             primaryStage.setScene(scene11);
         });
@@ -1505,11 +1511,137 @@ public class JavaFXMain extends Application {
             back7.setOnAction(e1 -> primaryStage.setScene(scene10));
             ScrollPane scrollPane = new ScrollPane(adminMenu_supplierReportGridPane);
             scrollPane.setFitToWidth(true);
+            scrollPane.setFitToHeight(true);
             Scene scene12 = new Scene(scrollPane, 900, 700);
             primaryStage.setScene(scene12);
         });
 
         //***********************************************************
+        //Admin Menu -> Order Report Menu
+
+            Label label31 = new Label("Click on your choice");
+            Button orderReport = new Button("View Order Reports");
+            Button orderHistory = new Button("View Order History");
+            Button back8 = new Button("Back");
+
+            VBox vbox9 = new VBox(label31, orderReport, orderHistory, back8);
+            vbox9.setAlignment(Pos.CENTER);
+            vbox9.setSpacing(10);
+            Scene scene13 = new Scene(vbox9, 300, 250);
+            adminMenu_orderReport.setOnAction(e -> primaryStage.setScene(scene13));
+            back8.setOnAction(e -> primaryStage.setScene(adminMenuScene));
+
+
+        //***********************************************************
+        //Admin Menu -> Order Report Menu -> Order Report Button
+        orderReport.setOnAction(e -> {
+            // Wrapper for mutable variables
+            final LocalDate[] start = {LocalDate.of(2024, 1, 1)};
+            final LocalDate[] end = {LocalDate.of(2025, 1, 1)};
+            final int[] rowIndex = {2};
+
+            Label label32 = new Label("Order Report:");
+            label32.setFont(Font.font("System", FontWeight.BOLD, 25));
+            label32.setUnderline(true);
+
+            GridPane adminMenu_orderReportGridPane = new GridPane();
+            adminMenu_orderReportGridPane.setAlignment(Pos.CENTER);
+            adminMenu_orderReportGridPane.setHgap(15);
+            adminMenu_orderReportGridPane.setVgap(15);
+            adminMenu_orderReportGridPane.add(label32, 0, 0);
+
+            Label label33 = new Label("Order Details:");
+            label33.setFont(Font.font("System", FontWeight.BOLD, 15));
+            adminMenu_orderReportGridPane.add(label33, 0, 1);
+
+            for (Cart order : admin.getOrders()) {
+                Label orderLabel = new Label(order.toString());
+                adminMenu_orderReportGridPane.add(orderLabel, 0, rowIndex[0]++);
+            }
+
+            Label label35 = new Label("Total Revenue and Average Revenue per order over a specific period of time:");
+            label35.setFont(Font.font("System", FontWeight.BOLD, 15));
+            adminMenu_orderReportGridPane.add(label35, 0, rowIndex[0]++);
+
+            DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            Label startLabel = new Label("Enter the start date (yyyy-MM-dd):");
+            TextField startField = new TextField();
+            FlowPane flowPane = new FlowPane();
+            flowPane.setHgap(10);
+            flowPane.getChildren().addAll(startLabel, startField);
+            adminMenu_orderReportGridPane.add(flowPane, 0, rowIndex[0]++);
+
+            Button submitButton = new Button("Submit");
+            adminMenu_orderReportGridPane.add(submitButton, 0, rowIndex[0]++);
+
+            submitButton.setOnAction(e1 -> {
+                try {
+                    start[0] = LocalDate.parse(startField.getText(), myFormat);
+                    Label endLabel = new Label("Enter the end date (yyyy-MM-dd):");
+                    TextField endField = new TextField();
+                    FlowPane flowPane1 = new FlowPane();
+                    flowPane.setHgap(10);
+                    flowPane.getChildren().addAll(endLabel, endField);
+                    adminMenu_orderReportGridPane.add(flowPane1, 0, rowIndex[0]++);
+
+                    Button submitEndButton = new Button("Submit End Date");
+                    adminMenu_orderReportGridPane.add(submitEndButton, 0, rowIndex[0]++);
+
+                    submitEndButton.setOnAction(e2 -> {
+                        try {
+                            end[0] = LocalDate.parse(endField.getText(), myFormat);
+                            if (start[0].isAfter(end[0])) {
+                                Label errorLabel = new Label("Error: Start date must be before the end date.");
+                                adminMenu_orderReportGridPane.add(errorLabel, 0, rowIndex[0]++);
+                            } else {
+                                double totalRevenue = 0;
+                                int cartCount = 0;
+
+                                for (Cart order : admin.getOrders()) {
+                                    if (order.getOrderDate().isAfter(start[0]) &&
+                                            order.getOrderDate().isBefore(end[0]) &&
+                                            order.getStatus() == Cart.Status.COMPLETED) {
+                                        totalRevenue += order.getTotalPrice();
+                                        cartCount++;
+                                    }
+                                }
+
+                                if (cartCount == 0) {
+                                    Label noOrdersLabel = new Label("No orders were made in the specified time:");
+                                    adminMenu_orderReportGridPane.add(noOrdersLabel, 0, rowIndex[0]++);
+                                } else {
+                                    Label avgRevenueLabel = new Label("Average revenue per order: " +
+                                            totalRevenue / cartCount);
+                                    Label totalRevenueLabel = new Label("Total revenue: " + totalRevenue);
+                                    adminMenu_orderReportGridPane.add(avgRevenueLabel, 0, rowIndex[0]++);
+                                    adminMenu_orderReportGridPane.add(totalRevenueLabel, 0, rowIndex[0]++);
+                                }
+                            }
+                        } catch (DateTimeParseException ex) {
+                            Label invalidDateLabel = new Label("Invalid end date format. Please use yyyy-MM-dd.");
+                            adminMenu_orderReportGridPane.add(invalidDateLabel, 0, rowIndex[0]++);
+                        }
+                    });
+                } catch (DateTimeParseException ex) {
+                    Label invalidDateLabel = new Label("Invalid start date format. Please use yyyy-MM-dd.");
+                    adminMenu_orderReportGridPane.add(invalidDateLabel, 0, rowIndex[0]++);
+                }
+            });
+            Button back10 = new Button("Back");
+            adminMenu_orderReportGridPane.add(back10, 0, rowIndex[0]++);
+            back10.setOnAction(e1 -> primaryStage.setScene(scene13));
+            ScrollPane scrollPane = new ScrollPane(adminMenu_orderReportGridPane);
+            scrollPane.setFitToHeight(true);
+            scrollPane.setFitToWidth(true);
+            Scene scene = new Scene(scrollPane);
+            primaryStage.setScene(scene);
+        });
+
+
+
+        //***********************************************************
+
         //Customer Menu
         Label label3 = new Label("What would you like to do?");
         Button viewOrders = new Button("View Orders History");
