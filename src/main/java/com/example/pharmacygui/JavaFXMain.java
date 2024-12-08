@@ -1449,8 +1449,6 @@ public class JavaFXMain extends Application {
                 }
                 i2++;
             }
-
-
             //Supplier with maximum number of Orders
             Label label23 = new Label("Supplier with maximum number of Orders:");
             label23.setFont(Font.font("System", FontWeight.BOLD, 25));
@@ -1477,9 +1475,6 @@ public class JavaFXMain extends Application {
                 adminMenu_supplierReportGridPane.add(label26, 0, i2);
             }
             i2++;
-
-
-
             //Supplier with maximum number of revenue
             Label label27 = new Label("Supplier with maximum number of revenue:");
             label27.setFont(Font.font("System", FontWeight.BOLD, 25));
@@ -1695,33 +1690,48 @@ public class JavaFXMain extends Application {
         });
 
         customerLoginCancelButton.setOnAction(e -> {
-            primaryStage.setScene(customerScene);
+            primaryStage.setScene(mainMenuScene);
         });
 
         //*********************************************************************
         //Customer Menu -> View Orders History Button
-        /*viewOrders.setOnAction(e -> {
+        viewOrders.setOnAction(e -> {
             TextArea textArea = new TextArea();
             Scene customerMenu_viewOrder_scene = new Scene(textArea, 300, 250);
             currentCustomer.displayOrderHistory(textArea);
             primaryStage.setScene(customerMenu_viewOrder_scene);
-        });*/
+        });
 
         //**********************************************************************
         //Customer Menu -> Rate Order Button
 
         //this will get changed
         Scene customerMenu_rateOrder_scene;
-        Label label4 = new Label("Rate:");
-        TextField textField = new TextField();
-        Button bt = new Button("Done");
-        HBox hb = new HBox();
-        hb.getChildren().addAll(label4, textField, bt);
-        hb.setAlignment(Pos.CENTER);
-        hb.setSpacing(10);
-        customerMenu_rateOrder_scene = new Scene(hb, 300, 50);
+        Label orderRatting = new Label("Rate:");
+        Label rateWarning = new Label("Ratting has to be between 1 and 10");
+        rateWarning.setTextFill(Color.RED);
+        rateWarning.setVisible(false);
+        TextField rate = new TextField();
+        Button doneRatting = new Button("Done");
+        Button cancelRatting = new Button("Cancel");
+
+        GridPane rateOrderGridPane = new GridPane();
+        rateOrderGridPane.setAlignment(Pos.CENTER);
+
+        rateOrderGridPane.add(orderRatting, 0, 0);
+        rateOrderGridPane.add(rate, 1, 0);
+        rateOrderGridPane.add(rateWarning, 2, 0);
+        rateOrderGridPane.add(doneRatting, 0, 1);
+        rateOrderGridPane.add(cancelRatting, 0, 2);
+
+        customerMenu_rateOrder_scene = new Scene(rateOrderGridPane, 400, 200);
         rateOrder.setOnAction(e1 -> primaryStage.setScene(customerMenu_rateOrder_scene));
-        bt.setOnAction(e1 -> primaryStage.setScene(customerScene));
+        doneRatting.setOnAction(e1 -> {
+            primaryStage.setScene(customerScene);
+        });
+        cancelRatting.setOnAction(e1 -> {
+            primaryStage.setScene(customerScene);
+        });
 
         //**********************************************************
         //Cashier Menu
@@ -1780,7 +1790,7 @@ public class JavaFXMain extends Application {
         });
 
         cashierLoginCancelButton.setOnAction(e -> {
-            primaryStage.setScene(cashierScene);
+            primaryStage.setScene(mainMenuScene);
         });
 
         //**************************************************************
@@ -1856,11 +1866,10 @@ public class JavaFXMain extends Application {
         //**************************************************************
         //Cashier Menu -> Add Product to Cart Button
         addProToCart.setOnAction(e -> {
-            //if (currentCashier != null) {
             GridPane cashierMenu_addProToCartGridPane = new GridPane();
             cashierMenu_addProToCartGridPane.setAlignment(Pos.CENTER);
 
-            Label cartId = new Label("Enter Cert ID: ");
+            Label cartId = new Label("Enter Cart ID: ");
             Label cashierMenu_addProToCart_CartIDWarning = new Label("Cart Does Not Exist!");
             cashierMenu_addProToCart_CartIDWarning.setTextFill(Color.RED);
             cashierMenu_addProToCart_CartIDWarning.setVisible(false);
@@ -1893,25 +1902,51 @@ public class JavaFXMain extends Application {
             cashierMenu_addProToCartGridPane.setHgap(10);
             cashierMenu_addProToCartGridPane.setVgap(10);
 
-            Scene addPtoToCartScene = new Scene(cashierMenu_addProToCartGridPane, 500, 500);
-            primaryStage.setScene(addPtoToCartScene);
+            Scene addProToCartScene = new Scene(cashierMenu_addProToCartGridPane, 500, 500);
+            primaryStage.setScene(addProToCartScene);
 
             cashierMenu_addProToCartButton.setOnAction(e1 -> {
-                if (!CheckCartExistence(admin, cashierMenu_addProToCart_cartId.getText())) {
-                    cashierMenu_addProToCart_CartIDWarning.setVisible(true);
-                    cashierMenu_addProToCart_CartIDWarning.setText("");
+                if (!CheckCartExistence(admin, cashierMenu_addProToCart_cartId.getText()) || !CheckProductExistence(admin, cashierMenu_addProToCart_ProductName.getText())) {
+                    if (!CheckCartExistence(admin, cashierMenu_addProToCart_cartId.getText())) {
+                        cashierMenu_addProToCart_CartIDWarning.setVisible(true);
+                        cashierMenu_addProToCart_CartIDWarning.setText("");
+                    } else {
+                        cashierMenu_addProToCart_CartIDWarning.setVisible(false);
+                    }
+                    if (!CheckProductExistence(admin, cashierMenu_addProToCart_ProductName.getText())) {
+                        cashierMenu_addProToCart_ProductNameWarning.setVisible(true);
+                        cashierMenu_addProToCart_ProductNameWarning.setText("");
+                    } else {
+                        cashierMenu_addProToCart_ProductNameWarning.setVisible(false);
+                    }
                 } else {
                     cashierMenu_addProToCart_CartIDWarning.setVisible(false);
-                }
-                if (!CheckProductExistence(admin, cashierMenu_addProToCart_ProductName.getText())) {
-                    cashierMenu_addProToCart_ProductNameWarning.setVisible(true);
-                    cashierMenu_addProToCart_ProductNameWarning.setText("");
-                } else {
                     cashierMenu_addProToCart_ProductNameWarning.setVisible(false);
+                    Cart cashierCart = new Cart(admin.searchCartByField("id", cashierMenu_addProToCart_cartId.getText()));
+                    Product cashierProduct = new Product(admin.searchProductByField("name", cashierMenu_addProToCart_ProductName.getText()));
+
+                    if (currentCashier.addProductToCart(cashierCart, cashierProduct, Integer.parseInt(cashierMenu_addProToCart_ProductQuantity.getText()))) {
+                        Alert cashierMenu_addProductToCart_ProductAddedAlert = new Alert(Alert.AlertType.INFORMATION);
+                        cashierMenu_addProductToCart_ProductAddedAlert.setTitle("Add Product To Cart");
+                        try {
+                            admin.saveData();
+                        } catch (IOException ex) {
+                            Alert cashierMenu_addProductToCart_ProductAddingFailled = new Alert(Alert.AlertType.ERROR);
+                            cashierMenu_addProductToCart_ProductAddingFailled.setTitle("PRODUCT ADDITION TO CART FAILED");
+                            cashierMenu_addProductToCart_ProductAddingFailled.setHeaderText("Failed to add product to cart");
+                            cashierMenu_addProductToCart_ProductAddingFailled.showAndWait();
+                            primaryStage.setScene(cashierScene);
+                        }
+                        cashierMenu_addProductToCart_ProductAddedAlert.setHeaderText("Product successfully added!");
+                        cashierMenu_addProductToCart_ProductAddedAlert.setContentText("Press OK to continue");
+                        cashierMenu_addProductToCart_ProductAddedAlert.showAndWait();
+                        primaryStage.setScene(cashierScene);
+                    }
                 }
-                // if (currentCashier.addProductToCart())
             });
-            //}
+            cashierMenu_addProToCartCancelButton.setOnAction(e1 -> {
+                primaryStage.setScene(cashierScene);
+            });
         });
 
         //**************************************************************
