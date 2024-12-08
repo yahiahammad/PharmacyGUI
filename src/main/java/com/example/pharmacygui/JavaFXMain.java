@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -15,6 +16,8 @@ import javafx.stage.Stage;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 
 public class JavaFXMain extends Application {
@@ -82,7 +85,7 @@ public class JavaFXMain extends Application {
         Button adminMenu_orderReport = new Button("View Report About Orders");
         Button adminMenu_logOut = new Button("Log Out");
 
-        VBox vbox2 = new VBox(new Label("What would you like to do?"), adminMenu_addProduct, adminMenu_editProduct, adminMenu_removeProduct, adminMenu_searchProduct, adminMenu_addUser, adminMenu_editUser, adminMenu_removeUser, adminMenu_searchUser, adminMenu_userReport, adminMenu_orderReport, adminMenu_logOut);
+        VBox vbox2 = new VBox(new Label("What would you like to do?"), adminMenu_addProduct, adminMenu_editProduct, adminMenu_removeProduct, adminMenu_searchProduct, adminMenu_productReport, adminMenu_addUser, adminMenu_editUser, adminMenu_removeUser, adminMenu_searchUser, adminMenu_userReport, adminMenu_orderReport, adminMenu_logOut);
         vbox2.setAlignment(Pos.CENTER);
         vbox2.setSpacing(10);
         adminMenuScene = new Scene(vbox2, 350, 450);
@@ -95,6 +98,8 @@ public class JavaFXMain extends Application {
                 adminWrongPasswordLabel.setVisible(true);
             }
         });
+
+        adminMenu_logOut.setOnAction(e -> primaryStage.setScene(mainMenuScene));
 
         //****************************************************************************
         //Admin Menu -> Add Product Button
@@ -394,10 +399,57 @@ public class JavaFXMain extends Application {
         });
 
 
-        adminMenu_productReport.setOnAction(e -> System.out.println("View Reports About Products"));
-        adminMenu_userReport.setOnAction(e -> System.out.println("View Report About Users"));
+        //*********************************************************************************************
+        //Admin Menu -> View Reports About Products Button
+        adminMenu_productReport.setOnAction(e -> {
+            Label titleLabel = new Label("Product Report: Suppliers and Product Details");
+            titleLabel.setFont(Font.font("System", FontWeight.BOLD, 25));
+            titleLabel.setUnderline(true);
+
+            // Create a GridPane to display the product details
+            GridPane productReportGridPane = new GridPane();
+            productReportGridPane.setAlignment(Pos.CENTER);
+            productReportGridPane.setHgap(15);
+            productReportGridPane.setVgap(15);
+            productReportGridPane.add(titleLabel, 0, 0);
+
+            int rowIndex = 1;
+
+            // Fetch the products from the Admin class
+            for (Product product : admin.getProducts()) {
+                // Display product information
+                Label supplierLabel = new Label("Supplier: " + product.getSuppliers().getName());
+                supplierLabel.setFont(Font.font("System", FontWeight.BOLD, 15));
+
+                Label productNameLabel = new Label("Product: " + product.getName());
+                Label productPriceLabel = new Label("Price: $" + product.getPrice());
+                Label productQuantityLabel = new Label("Quantity: " + product.getQuantity());
+                Label expirationDateLabel = new Label("Expiration Date: " + product.getExpirationDate());
+
+                productReportGridPane.add(supplierLabel, 0, rowIndex++);
+                productReportGridPane.add(productNameLabel, 0, rowIndex++);
+                productReportGridPane.add(productPriceLabel, 0, rowIndex++);
+                productReportGridPane.add(productQuantityLabel, 0, rowIndex++);
+                productReportGridPane.add(expirationDateLabel, 0, rowIndex++);
+                rowIndex++;
+            }
+
+            // Back Button to return to the Admin Menu
+            Button backButton = new Button("Back");
+            productReportGridPane.add(backButton, 0, rowIndex);
+            backButton.setOnAction(e1 -> primaryStage.setScene(adminMenuScene));
+
+            // ScrollPane for large data
+            ScrollPane scrollPane = new ScrollPane(productReportGridPane);
+            scrollPane.setFitToWidth(true);
+
+            Scene productReportScene = new Scene(scrollPane, 900, 700);
+            primaryStage.setScene(productReportScene);
+        });
+
+        //*********************************************************************************************
+        //Admin Menu -> View Report About Orders Button
         adminMenu_orderReport.setOnAction(e -> System.out.println("View Report About Orders"));
-        adminMenu_logOut.setOnAction(e -> primaryStage.setScene(mainMenuScene));
 
         //***********************************************************
         //Admin Menu -> Add User Menu
@@ -1409,7 +1461,7 @@ public class JavaFXMain extends Application {
             i1++;
             Button back6 = new Button("Back");
             adminMenu_userReportGridPane.add(back6, 0, i1);
-            back6.setOnAction(e1 -> primaryStage.setScene(adminMenuScene));
+            back6.setOnAction(e1 -> primaryStage.setScene(scene10));
             ScrollPane scrollPane = new ScrollPane(adminMenu_userReportGridPane);
             scrollPane.setFitToWidth(true);
             Scene scene11 = new Scene(scrollPane, 900, 700);
@@ -1418,7 +1470,212 @@ public class JavaFXMain extends Application {
 
         //********************************************************************************
         //Admin Menu -> User Report Menu -> Supplier Report Button
-        supplierReport.setOnAction(e -> System.out.println("View Report About Suppliers"));
+        supplierReport.setOnAction(e -> {
+            Label label19 = new Label("Number of Orders per each Supplier and their details:");
+            label19.setFont(Font.font("System", FontWeight.BOLD, 25));
+            label19.setUnderline(true);
+            GridPane adminMenu_supplierReportGridPane = new GridPane();
+            adminMenu_supplierReportGridPane.setAlignment(Pos.CENTER);
+            adminMenu_supplierReportGridPane.setHgap(15);
+            adminMenu_supplierReportGridPane.setVgap(15);
+            adminMenu_supplierReportGridPane.add(label19, 0, 0);
+            int i2 = 1;
+            for (Supplier supplier : admin.getSuppliers()) {
+                Label label20 = new Label(supplier.getName() + " Orders Details:");
+                Label label21 = new Label("Number of Orders: " + supplier.getProductCount());
+                label20.setFont(Font.font("System", FontWeight.BOLD, 15));
+                adminMenu_supplierReportGridPane.add(label20, 0, i2);
+                i2++;
+                adminMenu_supplierReportGridPane.add(label21, 0, i2);
+                i2++;
+                for(Product order : supplier.getProductSupplied()) {
+                    Label label22 = new Label(order.toString());
+                    adminMenu_supplierReportGridPane.add(label22, 0, i2);
+                    i2++;
+                }
+                i2++;
+            }
+            //Supplier with maximum number of Orders
+            Label label23 = new Label("Supplier with maximum number of Orders:");
+            label23.setFont(Font.font("System", FontWeight.BOLD, 25));
+            label23.setUnderline(true);
+            adminMenu_supplierReportGridPane.add(label23, 0, i2);
+            i2++;
+            int maxOrders_sup = 0;
+            Supplier maxOrderSupplier = null;
+            for (Supplier supplier : admin.getSuppliers()) {
+                if(supplier.getProductCount() > maxOrders_sup)
+                {
+                    maxOrders_sup = supplier.getProductCount();
+                    maxOrderSupplier = supplier;
+                }
+            }
+            if (maxOrderSupplier != null) {
+                Label label24 = new Label("Supplier: " + maxOrderSupplier);
+                adminMenu_supplierReportGridPane.add(label24, 0, i2);
+                i2++;
+                Label label25 = new Label("Number of Orders: " + maxOrders_sup);
+                adminMenu_supplierReportGridPane.add(label25, 0, i2);
+            } else {
+                Label label26 = new Label("No suppliers to determine the maximum no. of Orders");
+                adminMenu_supplierReportGridPane.add(label26, 0, i2);
+            }
+            i2++;
+            //Supplier with maximum number of revenue
+            Label label27 = new Label("Supplier with maximum number of revenue:");
+            label27.setFont(Font.font("System", FontWeight.BOLD, 25));
+            label27.setUnderline(true);
+            adminMenu_supplierReportGridPane.add(label27, 0, i2);
+            i2++;
+            Supplier maxRevSupplier = null;
+            double maxRevSupplierRev = 0.0;
+            for (Supplier supplier : admin.getSuppliers()) {
+                if (supplier.getTotalPriceOfAllOrders() > maxRevSupplierRev) {
+                    maxRevSupplierRev = supplier.getTotalPriceOfAllOrders();
+                    maxRevSupplier = supplier;
+                }
+            }
+            if (maxRevSupplier != null) {
+                Label label28 = new Label("Supplier: " + maxRevSupplier);
+                adminMenu_supplierReportGridPane.add(label28, 0, i2);
+                i2++;
+                Label label29 = new Label("Revenue: " + maxRevSupplierRev);
+                adminMenu_supplierReportGridPane.add(label29, 0, i2);
+                i2++;
+            } else {
+                Label label30 = new Label("No suppliers to determine the maximum revenue");
+                adminMenu_supplierReportGridPane.add(label30, 0, i2);
+            }
+            i2++;
+            Button back7 = new Button("Back");
+            adminMenu_supplierReportGridPane.add(back7, 0, i2);
+            back7.setOnAction(e1 -> primaryStage.setScene(scene10));
+            ScrollPane scrollPane = new ScrollPane(adminMenu_supplierReportGridPane);
+            scrollPane.setFitToWidth(true);
+            Scene scene12 = new Scene(scrollPane, 900, 700);
+            primaryStage.setScene(scene12);
+        });
+
+        //***********************************************************
+        //Admin Menu -> Order Report Menu
+
+        Label label31 = new Label("Click on your choice");
+        Button orderReport = new Button("View Order Reports");
+        Button orderHistory = new Button("View Order History");
+        Button back8 = new Button("Back");
+
+        VBox vbox9 = new VBox(label31, orderReport, orderHistory, back8);
+        vbox9.setAlignment(Pos.CENTER);
+        vbox9.setSpacing(10);
+        Scene scene13 = new Scene(vbox9, 300, 250);
+        adminMenu_orderReport.setOnAction(e -> primaryStage.setScene(scene13));
+        back8.setOnAction(e -> primaryStage.setScene(adminMenuScene));
+
+        //***********************************************************
+        //Admin Menu -> Order Report Menu -> Order Report Button
+        orderReport.setOnAction(e -> {
+            // Wrapper for mutable variables
+            final LocalDate[] start = {LocalDate.of(2024, 1, 1)};
+            final LocalDate[] end = {LocalDate.of(2025, 1, 1)};
+            final int[] rowIndex = {2};
+
+            Label label32 = new Label("Order Report:");
+            label32.setFont(Font.font("System", FontWeight.BOLD, 25));
+            label32.setUnderline(true);
+
+            GridPane adminMenu_orderReportGridPane = new GridPane();
+            adminMenu_orderReportGridPane.setAlignment(Pos.CENTER);
+            adminMenu_orderReportGridPane.setHgap(15);
+            adminMenu_orderReportGridPane.setVgap(15);
+            adminMenu_orderReportGridPane.add(label32, 0, 0);
+
+            Label label33 = new Label("Order Details:");
+            label33.setFont(Font.font("System", FontWeight.BOLD, 15));
+            adminMenu_orderReportGridPane.add(label33, 0, 1);
+
+            for (Cart order : admin.getOrders()) {
+                Label orderLabel = new Label(order.toString());
+                adminMenu_orderReportGridPane.add(orderLabel, 0, rowIndex[0]++);
+            }
+
+            Label label35 = new Label("Total Revenue and Average Revenue per order over a specific period of time:");
+            label35.setFont(Font.font("System", FontWeight.BOLD, 15));
+            adminMenu_orderReportGridPane.add(label35, 0, rowIndex[0]++);
+
+            DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            Label startLabel = new Label("Enter the start date (yyyy-MM-dd):");
+            TextField startField = new TextField();
+            FlowPane flowPane = new FlowPane();
+            flowPane.setHgap(10);
+            flowPane.getChildren().addAll(startLabel, startField);
+            adminMenu_orderReportGridPane.add(flowPane, 0, rowIndex[0]++);
+
+            Button submitButton = new Button("Submit");
+            adminMenu_orderReportGridPane.add(submitButton, 0, rowIndex[0]++);
+
+            submitButton.setOnAction(e1 -> {
+                try {
+                    start[0] = LocalDate.parse(startField.getText(), myFormat);
+                    Label endLabel = new Label("Enter the end date (yyyy-MM-dd):");
+                    TextField endField = new TextField();
+                    FlowPane flowPane1 = new FlowPane();
+                    flowPane.setHgap(10);
+                    flowPane.getChildren().addAll(endLabel, endField);
+                    adminMenu_orderReportGridPane.add(flowPane1, 0, rowIndex[0]++);
+
+                    Button submitEndButton = new Button("Submit End Date");
+                    adminMenu_orderReportGridPane.add(submitEndButton, 0, rowIndex[0]++);
+
+                    submitEndButton.setOnAction(e2 -> {
+                        try {
+                            end[0] = LocalDate.parse(endField.getText(), myFormat);
+                            if (start[0].isAfter(end[0])) {
+                                Label errorLabel = new Label("Error: Start date must be before the end date.");
+                                adminMenu_orderReportGridPane.add(errorLabel, 0, rowIndex[0]++);
+                            } else {
+                                double totalRevenue = 0;
+                                int cartCount = 0;
+
+                                for (Cart order : admin.getOrders()) {
+                                    if (order.getOrderDate().isAfter(start[0]) &&
+                                            order.getOrderDate().isBefore(end[0]) &&
+                                            order.getStatus() == Cart.Status.COMPLETED) {
+                                        totalRevenue += order.getTotalPrice();
+                                        cartCount++;
+                                    }
+                                }
+
+                                if (cartCount == 0) {
+                                    Label noOrdersLabel = new Label("No orders were made in the specified time:");
+                                    adminMenu_orderReportGridPane.add(noOrdersLabel, 0, rowIndex[0]++);
+                                } else {
+                                    Label avgRevenueLabel = new Label("Average revenue per order: " +
+                                            totalRevenue / cartCount);
+                                    Label totalRevenueLabel = new Label("Total revenue: " + totalRevenue);
+                                    adminMenu_orderReportGridPane.add(avgRevenueLabel, 0, rowIndex[0]++);
+                                    adminMenu_orderReportGridPane.add(totalRevenueLabel, 0, rowIndex[0]++);
+                                }
+                            }
+                        } catch (DateTimeParseException ex) {
+                            Label invalidDateLabel = new Label("Invalid end date format. Please use yyyy-MM-dd.");
+                            adminMenu_orderReportGridPane.add(invalidDateLabel, 0, rowIndex[0]++);
+                        }
+                    });
+                } catch (DateTimeParseException ex) {
+                    Label invalidDateLabel = new Label("Invalid start date format. Please use yyyy-MM-dd.");
+                    adminMenu_orderReportGridPane.add(invalidDateLabel, 0, rowIndex[0]++);
+                }
+            });
+            Button back10 = new Button("Back");
+            adminMenu_orderReportGridPane.add(back10, 0, rowIndex[0]++);
+            back10.setOnAction(e1 -> primaryStage.setScene(scene13));
+            ScrollPane scrollPane = new ScrollPane(adminMenu_orderReportGridPane);
+            scrollPane.setFitToHeight(true);
+            scrollPane.setFitToWidth(true);
+            Scene scene = new Scene(scrollPane);
+            primaryStage.setScene(scene);
+        });
 
         //***********************************************************
         //Customer Menu
@@ -1474,33 +1731,48 @@ public class JavaFXMain extends Application {
         });
 
         customerLoginCancelButton.setOnAction(e -> {
-            primaryStage.setScene(customerScene);
+            primaryStage.setScene(mainMenuScene);
         });
 
         //*********************************************************************
         //Customer Menu -> View Orders History Button
-        /*viewOrders.setOnAction(e -> {
+        viewOrders.setOnAction(e -> {
             TextArea textArea = new TextArea();
             Scene customerMenu_viewOrder_scene = new Scene(textArea, 300, 250);
             currentCustomer.displayOrderHistory(textArea);
             primaryStage.setScene(customerMenu_viewOrder_scene);
-        });*/
+        });
 
         //**********************************************************************
         //Customer Menu -> Rate Order Button
 
         //this will get changed
         Scene customerMenu_rateOrder_scene;
-        Label label4 = new Label("Rate:");
-        TextField textField = new TextField();
-        Button bt = new Button("Done");
-        HBox hb = new HBox();
-        hb.getChildren().addAll(label4, textField, bt);
-        hb.setAlignment(Pos.CENTER);
-        hb.setSpacing(10);
-        customerMenu_rateOrder_scene = new Scene(hb, 300, 50);
+        Label orderRatting = new Label("Rate:");
+        Label rateWarning = new Label("Ratting has to be between 1 and 10");
+        rateWarning.setTextFill(Color.RED);
+        rateWarning.setVisible(false);
+        TextField rate = new TextField();
+        Button doneRatting = new Button("Done");
+        Button cancelRatting = new Button("Cancel");
+
+        GridPane rateOrderGridPane = new GridPane();
+        rateOrderGridPane.setAlignment(Pos.CENTER);
+
+        rateOrderGridPane.add(orderRatting, 0, 0);
+        rateOrderGridPane.add(rate, 1, 0);
+        rateOrderGridPane.add(rateWarning, 2, 0);
+        rateOrderGridPane.add(doneRatting, 0, 1);
+        rateOrderGridPane.add(cancelRatting, 0, 2);
+
+        customerMenu_rateOrder_scene = new Scene(rateOrderGridPane, 400, 200);
         rateOrder.setOnAction(e1 -> primaryStage.setScene(customerMenu_rateOrder_scene));
-        bt.setOnAction(e1 -> primaryStage.setScene(customerScene));
+        doneRatting.setOnAction(e1 -> {
+            primaryStage.setScene(customerScene);
+        });
+        cancelRatting.setOnAction(e1 -> {
+            primaryStage.setScene(customerScene);
+        });
 
         //**********************************************************
         //Cashier Menu
@@ -1558,7 +1830,7 @@ public class JavaFXMain extends Application {
         });
 
         cashierLoginCancelButton.setOnAction(e -> {
-            primaryStage.setScene(cashierScene);
+            primaryStage.setScene(mainMenuScene);
         });
 
         //**************************************************************
@@ -1635,7 +1907,6 @@ public class JavaFXMain extends Application {
         //**************************************************************
         //Cashier Menu -> Add Product to Cart Button
         addProToCart.setOnAction(e -> {
-            //if (currentCashier != null) {
             GridPane cashierMenu_addProToCartGridPane = new GridPane();
             cashierMenu_addProToCartGridPane.setAlignment(Pos.CENTER);
 
@@ -1672,33 +1943,130 @@ public class JavaFXMain extends Application {
             cashierMenu_addProToCartGridPane.setHgap(10);
             cashierMenu_addProToCartGridPane.setVgap(10);
 
-            Scene addPtoToCartScene = new Scene(cashierMenu_addProToCartGridPane, 500, 500);
-            primaryStage.setScene(addPtoToCartScene);
+            Scene addProToCartScene = new Scene(cashierMenu_addProToCartGridPane, 500, 500);
+            primaryStage.setScene(addProToCartScene);
 
             cashierMenu_addProToCartButton.setOnAction(e1 -> {
-                if (!CheckCartExistence(admin, cashierMenu_addProToCart_cartId.getText())) {
-                    cashierMenu_addProToCart_CartIDWarning.setVisible(true);
-                    cashierMenu_addProToCart_CartIDWarning.setText("");
+                if (!CheckCartExistence(admin, cashierMenu_addProToCart_cartId.getText()) || !CheckProductExistence(admin, cashierMenu_addProToCart_ProductName.getText())) {
+                    if (!CheckCartExistence(admin, cashierMenu_addProToCart_cartId.getText())) {
+                        cashierMenu_addProToCart_CartIDWarning.setVisible(true);
+                        cashierMenu_addProToCart_CartIDWarning.setText("");
+                    } else {
+                        cashierMenu_addProToCart_CartIDWarning.setVisible(false);
+                    }
+                    if (!CheckProductExistence(admin, cashierMenu_addProToCart_ProductName.getText())) {
+                        cashierMenu_addProToCart_ProductNameWarning.setVisible(true);
+                        cashierMenu_addProToCart_ProductNameWarning.setText("");
+                    } else {
+                        cashierMenu_addProToCart_ProductNameWarning.setVisible(false);
+                    }
                 } else {
                     cashierMenu_addProToCart_CartIDWarning.setVisible(false);
-                }
-                if (!CheckProductExistence(admin, cashierMenu_addProToCart_ProductName.getText())) {
-                    cashierMenu_addProToCart_ProductNameWarning.setVisible(true);
-                    cashierMenu_addProToCart_ProductNameWarning.setText("");
-                } else {
                     cashierMenu_addProToCart_ProductNameWarning.setVisible(false);
+                    Cart cashierCart = new Cart(admin.searchCartByField("id", cashierMenu_addProToCart_cartId.getText()));
+                    Product cashierProduct = new Product(admin.searchProductByField("name", cashierMenu_addProToCart_ProductName.getText()));
+
+                    if (currentCashier.addProductToCart(cashierCart, cashierProduct, Integer.parseInt(cashierMenu_addProToCart_ProductQuantity.getText()))) {
+                        Alert cashierMenu_addProductToCart_ProductAddedAlert = new Alert(Alert.AlertType.INFORMATION);
+                        cashierMenu_addProductToCart_ProductAddedAlert.setTitle("Add Product To Cart");
+                        try {
+                            admin.saveData();
+                        } catch (IOException ex) {
+                            Alert cashierMenu_addProductToCart_ProductAddingFailled = new Alert(Alert.AlertType.ERROR);
+                            cashierMenu_addProductToCart_ProductAddingFailled.setTitle("PRODUCT ADDITION TO CART FAILED");
+                            cashierMenu_addProductToCart_ProductAddingFailled.setHeaderText("Failed to add product to cart");
+                            cashierMenu_addProductToCart_ProductAddingFailled.showAndWait();
+                            primaryStage.setScene(cashierScene);
+                        }
+                        cashierMenu_addProductToCart_ProductAddedAlert.setHeaderText("Product successfully added!");
+                        cashierMenu_addProductToCart_ProductAddedAlert.setContentText("Press OK to continue");
+                        cashierMenu_addProductToCart_ProductAddedAlert.showAndWait();
+                        primaryStage.setScene(cashierScene);
+                    }
                 }
-                // if (currentCashier.addProductToCart())
             });
-            //}
+            cashierMenu_addProToCartCancelButton.setOnAction(e1 -> {
+                primaryStage.setScene(cashierScene);
+            });
         });
 
         //**************************************************************
         //Cashier Menu -> Remove Product from Cart Button
         removeProFromCart.setOnAction(e -> {
-            if (currentCashier != null) {
-                //currentCashier.removeProductFromCart();
-            }
+            GridPane cashierMenu_removeProFromCartGridPane = new GridPane();
+            cashierMenu_removeProFromCartGridPane.setAlignment(Pos.CENTER);
+
+            Label removeProductCartId = new Label("Enter ID of Cart you want to remove from: ");
+            Label cashierMenu_removeProductCartIDWarning = new Label("Cart Does Not Exist!");
+            cashierMenu_removeProductCartIDWarning.setTextFill(Color.RED);
+            cashierMenu_removeProductCartIDWarning.setVisible(false);
+            TextField cashierMenu_removeProductCartID = new TextField();
+
+            Label removeProductName = new Label("Enter Name of Product to be removed: ");
+            Label cashierMenu_removeProductNameWarning = new Label("Product Does Not Exist!");
+            cashierMenu_removeProductNameWarning.setTextFill(Color.RED);
+            cashierMenu_removeProductNameWarning.setVisible(false);
+            TextField cashierMenu_removeProductName = new TextField();
+
+            Button cashierMenu_removeProductButton = new Button("Remove Product");
+            Button cashierMenu_removeProductCancelButton = new Button("Cancel");
+            cashierMenu_removeProductButton.setAlignment(Pos.CENTER);
+            cashierMenu_removeProductCancelButton.setAlignment(Pos.CENTER);
+
+            cashierMenu_removeProFromCartGridPane.add(removeProductCartId, 0, 0);
+            cashierMenu_removeProFromCartGridPane.add(cashierMenu_removeProductCartID, 1, 0);
+            cashierMenu_removeProFromCartGridPane.add(cashierMenu_removeProductCartIDWarning, 2, 0);
+            cashierMenu_removeProFromCartGridPane.add(removeProductName, 0, 1);
+            cashierMenu_removeProFromCartGridPane.add(cashierMenu_removeProductName, 1, 1);
+            cashierMenu_removeProFromCartGridPane.add(cashierMenu_removeProductNameWarning, 2, 1);
+            cashierMenu_removeProFromCartGridPane.add(cashierMenu_removeProductButton, 0, 2);
+            cashierMenu_removeProFromCartGridPane.add(cashierMenu_removeProductCancelButton, 0, 3);
+
+            cashierMenu_removeProFromCartGridPane.setHgap(10);
+            cashierMenu_removeProFromCartGridPane.setVgap(10);
+
+            Scene removeProFromCartScene = new Scene(cashierMenu_removeProFromCartGridPane, 600, 400);
+            primaryStage.setScene(removeProFromCartScene);
+
+            cashierMenu_removeProductButton.setOnAction(e1 -> {
+                if (!CheckCartExistence(admin, cashierMenu_removeProductCartID.getText()) || !CheckProductExistence(admin, cashierMenu_removeProductName.getText())) {
+                    if (!CheckCartExistence(admin, cashierMenu_removeProductCartID.getText())) {
+                        cashierMenu_removeProductCartIDWarning.setVisible(true);
+                        cashierMenu_removeProductCartID.setText("");
+                    } else {
+                        cashierMenu_removeProductCartIDWarning.setVisible(false);
+                    }
+                    if (!CheckProductExistence(admin, cashierMenu_removeProductName.getText())) {
+                        cashierMenu_removeProductNameWarning.setVisible(true);
+                        cashierMenu_removeProductName.setText("");
+                    } else {
+                        cashierMenu_removeProductNameWarning.setVisible(false);
+                    }
+                } else {
+                    Cart cart = new Cart(admin.searchCartByField("id", cashierMenu_removeProductCartID.getText()));
+                    Product product = new Product(admin.searchProductByField("name", cashierMenu_removeProductName.getText()));
+                    if (currentCashier.removeProductFromCart(cart, product)) {
+                        Alert cashierMenu_removeProduct_ProductRemovedAlert = new Alert(Alert.AlertType.INFORMATION);
+                        cashierMenu_removeProduct_ProductRemovedAlert.setTitle("Remove Product");
+                        try {
+                            admin.saveData();
+                        } catch (IOException ex) {
+                            Alert cashierMenu_removeProduct_ProductRemoveFailed = new Alert(Alert.AlertType.ERROR);
+                            cashierMenu_removeProduct_ProductRemoveFailed.setTitle("PRODUCT REMOVE FROM CART FAILED");
+                            cashierMenu_removeProduct_ProductRemoveFailed.setHeaderText("Failed to remove product from cart");
+                            cashierMenu_removeProduct_ProductRemoveFailed.showAndWait();
+                            primaryStage.setScene(cashierScene);
+                        }
+                        cashierMenu_removeProduct_ProductRemovedAlert.setHeaderText("Product successfully removed!");
+                        cashierMenu_removeProduct_ProductRemovedAlert.setContentText("Press OK to continue");
+                        cashierMenu_removeProduct_ProductRemovedAlert.showAndWait();
+                        primaryStage.setScene(cashierScene);
+                    }
+                }
+            });
+            cashierMenu_removeProductCancelButton.setOnAction(e1 -> {
+                primaryStage.setScene(cashierScene);
+            });
         });
 
         //**************************************************************

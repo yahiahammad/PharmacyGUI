@@ -38,7 +38,7 @@ public class Cashier extends User{
     public boolean createOrder(Customer customer) {
         Cart newOrder = new Cart(customer, this);
         orderHandled.add(newOrder);
-        customer.getOrderHistory().add(newOrder);
+        customer.addOrder(newOrder);
         return true;
     }
 
@@ -100,11 +100,13 @@ public class Cashier extends User{
     public void cancelCart (Cart cart) {
         orderHandled.remove(cart);
     }
-    public void addProductToCart(Cart cart, Product product, int quantity) {
+    public boolean addProductToCart(Cart cart, Product product, int quantity) {
         cart.addProduct(product, quantity);
+        return true;
     }
-    public void removeProductFromCart(Cart cart, Product product, int quantity) {
+    public boolean removeProductFromCart(Cart cart, Product product) {
         cart.removeProduct(product);
+        return true;
     }
 
     @Override
