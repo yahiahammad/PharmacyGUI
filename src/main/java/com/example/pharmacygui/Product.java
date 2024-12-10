@@ -84,6 +84,13 @@ public class Product {
         this.quantitySold = quantitySold;
     }
 
+    public Supplier getSupplier() {
+        return supplier;
+    }
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
+    }
+
     public LocalDate getExpirationDate() {
         return expirationDate;
     }

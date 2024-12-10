@@ -77,6 +77,7 @@ public class JavaFXMain extends Application {
         Button adminMenu_removeProduct = new Button("Remove Product");
         Button adminMenu_searchProduct = new Button("Search for a Product");
         Button adminMenu_productReport = new Button("View Reports About Products");
+        Button adminMenu_BestsellerAndMostRevenueProduct = new Button("View Bestseller and Most Revenue Products");
         Button adminMenu_addUser = new Button("Add User");
         Button adminMenu_editUser = new Button("Edit User");
         Button adminMenu_removeUser = new Button("Remove User");
@@ -85,10 +86,10 @@ public class JavaFXMain extends Application {
         Button adminMenu_orderReport = new Button("View Report About Orders");
         Button adminMenu_logOut = new Button("Log Out");
 
-        VBox vbox2 = new VBox(new Label("What would you like to do?"), adminMenu_addProduct, adminMenu_editProduct, adminMenu_removeProduct, adminMenu_searchProduct, adminMenu_productReport, adminMenu_addUser, adminMenu_editUser, adminMenu_removeUser, adminMenu_searchUser, adminMenu_userReport, adminMenu_orderReport, adminMenu_logOut);
+        VBox vbox2 = new VBox(new Label("What would you like to do?"), adminMenu_addProduct, adminMenu_editProduct, adminMenu_removeProduct, adminMenu_searchProduct, adminMenu_productReport, adminMenu_BestsellerAndMostRevenueProduct, adminMenu_addUser, adminMenu_editUser, adminMenu_removeUser, adminMenu_searchUser, adminMenu_userReport, adminMenu_orderReport, adminMenu_logOut);
         vbox2.setAlignment(Pos.CENTER);
         vbox2.setSpacing(10);
-        adminMenuScene = new Scene(vbox2, 350, 450);
+        adminMenuScene = new Scene(vbox2, 450, 550);
         adminPasswordTextField.setOnAction(e -> {
             if (adminPasswordTextField.getText().equals(admin.getPassword())) {
                 adminPasswordTextField.setText("");
@@ -418,7 +419,7 @@ public class JavaFXMain extends Application {
             // Fetch the products from the Admin class
             for (Product product : admin.getProducts()) {
                 // Display product information
-                Label supplierLabel = new Label("Supplier: " + product.getSuppliers().getName());
+                Label supplierLabel = new Label("Supplier: " + product.getSupplier().getName());
                 supplierLabel.setFont(Font.font("System", FontWeight.BOLD, 15));
 
                 Label productNameLabel = new Label("Product: " + product.getName());
@@ -432,19 +433,79 @@ public class JavaFXMain extends Application {
                 productReportGridPane.add(productQuantityLabel, 0, rowIndex++);
                 productReportGridPane.add(expirationDateLabel, 0, rowIndex++);
                 rowIndex++;
-            }
+        }
 
             // Back Button to return to the Admin Menu
             Button backButton = new Button("Back");
             productReportGridPane.add(backButton, 0, rowIndex);
             backButton.setOnAction(e1 -> primaryStage.setScene(adminMenuScene));
 
-            // ScrollPane for large data
+
             ScrollPane scrollPane = new ScrollPane(productReportGridPane);
             scrollPane.setFitToWidth(true);
 
             Scene productReportScene = new Scene(scrollPane, 900, 700);
             primaryStage.setScene(productReportScene);
+        });
+
+        //*********************************************************************************************
+        //Admin Menu -> Bestseller and Most Revenue Products Button
+        adminMenu_BestsellerAndMostRevenueProduct.setOnAction(e ->  {
+            GridPane adminMenu_BestsellerAndMostRevenueProductGridPane = new GridPane();
+            adminMenu_BestsellerAndMostRevenueProductGridPane.setAlignment(Pos.CENTER);
+
+            Label startDate = new Label("Enter Start Date: ");
+            Label endDate = new Label("Enter End Date: ");
+            TextField startDateField = new TextField();
+            TextField endDateField = new TextField();
+
+            Button getBestsellerButton = new Button("Bestseller Product");
+            Button getMostRevenueButton = new Button("Most Revenue Product");
+            Button bestSellerAndMostRevenueCancelButton = new Button("Cancel");
+            getBestsellerButton.setAlignment(Pos.CENTER);
+            getMostRevenueButton.setAlignment(Pos.CENTER);
+
+            adminMenu_BestsellerAndMostRevenueProductGridPane.add(startDate, 0, 0);
+            adminMenu_BestsellerAndMostRevenueProductGridPane.add(startDateField, 1, 0);
+            adminMenu_BestsellerAndMostRevenueProductGridPane.add(endDate, 0, 1);
+            adminMenu_BestsellerAndMostRevenueProductGridPane.add(endDateField, 1, 1);
+            adminMenu_BestsellerAndMostRevenueProductGridPane.add(getBestsellerButton, 0, 2);
+            adminMenu_BestsellerAndMostRevenueProductGridPane.add(getMostRevenueButton, 1, 2);
+            adminMenu_BestsellerAndMostRevenueProductGridPane.add(bestSellerAndMostRevenueCancelButton, 0, 3);
+
+            adminMenu_BestsellerAndMostRevenueProductGridPane.setHgap(10);
+            adminMenu_BestsellerAndMostRevenueProductGridPane.setVgap(10);
+
+            Scene adminMenu_BestsellerAndMostRevenueScene = new Scene(adminMenu_BestsellerAndMostRevenueProductGridPane, 400, 400);
+            primaryStage.setScene(adminMenu_BestsellerAndMostRevenueScene);
+
+            getBestsellerButton.setOnAction(e1 -> {
+                String bestseller = admin.getMostSoldProduct(LocalDate.parse(startDateField.getText()), LocalDate.parse(endDateField.getText()));
+                System.out.println("bestseller:" + bestseller);
+                Alert bestsellerAlert = new Alert(Alert.AlertType.INFORMATION);
+                bestsellerAlert.setTitle("Bestseller");
+                bestsellerAlert.setHeaderText("Bestseller Product: " + bestseller);
+                bestsellerAlert.setContentText("Press OK to continue");
+                bestsellerAlert.showAndWait();
+                primaryStage.setScene(adminMenu_BestsellerAndMostRevenueScene);
+            });
+
+            getMostRevenueButton.setOnAction(e1 -> {
+                String mostRevenue = admin.getMostRevenueProduct(LocalDate.parse(startDateField.getText()), LocalDate.parse(endDateField.getText()));
+                System.out.println("mostRevenue:" + mostRevenue);
+                Alert mostRevenueAlert = new Alert(Alert.AlertType.INFORMATION);
+                mostRevenueAlert.setTitle("Most Revenue");
+                mostRevenueAlert.setHeaderText("Most Revenue Product: " + mostRevenue);
+                mostRevenueAlert.setContentText("Press OK to continue");
+                mostRevenueAlert.showAndWait();
+                primaryStage.setScene(adminMenu_BestsellerAndMostRevenueScene);
+            });
+
+            bestSellerAndMostRevenueCancelButton.setOnAction(e1 -> {
+                primaryStage.setScene(adminMenuScene);
+            });
+
+
         });
 
         //*********************************************************************************************
