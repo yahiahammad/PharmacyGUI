@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.HashMap;
+import java.util.Optional;
 
 
 public class JavaFXMain extends Application {
@@ -1465,7 +1467,113 @@ public class JavaFXMain extends Application {
 
         //********************************************************************************
         //Admin Menu -> User Report Menu -> Cashier Report Button
-        cashierReport.setOnAction(e -> System.out.println("View Report About Cashiers"));
+        cashierReport.setOnAction(e -> {
+            /*Label titleLabel = new Label("Cashier Reports");
+            titleLabel.setFont(Font.font("System", FontWeight.BOLD, 25));
+            titleLabel.setUnderline(true);
+
+            // Creates a GridPane for layout
+            GridPane cashierReportGridPane = new GridPane();
+            cashierReportGridPane.setAlignment(Pos.CENTER);
+            cashierReportGridPane.setHgap(15);
+            cashierReportGridPane.setVgap(15);
+            cashierReportGridPane.add(titleLabel, 0, 0);
+
+            int rowIndex = 1;
+
+            // Placeholder for Cashier Data
+            Map<Cashier, List<Order>> cashierOrders = new HashMap<>();
+            for (Cashier cashier : admin.getCashiers()) {
+                cashierOrders.put(cashier, cashier.getOrders());
+            }
+
+            // Display Number of Orders and Order Details per Cashier
+            for (Map.Entry<Cashier, List<Order>> entry : cashierOrders.entrySet()) {
+                Cashier cashier = entry.getKey();
+                List<Order> orders = entry.getValue();
+
+                Label cashierLabel = new Label("Cashier: " + cashier.getName());
+                cashierLabel.setFont(Font.font("System", FontWeight.BOLD, 15));
+                Label orderCountLabel = new Label("Number of Orders: " + orders.size());
+
+                cashierReportGridPane.add(cashierLabel, 0, rowIndex++);
+                cashierReportGridPane.add(orderCountLabel, 0, rowIndex++);
+
+                for (Order order : orders) {
+                    Label orderDetails = new Label("Order: " + order.toString());
+                    cashierReportGridPane.add(orderDetails, 0, rowIndex++);
+                }
+
+                rowIndex++;
+            }
+
+            // Calculate Cashier with Maximum Orders
+            Cashier maxOrdersCashier = null;
+            int maxOrders = 0;
+
+            for (Map.Entry<Cashier, List<Order>> entry : cashierOrders.entrySet()) {
+                if (entry.getValue().size() > maxOrders) {
+                    maxOrders = entry.getValue().size();
+                    maxOrdersCashier = entry.getKey();
+                }
+            }
+
+            Label maxOrdersLabel = new Label("Cashier with Maximum Number of Orders:");
+            maxOrdersLabel.setFont(Font.font("System", FontWeight.BOLD, 20));
+            cashierReportGridPane.add(maxOrdersLabel, 0, rowIndex++);
+
+            if (maxOrdersCashier != null) {
+                Label cashierNameLabel = new Label("Cashier: " + maxOrdersCashier.getName());
+                Label maxOrdersCountLabel = new Label("Number of Orders: " + maxOrders);
+                cashierReportGridPane.add(cashierNameLabel, 0, rowIndex++);
+                cashierReportGridPane.add(maxOrdersCountLabel, 0, rowIndex++);
+            } else {
+                Label noOrdersLabel = new Label("No cashiers to determine the maximum number of orders.");
+                cashierReportGridPane.add(noOrdersLabel, 0, rowIndex++);
+            }
+
+            // Calculate Cashier with Maximum Revenue
+            Cashier maxRevenueCashier = null;
+            double maxRevenue = 0;
+
+            for (Map.Entry<Cashier, List<Order>> entry : cashierOrders.entrySet()) {
+                double totalRevenue = 0;
+                for (Order order : entry.getValue()) {
+                    totalRevenue += order.getTotalAmount();
+                }
+                if (totalRevenue > maxRevenue) {
+                    maxRevenue = totalRevenue;
+                    maxRevenueCashier = entry.getKey();
+                }
+            }
+
+            Label maxRevenueLabel = new Label("Cashier with Maximum Revenue:");
+            maxRevenueLabel.setFont(Font.font("System", FontWeight.BOLD, 20));
+            cashierReportGridPane.add(maxRevenueLabel, 0, rowIndex++);
+
+            if (maxRevenueCashier != null) {
+                Label cashierRevenueLabel = new Label("Cashier: " + maxRevenueCashier.getName());
+                Label maxRevenueValueLabel = new Label("Total Revenue: $" + String.format("%.2f", maxRevenue));
+                cashierReportGridPane.add(cashierRevenueLabel, 0, rowIndex++);
+                cashierReportGridPane.add(maxRevenueValueLabel, 0, rowIndex++);
+            } else {
+                Label noRevenueLabel = new Label("No cashiers to determine the maximum revenue.");
+                cashierReportGridPane.add(noRevenueLabel, 0, rowIndex++);
+            }
+
+            // Back Button to return to Admin Menu
+            Button backButton = new Button("Back");
+            cashierReportGridPane.add(backButton, 0, rowIndex++);
+            backButton.setOnAction(e1 -> primaryStage.setScene(adminMenuScene));
+
+            // Add GridPane to a ScrollPane for large data
+            ScrollPane scrollPane = new ScrollPane(cashierReportGridPane);
+            scrollPane.setFitToWidth(true);
+
+            // Creates and sets the Scene
+            Scene cashierReportScene = new Scene(scrollPane, 900, 700);
+            primaryStage.setScene(cashierReportScene);*/
+        });
 
         //********************************************************************************
         //Admin Menu -> User Report Menu -> Customer Report Button
@@ -1945,7 +2053,6 @@ public class JavaFXMain extends Application {
 
         //**************************************************************
         //Cashier Menu -> Create Cart Button
-        //it's not working
         createCart.setOnAction(e -> {
             if (currentCashier != null) {
                 GridPane cashierMenu_createCartGridPane = new GridPane();
@@ -2233,9 +2340,73 @@ public class JavaFXMain extends Application {
         //**************************************************************
         //Cashier Menu -> Cancel Cart
         cancelCart.setOnAction(e -> {
-            if (currentCashier != null) {
-                //currentCashier.cancelCart();
-            }
+            GridPane cancelCart_gridPane = new GridPane();
+            cancelCart_gridPane.setAlignment(Pos.CENTER);
+
+            Label cancelCart_ID = new Label("Enter Cart ID: ");
+            Label cancelCart_IDWarning = new Label("Cart Does Not Exist!");
+            cancelCart_IDWarning.setTextFill(Color.RED);
+            cancelCart_IDWarning.setVisible(false);
+            TextField cancelCart_Id_textField = new TextField();
+
+            Button cancelCart_Button = new Button("Confirm Cancel Cart");
+            Button cancelCart_CancelButton = new Button("Cancel");
+            cancelCart_Button.setAlignment(Pos.CENTER);
+            cancelCart_CancelButton.setAlignment(Pos.CENTER);
+
+            cancelCart_gridPane.add(cancelCart_ID, 0, 0);
+            cancelCart_gridPane.add(cancelCart_Id_textField,1,0);
+            cancelCart_gridPane.add(cancelCart_IDWarning, 2, 0);
+            cancelCart_gridPane.add(cancelCart_Button, 1, 1);
+            cancelCart_gridPane.add(cancelCart_CancelButton, 1, 2);
+
+            cancelCart_gridPane.setHgap(10);
+            cancelCart_gridPane.setVgap(10);
+
+            Scene cancelCartScene = new Scene(cancelCart_gridPane, 600, 400);
+            primaryStage.setScene(cancelCartScene);
+
+            cancelCart_Button.setOnAction(e1 -> {
+                if(CheckCartExistence(admin, cancelCart_Id_textField.getText())) {
+                    //The cart actually exists
+                    cancelCart_IDWarning.setVisible(false);
+                    Cart cart = new Cart(admin.searchCartByField("id", cancelCart_Id_textField.getText()));
+                    System.out.println("cart id: " + cart.getId());
+                    System.out.println("orders:\n" + admin.getOrders());
+
+                    if (admin.getOrders().remove(cart)) {
+                        currentCashier.cancelCart(cart);
+                        Alert cashierMenu_cancelCart_CartCancelledAlert = new Alert(Alert.AlertType.INFORMATION);
+                        cashierMenu_cancelCart_CartCancelledAlert.setTitle("Cancel Cart");
+                        try {
+                            admin.saveData();
+                        } catch (IOException ex) {
+                            Alert cashierMenu_cancelCart_CartCancellationFailed = new Alert(Alert.AlertType.ERROR);
+                            cashierMenu_cancelCart_CartCancellationFailed.setTitle("CANCEL CART FAILED");
+                            cashierMenu_cancelCart_CartCancellationFailed.setContentText("Failed to cancel cart");
+                            cashierMenu_cancelCart_CartCancellationFailed.showAndWait();
+                            primaryStage.setScene(cashierScene);
+                        }
+                        cashierMenu_cancelCart_CartCancelledAlert.setHeaderText("Cart cancelled successfully");
+                        cashierMenu_cancelCart_CartCancelledAlert.setContentText("Press OK to continue");
+                        cashierMenu_cancelCart_CartCancelledAlert.showAndWait();
+                        primaryStage.setScene(cashierScene);
+                    } else {
+                        Alert cashierMenu_cancelCart_CartCancellationFailed = new Alert(Alert.AlertType.ERROR);
+                        cashierMenu_cancelCart_CartCancellationFailed.setTitle("CANCEL CART FAILED");
+                        cashierMenu_cancelCart_CartCancellationFailed.setContentText("Failed to cancel cart");
+                        cashierMenu_cancelCart_CartCancellationFailed.showAndWait();
+                        primaryStage.setScene(cashierScene);
+                    }
+                } else {
+                    cancelCart_IDWarning.setVisible(true);
+                    cancelCart_ID.setText("");
+                }
+            });
+
+            cancelCart_CancelButton.setOnAction(e1 -> {
+                primaryStage.setScene(cashierScene);
+            });
         });
 
         //**************************************************************

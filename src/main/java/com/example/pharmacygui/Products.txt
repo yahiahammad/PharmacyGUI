@@ -1,4 +1,4 @@
-Panadol,Product_0,55.0,271,GSK,2026-03-15
+Panadol,Product_0,45.0,271,GSK,2026-03-15
 Augmentin,Product_1,210.0,420,GSK,2025-08-21
 Amoxil,Product_2,25.0,324,GSK,2027-01-10
 Septrin,Product_3,20.0,210,GSK,2024-12-05
@@ -8,5 +8,4 @@ Ibuprofen,Product_6,80.0,154,BASF,2028-02-18
 Cloxide,Product_7,65.0,500,Eva Pharma,2027-04-25
 Flopadex,Product_8,177.0,100,Eva Pharma,2025-09-08
 Genuphil,Product_9,65.0,178,Eva Pharma,2026-12-20
-p1,Product_10,56.3,5,GSK,2026-12-12
-p2,Product_11,67.3,6,GSK,2025-10-13
+p2,Product_10,67.3,6,GSK,2025-10-13
