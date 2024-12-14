@@ -20,6 +20,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.Scanner;
 
 
 public class JavaFXMain extends Application {
@@ -79,13 +80,14 @@ public class JavaFXMain extends Application {
         Button adminMenu_removeProduct = new Button("Remove Product");
         Button adminMenu_searchProduct = new Button("Search for a Product");
         Button adminMenu_productReport = new Button("View Reports About Products");
-        Button adminMenu_BestsellerAndMostRevenueProduct = new Button("View Best seller and Most Revenue Products");
+        Button adminMenu_BestsellerAndMostRevenueProduct = new Button("View Best Seller and Most Revenue Products");
         Button adminMenu_addUser = new Button("Add User");
         Button adminMenu_editUser = new Button("Edit User");
         Button adminMenu_removeUser = new Button("Remove User");
         Button adminMenu_searchUser = new Button("Search for a User");
-        Button adminMenu_userReport = new Button("View Report About Users");
+        Button adminMenu_userReport = new Button("View Reports About Users");
         Button adminMenu_orderReport = new Button("View Report About Orders");
+        Button adminMenu_AvgRevenueAndTotalRevenueForOrders = new Button("View Average Revenue and Total Revenue for Orders");
         Button adminMenu_logOut = new Button("Log Out");
 
         VBox vbox2 = new VBox(new Label("What would you like to do?"), adminMenu_addProduct, adminMenu_editProduct,
@@ -93,7 +95,7 @@ public class JavaFXMain extends Application {
                 adminMenu_productReport, adminMenu_BestsellerAndMostRevenueProduct,
                 adminMenu_addUser, adminMenu_editUser, adminMenu_removeUser,
                 adminMenu_searchUser, adminMenu_userReport, adminMenu_orderReport,
-                adminMenu_logOut);
+                adminMenu_AvgRevenueAndTotalRevenueForOrders, adminMenu_logOut);
         vbox2.setAlignment(Pos.CENTER);
         vbox2.setSpacing(10);
         adminMenuScene = new Scene(vbox2, 600, 600);
@@ -1870,14 +1872,14 @@ public class JavaFXMain extends Application {
         });
 
         //***********************************************************
-        //Admin Menu -> Order Report Menu -> Order Report Button
+        //Admin Menu -> Order Report Button
         adminMenu_orderReport.setOnAction(e -> {
             // Wrapper for mutable variables
             final LocalDate[] start = {LocalDate.of(2024, 1, 1)};
             final LocalDate[] end = {LocalDate.of(2025, 1, 1)};
             final int[] rowIndex = {2};
 
-            Label label32 = new Label("Order Report:");
+            Label label32 = new Label("Orders Report:");
             label32.setFont(Font.font("System", FontWeight.BOLD, 25));
             label32.setUnderline(true);
 
@@ -1896,75 +1898,6 @@ public class JavaFXMain extends Application {
                 adminMenu_orderReportGridPane.add(orderLabel, 0, rowIndex[0]++);
             }
 
-            Label label35 = new Label("Total Revenue and Average Revenue per order over a specific period of time:");
-            label35.setFont(Font.font("System", FontWeight.BOLD, 15));
-            adminMenu_orderReportGridPane.add(label35, 0, rowIndex[0]++);
-
-            DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-            Label startLabel = new Label("Enter the start date (yyyy-MM-dd):");
-            TextField startField = new TextField();
-            FlowPane flowPane = new FlowPane();
-            flowPane.setHgap(10);
-            flowPane.getChildren().addAll(startLabel, startField);
-            adminMenu_orderReportGridPane.add(flowPane, 0, rowIndex[0]++);
-
-            Button submitButton = new Button("Submit");
-            adminMenu_orderReportGridPane.add(submitButton, 0, rowIndex[0]++);
-
-            submitButton.setOnAction(e1 -> {
-                try {
-                    start[0] = LocalDate.parse(startField.getText(), myFormat);
-                    Label endLabel = new Label("Enter the end date (yyyy-MM-dd):");
-                    TextField endField = new TextField();
-                    FlowPane flowPane1 = new FlowPane();
-                    flowPane.setHgap(10);
-                    flowPane.getChildren().addAll(endLabel, endField);
-                    adminMenu_orderReportGridPane.add(flowPane1, 0, rowIndex[0]++);
-
-                    Button submitEndButton = new Button("Submit End Date");
-                    adminMenu_orderReportGridPane.add(submitEndButton, 0, rowIndex[0]++);
-
-                    submitEndButton.setOnAction(e2 -> {
-                        try {
-                            end[0] = LocalDate.parse(endField.getText(), myFormat);
-                            if (start[0].isAfter(end[0])) {
-                                Label errorLabel = new Label("Error: Start date must be before the end date.");
-                                adminMenu_orderReportGridPane.add(errorLabel, 0, rowIndex[0]++);
-                            } else {
-                                double totalRevenue = 0;
-                                int cartCount = 0;
-
-                                for (Cart order : admin.getOrders()) {
-                                    if (order.getOrderDate().isAfter(start[0]) &&
-                                            order.getOrderDate().isBefore(end[0]) &&
-                                            order.getStatus() == Cart.Status.COMPLETED) {
-                                        totalRevenue += order.getTotalPrice();
-                                        cartCount++;
-                                    }
-                                }
-
-                                if (cartCount == 0) {
-                                    Label noOrdersLabel = new Label("No orders were made in the specified time:");
-                                    adminMenu_orderReportGridPane.add(noOrdersLabel, 0, rowIndex[0]++);
-                                } else {
-                                    Label avgRevenueLabel = new Label("Average revenue per order: " +
-                                            totalRevenue / cartCount);
-                                    Label totalRevenueLabel = new Label("Total revenue: " + totalRevenue);
-                                    adminMenu_orderReportGridPane.add(avgRevenueLabel, 0, rowIndex[0]++);
-                                    adminMenu_orderReportGridPane.add(totalRevenueLabel, 0, rowIndex[0]++);
-                                }
-                            }
-                        } catch (DateTimeParseException ex) {
-                            Label invalidDateLabel = new Label("Invalid end date format. Please use yyyy-MM-dd.");
-                            adminMenu_orderReportGridPane.add(invalidDateLabel, 0, rowIndex[0]++);
-                        }
-                    });
-                } catch (DateTimeParseException ex) {
-                    Label invalidDateLabel = new Label("Invalid start date format. Please use yyyy-MM-dd.");
-                    adminMenu_orderReportGridPane.add(invalidDateLabel, 0, rowIndex[0]++);
-                }
-            });
             Button back10 = new Button("Back");
             adminMenu_orderReportGridPane.add(back10, 0, rowIndex[0]++);
             back10.setOnAction(e1 -> primaryStage.setScene(adminMenuScene));
@@ -1973,6 +1906,180 @@ public class JavaFXMain extends Application {
             scrollPane.setFitToWidth(true);
             Scene scene = new Scene(scrollPane);
             primaryStage.setScene(scene);
+        });
+
+        //***********************************************************
+        //Admin Menu -> AvgRevenueAndTotalRevenueForOrders Button
+        adminMenu_AvgRevenueAndTotalRevenueForOrders.setOnAction(e -> {
+            GridPane avgRevenueAndTotalRevenueForOrdersGridPane = new GridPane();
+            avgRevenueAndTotalRevenueForOrdersGridPane.setAlignment(Pos.CENTER);
+            avgRevenueAndTotalRevenueForOrdersGridPane.setHgap(10);
+            avgRevenueAndTotalRevenueForOrdersGridPane.setVgap(10);
+
+            //check when you parse the string into a date(because no entry of it directly) if an exception may occur unintentionally by user
+            Label startDate = new Label("Enter Start Date: ");
+            Label startDateWarning = new Label("Invalid input!");
+            startDateWarning.setTextFill(Color.RED);
+            startDateWarning.setVisible(false);
+            TextField startDateField = new TextField();
+
+            Label endDate = new Label("Enter End Date: ");
+            Label endDateWarning = new Label("Invalid input!");
+            endDateWarning.setTextFill(Color.RED);
+            endDateWarning.setVisible(false);
+            TextField endDateField = new TextField();
+
+            Button getAvgRevenueButton = new Button("Average Revenue For Orders");
+            Button getTotalRevenueButton = new Button("Total Revenue For Orders");
+            Button avgAndTotalRevenueCancelButton = new Button("Cancel");
+            getAvgRevenueButton.setAlignment(Pos.CENTER);
+            getTotalRevenueButton.setAlignment(Pos.CENTER);
+
+            avgRevenueAndTotalRevenueForOrdersGridPane.add(startDate, 0, 0);
+            avgRevenueAndTotalRevenueForOrdersGridPane.add(startDateField, 1, 0);
+            avgRevenueAndTotalRevenueForOrdersGridPane.add(startDateWarning, 2, 0);
+            avgRevenueAndTotalRevenueForOrdersGridPane.add(endDate, 0, 1);
+            avgRevenueAndTotalRevenueForOrdersGridPane.add(endDateField, 1, 1);
+            avgRevenueAndTotalRevenueForOrdersGridPane.add(endDateWarning, 2, 1);
+            avgRevenueAndTotalRevenueForOrdersGridPane.add(getAvgRevenueButton, 0, 2);
+            avgRevenueAndTotalRevenueForOrdersGridPane.add(getTotalRevenueButton, 1, 2);
+            avgRevenueAndTotalRevenueForOrdersGridPane.add(avgAndTotalRevenueCancelButton, 0, 3);
+
+            Scene avgRevenueAndTotalRevenueForOrdersScene = new Scene(avgRevenueAndTotalRevenueForOrdersGridPane, 400, 400);
+            primaryStage.setScene(avgRevenueAndTotalRevenueForOrdersScene);
+
+            getAvgRevenueButton.setOnAction(e1 -> {
+                //date must be entered in the following format yyyy-MM-dd with zeros in front of single digit months like: january -> 01
+                LocalDate parseStartDateField = null;
+                LocalDate parseEndDateField = null;
+                try {
+                    try {
+                        parseStartDateField = LocalDate.parse(startDateField.getText());
+                        startDateWarning.setVisible(false);
+                    } catch (DateTimeParseException ex) {
+                        startDateWarning.setVisible(true);
+                        startDateField.setText("");
+                        throw ex;
+                    }
+
+                    try {
+                        parseEndDateField = LocalDate.parse(endDateField.getText());
+                        endDateWarning.setVisible(false);
+                    } catch (DateTimeParseException ex) {
+                        endDateWarning.setVisible(true);
+                        endDateField.setText("");
+                        throw ex;
+                    }
+
+                    if (parseStartDateField.isAfter(parseEndDateField)) {
+                        Alert invalidSetOfDates = new Alert(Alert.AlertType.ERROR);
+                        invalidSetOfDates.setTitle("INVALID SET OF DATES!");
+                        invalidSetOfDates.setHeaderText("This is an invalid set of dates");
+                        invalidSetOfDates.showAndWait();
+                        primaryStage.setScene(avgRevenueAndTotalRevenueForOrdersScene);
+                        startDateField.setText("");
+                        endDateField.setText("");
+                    }
+
+                    double totalRevenue = 0;
+                    int cartCount = 0;
+
+                    for (Cart order : admin.getOrders())
+                    {
+                        if (order.getOrderDate().isAfter(parseStartDateField) && order.getOrderDate().isBefore(parseEndDateField) && order.getStatus() == Cart.Status.COMPLETED) {
+                            totalRevenue += order.getTotalPrice();
+                            cartCount++;
+                        }
+                    }
+
+                    if (cartCount == 0)
+                    {
+                        Alert noOrdersAlert = new Alert(Alert.AlertType.ERROR);
+                        noOrdersAlert.setTitle("NO ORDERS FOUND");
+                        noOrdersAlert.setHeaderText("No orders were made in the specified time");
+                        noOrdersAlert.showAndWait();
+                        primaryStage.setScene(adminMenuScene);
+                    }
+                    else
+                    {
+                        Alert avgRevenueAlert = new Alert(Alert.AlertType.INFORMATION);
+                        avgRevenueAlert.setTitle("Average Revenue for Orders");
+                        avgRevenueAlert.setHeaderText("Average Revenue for Orders: " + totalRevenue/cartCount);
+                        avgRevenueAlert.setContentText("Press OK to continue");
+                        avgRevenueAlert.showAndWait();
+                        primaryStage.setScene(avgRevenueAndTotalRevenueForOrdersScene);
+                    }
+
+                } catch (DateTimeParseException ex) {
+                    primaryStage.setScene(avgRevenueAndTotalRevenueForOrdersScene);
+                }
+            });
+
+            getTotalRevenueButton.setOnAction(e1 -> {
+                LocalDate parseStartDateField = null;
+                LocalDate parseEndDateField = null;
+                try {
+                    try {
+                        parseStartDateField = LocalDate.parse(startDateField.getText());
+                        startDateWarning.setVisible(false);
+                    } catch (DateTimeParseException ex) {
+                        startDateWarning.setVisible(true);
+                        startDateField.setText("");
+                        throw ex;
+                    }
+
+                    try {
+                        parseEndDateField = LocalDate.parse(endDateField.getText());
+                        endDateWarning.setVisible(false);
+                    } catch (DateTimeParseException ex) {
+                        endDateWarning.setVisible(true);
+                        endDateField.setText("");
+                        throw ex;
+                    }
+
+                    if (parseStartDateField.isAfter(parseEndDateField)) {
+                        Alert invalidSetOfDates = new Alert(Alert.AlertType.ERROR);
+                        invalidSetOfDates.setTitle("INVALID SET OF DATES!");
+                        invalidSetOfDates.setHeaderText("This is an invalid set of dates");
+                        invalidSetOfDates.showAndWait();
+                        primaryStage.setScene(avgRevenueAndTotalRevenueForOrdersScene);
+                        startDateField.setText("");
+                        endDateField.setText("");
+                    }
+
+                    double totalRevenue = 0;
+                    int cartCount = 0;
+
+                    for (Cart order : admin.getOrders())
+                    {
+                        if (order.getOrderDate().isAfter(parseStartDateField) && order.getOrderDate().isBefore(parseEndDateField) && order.getStatus() == Cart.Status.COMPLETED) {
+                            totalRevenue += order.getTotalPrice();
+                            cartCount++;
+                        }
+                    }
+
+                    if (cartCount == 0)
+                    {
+                        Alert noOrdersAlert = new Alert(Alert.AlertType.ERROR);
+                        noOrdersAlert.setTitle("NO ORDERS FOUND");
+                        noOrdersAlert.setHeaderText("No orders were made in the specified time");
+                        noOrdersAlert.showAndWait();
+                        primaryStage.setScene(adminMenuScene);
+                    }
+                    else
+                    {
+                        Alert totalRevenueAlert = new Alert(Alert.AlertType.INFORMATION);
+                        totalRevenueAlert.setTitle("Total Revenue for Orders");
+                        totalRevenueAlert.setHeaderText("Total Revenue for Orders: " + totalRevenue);
+                        totalRevenueAlert.setContentText("Press OK to continue");
+                        totalRevenueAlert.showAndWait();
+                        primaryStage.setScene(avgRevenueAndTotalRevenueForOrdersScene);
+                    }
+
+                } catch (DateTimeParseException ex) {
+                    primaryStage.setScene(avgRevenueAndTotalRevenueForOrdersScene);
+                }
+            });
         });
 
         //***********************************************************
