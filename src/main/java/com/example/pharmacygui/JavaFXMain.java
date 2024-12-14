@@ -263,6 +263,9 @@ public class JavaFXMain extends Application {
             TextField adminMenu_editProduct_ProductField = new TextField();
 
             Label productValue = new Label("Enter New Value: ");
+            Label adminMenu_editProduct_ProductValueWarning = new Label("Type Mismatch!");
+            adminMenu_editProduct_ProductValueWarning.setTextFill(Color.RED);
+            adminMenu_editProduct_ProductValueWarning.setVisible(false);
             TextField adminMenu_editProduct_ProductValue = new TextField();
 
             Button adminMenu_editProductButton = new Button("Edit Product");
@@ -278,6 +281,7 @@ public class JavaFXMain extends Application {
             adminMenu_editProductGridPane.add(adminMenu_editProduct_ProductFieldWarning, 2, 1);
             adminMenu_editProductGridPane.add(productValue, 0, 2);
             adminMenu_editProductGridPane.add(adminMenu_editProduct_ProductValue, 1, 2);
+            adminMenu_editProductGridPane.add(adminMenu_editProduct_ProductValueWarning, 2, 2);
             adminMenu_editProductGridPane.add(adminMenu_editProductButton, 1, 3);
             adminMenu_editProductGridPane.add(adminMenu_editProductCancelButton, 1, 4);
 
@@ -301,21 +305,27 @@ public class JavaFXMain extends Application {
                     adminMenu_editProduct_ProductField.setText("");
 
                 }
-                if (admin.editProduct(adminMenu_editProduct_ProductName.getText(), adminMenu_editProduct_ProductField.getText(), adminMenu_editProduct_ProductValue.getText())) {
-                    Alert adminMenu_editProduct_ProductEditedAlert = new Alert(Alert.AlertType.INFORMATION);
-                    adminMenu_editProduct_ProductEditedAlert.setTitle("Edit Product");
-                    try {
-                        admin.saveData();
-                    } catch (IOException ex) {
-                        Alert adminMenu_editProduct_ProductEditingFailed = new Alert(Alert.AlertType.ERROR);
-                        adminMenu_editProduct_ProductEditingFailed.setHeaderText("PRODUCT EDITING FAILED");
-                        adminMenu_editProduct_ProductEditingFailed.showAndWait();
+                try {
+                    if (admin.editProduct(adminMenu_editProduct_ProductName.getText(), adminMenu_editProduct_ProductField.getText(), adminMenu_editProduct_ProductValue.getText())) {
+                        Alert adminMenu_editProduct_ProductEditedAlert = new Alert(Alert.AlertType.INFORMATION);
+                        adminMenu_editProduct_ProductEditedAlert.setTitle("Edit Product");
+                        try {
+                            admin.saveData();
+                        } catch (IOException ex) {
+                            Alert adminMenu_editProduct_ProductEditingFailed = new Alert(Alert.AlertType.ERROR);
+                            adminMenu_editProduct_ProductEditingFailed.setHeaderText("PRODUCT EDITING FAILED");
+                            adminMenu_editProduct_ProductEditingFailed.showAndWait();
+                            primaryStage.setScene(adminMenuScene);
+                        }
+                        adminMenu_editProduct_ProductEditedAlert.setHeaderText("Product successfully edited!");
+                        adminMenu_editProduct_ProductEditedAlert.setContentText("Press OK to continue");
+                        adminMenu_editProduct_ProductEditedAlert.showAndWait();
                         primaryStage.setScene(adminMenuScene);
                     }
-                    adminMenu_editProduct_ProductEditedAlert.setHeaderText("Product successfully edited!");
-                    adminMenu_editProduct_ProductEditedAlert.setContentText("Press OK to continue");
-                    adminMenu_editProduct_ProductEditedAlert.showAndWait();
-                    primaryStage.setScene(adminMenuScene);
+                } catch (NumberFormatException | DateTimeParseException ex) {
+                    adminMenu_editProduct_ProductValueWarning.setVisible(true);
+                    primaryStage.setScene(editProduct_scene);
+                    adminMenu_editProduct_ProductValue.setText("");
                 }
             });
             adminMenu_editProductCancelButton.setOnAction(e1 -> {
