@@ -461,7 +461,7 @@ public class JavaFXMain extends Application {
         //*********************************************************************************************
         //Admin Menu -> View Reports About Products Button
         adminMenu_productReport.setOnAction(e -> {
-            Label titleLabel = new Label("Product Report: Suppliers and Product Details");
+            Label titleLabel = new Label("Products Details: ");
             titleLabel.setFont(Font.font("System", FontWeight.BOLD, 25));
             titleLabel.setUnderline(true);
 
@@ -477,16 +477,16 @@ public class JavaFXMain extends Application {
             // Fetch the products from the Admin class
             for (Product product : admin.getProducts()) {
                 // Display product information
-                Label supplierLabel = new Label("Supplier: " + product.getSupplier().getName());
-                supplierLabel.setFont(Font.font("System", FontWeight.BOLD, 15));
-
                 Label productNameLabel = new Label("Product: " + product.getName());
+                productNameLabel.setFont(Font.font("System", FontWeight.BOLD, 15));
+
+                Label supplierLabel = new Label("Supplier: " + product.getSupplier().getName());
                 Label productPriceLabel = new Label("Price: $" + product.getPrice());
                 Label productQuantityLabel = new Label("Quantity: " + product.getQuantity());
                 Label expirationDateLabel = new Label("Expiration Date: " + product.getExpirationDate());
 
-                productReportGridPane.add(supplierLabel, 0, rowIndex++);
                 productReportGridPane.add(productNameLabel, 0, rowIndex++);
+                productReportGridPane.add(supplierLabel, 0, rowIndex++);
                 productReportGridPane.add(productPriceLabel, 0, rowIndex++);
                 productReportGridPane.add(productQuantityLabel, 0, rowIndex++);
                 productReportGridPane.add(expirationDateLabel, 0, rowIndex++);
