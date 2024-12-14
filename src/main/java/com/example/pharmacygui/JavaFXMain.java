@@ -568,7 +568,7 @@ public class JavaFXMain extends Application {
 
         //*********************************************************************************************
         //Admin Menu -> View Report About Orders Button
-        adminMenu_orderReport.setOnAction(e -> System.out.println("View Report About Orders"));
+        //adminMenu_orderReport.setOnAction(e -> System.out.println("View Report About Orders"));
 
         //***********************************************************
         //Admin Menu -> Add User Menu
@@ -1782,23 +1782,8 @@ public class JavaFXMain extends Application {
         });
 
         //***********************************************************
-        //Admin Menu -> Order Report Menu
-
-        Label label31 = new Label("Click on your choice");
-        Button orderReport = new Button("View Order Reports");
-        Button orderHistory = new Button("View Order History");
-        Button back8 = new Button("Back");
-
-        VBox vbox9 = new VBox(label31, orderReport, orderHistory, back8);
-        vbox9.setAlignment(Pos.CENTER);
-        vbox9.setSpacing(10);
-        Scene scene13 = new Scene(vbox9, 300, 250);
-        adminMenu_orderReport.setOnAction(e -> primaryStage.setScene(scene13));
-        back8.setOnAction(e -> primaryStage.setScene(adminMenuScene));
-
-        //***********************************************************
         //Admin Menu -> Order Report Menu -> Order Report Button
-        orderReport.setOnAction(e -> {
+        adminMenu_orderReport.setOnAction(e -> {
             // Wrapper for mutable variables
             final LocalDate[] start = {LocalDate.of(2024, 1, 1)};
             final LocalDate[] end = {LocalDate.of(2025, 1, 1)};
@@ -1894,7 +1879,7 @@ public class JavaFXMain extends Application {
             });
             Button back10 = new Button("Back");
             adminMenu_orderReportGridPane.add(back10, 0, rowIndex[0]++);
-            back10.setOnAction(e1 -> primaryStage.setScene(scene13));
+            back10.setOnAction(e1 -> primaryStage.setScene(adminMenuScene));
             ScrollPane scrollPane = new ScrollPane(adminMenu_orderReportGridPane);
             scrollPane.setFitToHeight(true);
             scrollPane.setFitToWidth(true);
@@ -2393,7 +2378,7 @@ public class JavaFXMain extends Application {
                     price = cart.calculateTotalPrice();
                     Alert cashierMenu_paymentAlert = new Alert(Alert.AlertType.INFORMATION);
                     cashierMenu_paymentAlert.setTitle("Payment Calculation");
-                    cashierMenu_paymentAlert.setHeaderText("Payment for Cart " + cashierMenu_CartID.getText() + " is: " + price);
+                    cashierMenu_paymentAlert.setHeaderText("Payment for " + cashierMenu_CartID.getText() + " is: " + price);
                     cashierMenu_paymentAlert.setContentText("Press OK to continue");
                     cashierMenu_paymentAlert.showAndWait();
                     primaryStage.setScene(cashierScene);
@@ -2484,7 +2469,6 @@ public class JavaFXMain extends Application {
 
     public static void main(String[] args) {
         launch(args);
-
     }
 
 
