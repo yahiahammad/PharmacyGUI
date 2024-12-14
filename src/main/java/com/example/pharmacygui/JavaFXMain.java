@@ -538,6 +538,7 @@ public class JavaFXMain extends Application {
             primaryStage.setScene(adminMenu_BestsellerAndMostRevenueScene);
 
             getBestsellerButton.setOnAction(e1 -> {
+                //date must be entered in the following format yyyy-MM-dd with zeros in front of single digit months like: january -> 01
                 String bestseller = admin.getMostSoldProduct(LocalDate.parse(startDateField.getText()), LocalDate.parse(endDateField.getText()));
                 System.out.println("bestseller:" + bestseller);
                 Alert bestsellerAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -549,6 +550,7 @@ public class JavaFXMain extends Application {
             });
 
             getMostRevenueButton.setOnAction(e1 -> {
+                //date must be entered in the following format yyyy-MM-dd with zeros in front of single digit months like: january -> 01
                 String mostRevenue = admin.getMostRevenueProduct(LocalDate.parse(startDateField.getText()), LocalDate.parse(endDateField.getText()));
                 System.out.println("mostRevenue:" + mostRevenue);
                 Alert mostRevenueAlert = new Alert(Alert.AlertType.INFORMATION);
