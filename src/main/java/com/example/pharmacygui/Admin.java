@@ -6,7 +6,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -84,8 +83,9 @@ Admin extends User{
     }
 
     //Product methods********************************************************************************************
-    //20/11
+
     //should check if the product already exists and if it does then change the quantity only if it's greater
+    //add new product
     public boolean addNewProduct(String pName, double pPrice, int pQuantity, Supplier pSupplier, LocalDate pExpirationDate) {
         if (!JavaFXMain.CheckProductExistence(this,pName))
         {
@@ -97,10 +97,7 @@ Admin extends User{
         return false;
     }
 
-    //will be checked now
-
-
-    //20//11
+    //edit product
     public boolean editProduct(String name, String field, String value) {
         if (JavaFXMain.CheckProductExistence(this, name)) {
             for (Product product : products) {
@@ -128,7 +125,7 @@ Admin extends User{
         return false;
     }
 
-    //I think it won't be changed
+    //remove product
     public boolean removeProduct(String name) {
         if(JavaFXMain.CheckProductExistence(this, name)) {
             products.removeIf(product -> product.getName().equals(name));
@@ -138,7 +135,7 @@ Admin extends User{
         return false;
     }
 
-    //20/11 should it just be boolean? no
+    //search for a product
     public Product searchProductByField(String field, String value) {
         for (Product product : products) {
             if (field.equalsIgnoreCase("name") && product.getName().equalsIgnoreCase(value)) {
@@ -151,7 +148,7 @@ Admin extends User{
         return null;
     }
 
-    //didn't check it yet
+    //get most sold product
     public String getMostSoldProduct(LocalDate start, LocalDate end) {
         int maxQuantity = 0;
         ArrayList<Product> productOccurences = new ArrayList<>();
@@ -172,24 +169,16 @@ Admin extends User{
             if (Collections.frequency(productOccurences, product) > maxQuantity) {
                 maxQuantity = Collections.frequency(productOccurences, product);
             }
-
         }
 
-
         if (maxQuantity == 0) {
-            //System.out.println("Product not found");
-            //return null;
             return "";
         }
 
         for (Product product : productOccurences) {
-
-            //String found = null;
-
             if (Collections.frequency(productOccurences, product) == maxQuantity) {
                 bestSellerProducts.add(product);
             }
-
         }
 
         //String mostRevenue;
@@ -197,10 +186,10 @@ Admin extends User{
             return ("Most Sold Product is of ID: " + product.getProductId() + " and it was ordered " + maxQuantity + " time(s)");
         }
 
-        //return bestSellerProducts;
         return "";
     }
 
+    //get most revenue product
     public String getMostRevenueProduct(LocalDate start, LocalDate end) {
         int maxQuantity = 0;
         ArrayList<Product> productOccurences = new ArrayList<>();

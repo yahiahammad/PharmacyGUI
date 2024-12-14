@@ -19,7 +19,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
-import java.util.InputMismatchException;
 import java.util.Optional;
 
 
@@ -37,7 +36,7 @@ public class JavaFXMain extends Application {
         Scene mainMenuScene, adminLoginScene, adminMenuScene, adminMenu_addUserScene, scene7, scene8, scene9, scene10;
 
         //**************************************************
-        //Admin Menu
+        //Main Menu
         Button mainMenu_adminButton = new Button("Admin");
         Button customer = new Button("Customer");
         Button cashier = new Button("Cashier");
@@ -89,10 +88,15 @@ public class JavaFXMain extends Application {
         Button adminMenu_orderReport = new Button("View Report About Orders");
         Button adminMenu_logOut = new Button("Log Out");
 
-        VBox vbox2 = new VBox(new Label("What would you like to do?"), adminMenu_addProduct, adminMenu_editProduct, adminMenu_removeProduct, adminMenu_searchProduct, adminMenu_productReport, adminMenu_BestsellerAndMostRevenueProduct, adminMenu_addUser, adminMenu_editUser, adminMenu_removeUser, adminMenu_searchUser, adminMenu_userReport, adminMenu_orderReport, adminMenu_logOut);
+        VBox vbox2 = new VBox(new Label("What would you like to do?"), adminMenu_addProduct, adminMenu_editProduct,
+                adminMenu_removeProduct, adminMenu_searchProduct,
+                adminMenu_productReport, adminMenu_BestsellerAndMostRevenueProduct,
+                adminMenu_addUser, adminMenu_editUser, adminMenu_removeUser,
+                adminMenu_searchUser, adminMenu_userReport, adminMenu_orderReport,
+                adminMenu_logOut);
         vbox2.setAlignment(Pos.CENTER);
         vbox2.setSpacing(10);
-        adminMenuScene = new Scene(vbox2, 450, 550);
+        adminMenuScene = new Scene(vbox2, 600, 600);
         adminPasswordTextField.setOnAction(e -> {
             if (adminPasswordTextField.getText().equals(admin.getPassword())) {
                 adminPasswordTextField.setText("");
@@ -564,13 +568,7 @@ public class JavaFXMain extends Application {
             bestSellerAndMostRevenueCancelButton.setOnAction(e1 -> {
                 primaryStage.setScene(adminMenuScene);
             });
-
-
         });
-
-        //*********************************************************************************************
-        //Admin Menu -> View Report About Orders Button
-        //adminMenu_orderReport.setOnAction(e -> System.out.println("View Report About Orders"));
 
         //***********************************************************
         //Admin Menu -> Add User Menu
@@ -1513,14 +1511,15 @@ public class JavaFXMain extends Application {
         Label label10 = new Label("Click on your choice");
         Button cashierReport = new Button("View Report About Cashiers");
         Button customerReport = new Button("View Report About Customers");
+        Button customerMaxOrderAndMaxRevenue = new Button("View Customers with Max Orders and Revenue");
         Button supplierReport = new Button("View Report About Suppliers");
         Button back5 = new Button("Back");
 
-        VBox vbox8 = new VBox(cashierReport, customerReport, supplierReport, back5);
+        VBox vbox8 = new VBox(cashierReport, customerReport, customerMaxOrderAndMaxRevenue, supplierReport, back5);
         vbox8.setAlignment(Pos.CENTER);
         vbox8.setSpacing(10);
-        scene10 = new Scene(vbox8, 300, 250);
-        adminMenu_userReport.setOnAction(e -> primaryStage.setScene(scene10));
+        Scene userReportScene = new Scene(vbox8, 300, 400);
+        adminMenu_userReport.setOnAction(e -> primaryStage.setScene(userReportScene));
         back5.setOnAction(e -> primaryStage.setScene(adminMenuScene));
 
         //********************************************************************************
@@ -1655,44 +1654,74 @@ public class JavaFXMain extends Application {
                 i1++;
                 for(Cart order : customer1.getOrderHistory()) {
                     Label label14 = new Label(order.toString());
-                    adminMenu_userReportGridPane.add(label14, 0, i1);
-                }
-                i1++;
-            }
-
-
-            //Customer with the maximum number of Orders
-            Label label15 = new Label("Customer with the maximum number of Orders: ");
-            label15.setFont(Font.font("System", FontWeight.BOLD, 25));
-            label15.setUnderline(true);
-            adminMenu_userReportGridPane.add(label15, 0, i1);
-            i1++;
-            Customer maxOrderCustomer = null;
-            double maxOrders_customer = 0;
-            for (Customer customer2 : admin.getCustomers()) {
-                if (customer2.getOrderHistory().size() > maxOrders_customer) {
-                    maxOrders_customer = customer2.getOrderHistory().size() ;
-                    maxOrderCustomer = customer2;
+                    adminMenu_userReportGridPane.add(label14, 0, i1++);
                 }
             }
-            if (maxOrderCustomer != null) {
-                Label label16 = new Label("Customer: " + maxOrderCustomer);
-                adminMenu_userReportGridPane.add(label16, 0, i1);
-                i1++;
-                Label label17 = new Label("Number of Orders: " + maxOrders_customer);
-                adminMenu_userReportGridPane.add(label17, 0, i1);
-            } else {
-                Label label18 = new Label("No customers to determine the maximum no. of Orders");
-                adminMenu_userReportGridPane.add(label18, 0, i1);
-            }
+
             i1++;
             Button back6 = new Button("Back");
             adminMenu_userReportGridPane.add(back6, 0, i1);
-            back6.setOnAction(e1 -> primaryStage.setScene(scene10));
+            back6.setOnAction(e1 -> primaryStage.setScene(userReportScene));
             ScrollPane scrollPane = new ScrollPane(adminMenu_userReportGridPane);
             scrollPane.setFitToWidth(true);
             Scene scene11 = new Scene(scrollPane, 900, 700);
             primaryStage.setScene(scene11);
+        });
+
+        //********************************************************************************
+        //Admin Menu -> User Report Menu -> customerMaxOrderAndMaxRevenue Button
+        customerMaxOrderAndMaxRevenue.setOnAction(e1 -> {
+            GridPane customerMaxOrderAndMaxRevenueGridPane = new GridPane();
+            customerMaxOrderAndMaxRevenueGridPane.setAlignment(Pos.CENTER);
+            customerMaxOrderAndMaxRevenueGridPane.setHgap(10);
+            customerMaxOrderAndMaxRevenueGridPane.setVgap(10);
+
+            Customer maxOrderCustomer = null;
+            double maxOrders_customer = 0;
+            Customer maxRevCustomer = null;
+            double maxRevCustomerRev=0;
+
+            for (Customer cu : admin.getCustomers()) {
+                if (cu.getOrderHistory().size() > maxOrders_customer) {
+                    maxOrders_customer = cu.getOrderHistory().size() ;
+                    maxOrderCustomer = cu;
+                }
+                if (cu.getTotalPriceOfAllOrders() > maxRevCustomerRev) {
+                    maxRevCustomerRev = cu.getTotalPriceOfAllOrders();
+                    maxRevCustomer = cu;
+                }
+            }
+            if (maxOrderCustomer != null && maxRevCustomer != null) {
+                Label CustomerMaxOrder = new Label("Customer with Maximum Orders:");
+                Label CustomerMaxOrderInfo = new Label("Customer: " + maxOrderCustomer);
+
+                Label CustomerMaxRevenue = new Label("Customer with Maximum Revenue:");
+                Label CustomerMaxRevenueInfo = new Label("Customer: " + maxRevCustomer);
+                Label maxRevenueInfo = new Label("Revenue: " + maxRevCustomerRev);
+
+                Button done = new Button("Done Viewing");
+                done.setAlignment(Pos.CENTER);
+
+                customerMaxOrderAndMaxRevenueGridPane.add(CustomerMaxOrder, 0, 0);
+                customerMaxOrderAndMaxRevenueGridPane.add(CustomerMaxOrderInfo, 0, 1);
+                customerMaxOrderAndMaxRevenueGridPane.add(CustomerMaxRevenue, 0, 2);
+                customerMaxOrderAndMaxRevenueGridPane.add(CustomerMaxRevenueInfo, 0, 3);
+                customerMaxOrderAndMaxRevenueGridPane.add(maxRevenueInfo, 0, 4);
+                customerMaxOrderAndMaxRevenueGridPane.add(done, 0, 5);
+
+                Scene customerMaxOrderAndMaxRevenueScene = new Scene(customerMaxOrderAndMaxRevenueGridPane, 300, 400);
+                primaryStage.setScene(customerMaxOrderAndMaxRevenueScene);
+
+                done.setOnAction(e2 -> {
+                   primaryStage.setScene(userReportScene);
+                });
+            } else {
+                Alert noCustomersAlert = new Alert(Alert.AlertType.ERROR);
+                noCustomersAlert.setTitle("NO CUSTOMERS FOUND!");
+                noCustomersAlert.setHeaderText("No Customers to determine the maximum no. of Orders or Revenue");
+                noCustomersAlert.showAndWait();
+                primaryStage.setScene(adminMenuScene);
+            }
         });
 
         //********************************************************************************
@@ -1776,7 +1805,7 @@ public class JavaFXMain extends Application {
             i2++;
             Button back7 = new Button("Back");
             adminMenu_supplierReportGridPane.add(back7, 0, i2);
-            back7.setOnAction(e1 -> primaryStage.setScene(scene10));
+            back7.setOnAction(e1 -> primaryStage.setScene(userReportScene));
             ScrollPane scrollPane = new ScrollPane(adminMenu_supplierReportGridPane);
             scrollPane.setFitToWidth(true);
             Scene scene12 = new Scene(scrollPane, 900, 700);
