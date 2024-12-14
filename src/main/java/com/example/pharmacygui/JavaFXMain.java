@@ -79,7 +79,7 @@ public class JavaFXMain extends Application {
         Button adminMenu_removeProduct = new Button("Remove Product");
         Button adminMenu_searchProduct = new Button("Search for a Product");
         Button adminMenu_productReport = new Button("View Reports About Products");
-        Button adminMenu_BestsellerAndMostRevenueProduct = new Button("View Bestseller and Most Revenue Products");
+        Button adminMenu_BestsellerAndMostRevenueProduct = new Button("View Best seller and Most Revenue Products");
         Button adminMenu_addUser = new Button("Add User");
         Button adminMenu_editUser = new Button("Edit User");
         Button adminMenu_removeUser = new Button("Remove User");
@@ -517,11 +517,18 @@ public class JavaFXMain extends Application {
             adminMenu_BestsellerAndMostRevenueProductGridPane.setAlignment(Pos.CENTER);
 
             Label startDate = new Label("Enter Start Date: ");
-            Label endDate = new Label("Enter End Date: ");
+            Label startDateWarning = new Label("Invalid input!");
+            startDateWarning.setTextFill(Color.RED);
+            startDateWarning.setVisible(false);
             TextField startDateField = new TextField();
+
+            Label endDate = new Label("Enter End Date: ");
+            Label endDateWarning = new Label("Invalid input!");
+            endDateWarning.setTextFill(Color.RED);
+            endDateWarning.setVisible(false);
             TextField endDateField = new TextField();
 
-            Button getBestsellerButton = new Button("Bestseller Product");
+            Button getBestsellerButton = new Button("Best seller Product");
             Button getMostRevenueButton = new Button("Most Revenue Product");
             Button bestSellerAndMostRevenueCancelButton = new Button("Cancel");
             getBestsellerButton.setAlignment(Pos.CENTER);
@@ -529,8 +536,10 @@ public class JavaFXMain extends Application {
 
             adminMenu_BestsellerAndMostRevenueProductGridPane.add(startDate, 0, 0);
             adminMenu_BestsellerAndMostRevenueProductGridPane.add(startDateField, 1, 0);
+            adminMenu_BestsellerAndMostRevenueProductGridPane.add(startDateWarning, 2, 0);
             adminMenu_BestsellerAndMostRevenueProductGridPane.add(endDate, 0, 1);
             adminMenu_BestsellerAndMostRevenueProductGridPane.add(endDateField, 1, 1);
+            adminMenu_BestsellerAndMostRevenueProductGridPane.add(endDateWarning, 2, 1);
             adminMenu_BestsellerAndMostRevenueProductGridPane.add(getBestsellerButton, 0, 2);
             adminMenu_BestsellerAndMostRevenueProductGridPane.add(getMostRevenueButton, 1, 2);
             adminMenu_BestsellerAndMostRevenueProductGridPane.add(bestSellerAndMostRevenueCancelButton, 0, 3);
@@ -543,26 +552,74 @@ public class JavaFXMain extends Application {
 
             getBestsellerButton.setOnAction(e1 -> {
                 //date must be entered in the following format yyyy-MM-dd with zeros in front of single digit months like: january -> 01
-                String bestseller = admin.getMostSoldProduct(LocalDate.parse(startDateField.getText()), LocalDate.parse(endDateField.getText()));
-                System.out.println("bestseller:" + bestseller);
-                Alert bestsellerAlert = new Alert(Alert.AlertType.INFORMATION);
-                bestsellerAlert.setTitle("Bestseller");
-                bestsellerAlert.setHeaderText("Bestseller Product: " + bestseller);
-                bestsellerAlert.setContentText("Press OK to continue");
-                bestsellerAlert.showAndWait();
-                primaryStage.setScene(adminMenu_BestsellerAndMostRevenueScene);
+                LocalDate parseStartDateField = null;
+                LocalDate parseEndDateField = null;
+                try {
+                    try {
+                        parseStartDateField = LocalDate.parse(startDateField.getText());
+                        startDateWarning.setVisible(false);
+                    } catch (DateTimeParseException ex) {
+                        startDateWarning.setVisible(true);
+                        startDateField.setText("");
+                        throw ex;
+                    }
+
+                    try {
+                        parseEndDateField = LocalDate.parse(endDateField.getText());
+                        endDateWarning.setVisible(false);
+                    } catch (DateTimeParseException ex) {
+                        endDateWarning.setVisible(true);
+                        endDateField.setText("");
+                        throw ex;
+                    }
+
+                    String bestseller = admin.getMostSoldProduct(parseStartDateField, parseEndDateField);
+                    System.out.println("Best seller:" + bestseller);
+                    Alert bestsellerAlert = new Alert(Alert.AlertType.INFORMATION);
+                    bestsellerAlert.setTitle("Best seller");
+                    bestsellerAlert.setHeaderText("Best seller Product: " + bestseller);
+                    bestsellerAlert.setContentText("Press OK to continue");
+                    bestsellerAlert.showAndWait();
+                    primaryStage.setScene(adminMenu_BestsellerAndMostRevenueScene);
+                } catch (DateTimeParseException ex) {
+                    primaryStage.setScene(adminMenu_BestsellerAndMostRevenueScene);
+                }
             });
 
             getMostRevenueButton.setOnAction(e1 -> {
                 //date must be entered in the following format yyyy-MM-dd with zeros in front of single digit months like: january -> 01
-                String mostRevenue = admin.getMostRevenueProduct(LocalDate.parse(startDateField.getText()), LocalDate.parse(endDateField.getText()));
-                System.out.println("mostRevenue:" + mostRevenue);
-                Alert mostRevenueAlert = new Alert(Alert.AlertType.INFORMATION);
-                mostRevenueAlert.setTitle("Most Revenue");
-                mostRevenueAlert.setHeaderText("Most Revenue Product: " + mostRevenue);
-                mostRevenueAlert.setContentText("Press OK to continue");
-                mostRevenueAlert.showAndWait();
-                primaryStage.setScene(adminMenu_BestsellerAndMostRevenueScene);
+                LocalDate parseStartDateField = null;
+                LocalDate parseEndDateField = null;
+                try {
+                    try {
+                        parseStartDateField = LocalDate.parse(startDateField.getText());
+                        startDateWarning.setVisible(false);
+                    } catch (DateTimeParseException ex) {
+                        startDateWarning.setVisible(true);
+                        startDateField.setText("");
+                        throw ex;
+                    }
+
+                    try {
+                        parseEndDateField = LocalDate.parse(endDateField.getText());
+                        endDateWarning.setVisible(false);
+                    } catch (DateTimeParseException ex) {
+                        endDateWarning.setVisible(true);
+                        endDateField.setText("");
+                        throw ex;
+                    }
+
+                    String mostRevenue = admin.getMostRevenueProduct(parseStartDateField, parseEndDateField);
+                    System.out.println("Most Revenue:" + mostRevenue);
+                    Alert mostRevenueAlert = new Alert(Alert.AlertType.INFORMATION);
+                    mostRevenueAlert.setTitle("Most Revenue");
+                    mostRevenueAlert.setHeaderText("Most Revenue Product: " + mostRevenue);
+                    mostRevenueAlert.setContentText("Press OK to continue");
+                    mostRevenueAlert.showAndWait();
+                    primaryStage.setScene(adminMenu_BestsellerAndMostRevenueScene);
+                } catch (DateTimeParseException ex) {
+                    primaryStage.setScene(adminMenu_BestsellerAndMostRevenueScene);
+                }
             });
 
             bestSellerAndMostRevenueCancelButton.setOnAction(e1 -> {
@@ -2344,8 +2401,8 @@ public class JavaFXMain extends Application {
                         cashierMenu_removeProductNameWarning.setVisible(false);
                     }
                 } else {
-                    Cart cart = new Cart(admin.searchCartByField("id", cashierMenu_removeProductCartID.getText()));
-                    Product product = new Product(admin.searchProductByField("name", cashierMenu_removeProductName.getText()));
+                    Cart cart =  admin.searchCartByField("id", cashierMenu_removeProductCartID.getText());
+                    Product product = admin.searchProductByField("name", cashierMenu_removeProductName.getText());
                     if (currentCashier.removeProductFromCart(cart, product)) {
                         Alert cashierMenu_removeProduct_ProductRemovedAlert = new Alert(Alert.AlertType.INFORMATION);
                         cashierMenu_removeProduct_ProductRemovedAlert.setTitle("Remove Product");
@@ -2460,6 +2517,8 @@ public class JavaFXMain extends Application {
 
                     if (admin.getOrders().remove(cart)) {
                         currentCashier.cancelCart(cart);
+                        admin.getOrders().remove(cart);
+                        currentCustomer.getOrderHistory().remove(cart);
                         Alert cashierMenu_cancelCart_CartCancelledAlert = new Alert(Alert.AlertType.INFORMATION);
                         cashierMenu_cancelCart_CartCancelledAlert.setTitle("Cancel Cart");
                         try {

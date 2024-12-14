@@ -139,10 +139,10 @@ public class Cart {
     }
 
     public void removeProduct(Product product) {
-        int index = productList.indexOf(product);
-        if (index != -1) {
-            productList.remove(index);
-            quantityList.remove(index);
+        boolean exists = productList.contains(product);
+        if (exists) {
+            quantityList.remove(productList.indexOf(product));
+            productList.remove(product);
             calculateTotalPrice();
         } else {
             System.out.println("Product not found in cart");
