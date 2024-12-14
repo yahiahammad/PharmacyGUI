@@ -9,3 +9,6 @@ Cloxide,Product_7,65.0,500,Eva Pharma,2027-04-25
 Flopadex,Product_8,177.0,100,Eva Pharma,2025-09-08
 Genuphil,Product_9,65.0,178,Eva Pharma,2026-12-20
 p2,Product_10,67.3,6,GSK,2025-10-13
+p3,Product_11,56.0,7,GSK,2026-12-12
+p4,Product_12,45.0,5,GSK,2026-12-12
+p5,Product_13,78.0,8,GSK,2026-12-12

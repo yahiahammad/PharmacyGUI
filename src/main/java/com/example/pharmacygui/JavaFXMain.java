@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Optional;
 
 
@@ -117,9 +118,15 @@ public class JavaFXMain extends Application {
             TextField adminMenu_addProduct_ProductName = new TextField();
 
             Label productPrice = new Label("Enter Product Price: ");
+            Label adminMenu_addProduct_ProductPriceWarning = new Label("Price Must be Double or Integer!");
+            adminMenu_addProduct_ProductPriceWarning.setTextFill(Color.RED);
+            adminMenu_addProduct_ProductPriceWarning.setVisible(false);
             TextField adminMenu_addProduct_ProductPrice = new TextField();
 
             Label productQuantity = new Label("Enter Product Quantity: ");
+            Label adminMenu_addProduct_ProductQuantityWarning = new Label("Quantity Must be Integer!");
+            adminMenu_addProduct_ProductQuantityWarning.setTextFill(Color.RED);
+            adminMenu_addProduct_ProductQuantityWarning.setVisible(false);
             TextField adminMenu_addProduct_ProductQuantity = new TextField();
 
             Label productSupplier = new Label("Enter Product Supplier ID: ");
@@ -129,6 +136,9 @@ public class JavaFXMain extends Application {
             TextField adminMenu_addProduct_ProductSupplierID = new TextField();
 
             Label productExpirationDate = new Label("Enter Product Expiration Date: ");
+            Label adminMenu_addProduct_ProductExpirationDateWarning = new Label("Expiration Date Must be Date!");
+            adminMenu_addProduct_ProductExpirationDateWarning.setTextFill(Color.RED);
+            adminMenu_addProduct_ProductExpirationDateWarning.setVisible(false);
             TextField adminMenu_addProduct_ProductExpirationDate = new TextField("yyyy-MM-dd");
 
             Button adminMenu_addProductButton = new Button("Add Product");
@@ -140,21 +150,24 @@ public class JavaFXMain extends Application {
             adminMenu_addProductGridPane.add(adminMenu_addProduct_ProductNameWarning, 2, 0);
             adminMenu_addProductGridPane.add(productPrice, 0, 1);
             adminMenu_addProductGridPane.add(adminMenu_addProduct_ProductPrice, 1, 1);
+            adminMenu_addProductGridPane.add(adminMenu_addProduct_ProductPriceWarning, 2, 1);
             adminMenu_addProductGridPane.add(productQuantity, 0, 2);
             adminMenu_addProductGridPane.add(adminMenu_addProduct_ProductQuantity, 1, 2);
+            adminMenu_addProductGridPane.add(adminMenu_addProduct_ProductQuantityWarning, 2, 2);
             adminMenu_addProductGridPane.add(productSupplier, 0, 3);
             adminMenu_addProductGridPane.add(adminMenu_addProduct_ProductSupplierID, 1, 3);
             adminMenu_addProductGridPane.add(adminMenu_addProduct_SupplierIDWarning, 2, 3);
             adminMenu_addProductGridPane.add(productExpirationDate, 0, 4);
             adminMenu_addProductGridPane.add(adminMenu_addProduct_ProductExpirationDate, 1, 4);
+            adminMenu_addProductGridPane.add(adminMenu_addProduct_ProductExpirationDateWarning, 2, 4);
             adminMenu_addProductGridPane.add(adminMenu_addProductButton, 1, 5);
             adminMenu_addProductGridPane.add(adminMenu_addProductCancelButton, 1, 6);
 
             adminMenu_addProductGridPane.setHgap(10);
             adminMenu_addProductGridPane.setVgap(10);
 
-            Scene scene = new Scene(adminMenu_addProductGridPane, 500, 500);
-            primaryStage.setScene(scene);
+            Scene adminMenu_addProductScene = new Scene(adminMenu_addProductGridPane, 500, 500);
+            primaryStage.setScene(adminMenu_addProductScene);
 
             //************************************************************
             //Admin Menu -> Add Product Button
@@ -175,22 +188,55 @@ public class JavaFXMain extends Application {
                 } else {
                     adminMenu_addProduct_ProductNameWarning.setVisible(false);
                     adminMenu_addProduct_SupplierIDWarning.setVisible(false);
-                    if (admin.addNewProduct(adminMenu_addProduct_ProductName.getText(), Double.parseDouble(adminMenu_addProduct_ProductPrice.getText()), Integer.parseInt(adminMenu_addProduct_ProductQuantity.getText()), admin.searchSupplierByField("id", adminMenu_addProduct_ProductSupplierID.getText()), LocalDate.parse(adminMenu_addProduct_ProductExpirationDate.getText()))) {
-                        Alert adminMenu_addProduct_ProductAddedAlert = new Alert(Alert.AlertType.INFORMATION);
-                        adminMenu_addProduct_ProductAddedAlert.setTitle("Add Product");
+
+                    double parseAdminMenu_addProduct_ProductPrice = 0;
+                    int parseAdminMenu_addProduct_ProductQuantity = 0;
+                    LocalDate parseAdminMenu_addProduct_ProductExpirationDate = null;
+
+                    try {
                         try {
-                            admin.saveData();
-                        } catch (IOException ex) {
-                            Alert adminMenu_addProduct_ProductAddingFailed = new Alert(Alert.AlertType.ERROR);
-                            adminMenu_addProduct_ProductAddingFailed.setTitle("PRODUCT ADDITION FAILED");
-                            adminMenu_addProduct_ProductAddingFailed.setHeaderText("Failed to add product to the database");
-                            adminMenu_addProduct_ProductAddingFailed.showAndWait();
+                            parseAdminMenu_addProduct_ProductPrice = Double.parseDouble(adminMenu_addProduct_ProductPrice.getText());
+                            adminMenu_addProduct_ProductPriceWarning.setVisible(false);
+                        } catch (NumberFormatException ex) {
+                            adminMenu_addProduct_ProductPriceWarning.setVisible(true);
+                            throw ex;
+                        }
+
+                        try {
+                            parseAdminMenu_addProduct_ProductQuantity = Integer.parseInt(adminMenu_addProduct_ProductQuantity.getText());
+                            adminMenu_addProduct_ProductQuantityWarning.setVisible(false);
+                        } catch (NumberFormatException ex) {
+                            adminMenu_addProduct_ProductQuantityWarning.setVisible(true);
+                            throw ex;
+                        }
+
+                        try {
+                            parseAdminMenu_addProduct_ProductExpirationDate = LocalDate.parse(adminMenu_addProduct_ProductExpirationDate.getText());
+                            adminMenu_addProduct_ProductExpirationDateWarning.setVisible(false);
+                        } catch (DateTimeParseException ex) {
+                            adminMenu_addProduct_ProductExpirationDateWarning.setVisible(true);
+                            throw ex;
+                        }
+
+                        if (admin.addNewProduct(adminMenu_addProduct_ProductName.getText(), parseAdminMenu_addProduct_ProductPrice, parseAdminMenu_addProduct_ProductQuantity, admin.searchSupplierByField("id", adminMenu_addProduct_ProductSupplierID.getText()), parseAdminMenu_addProduct_ProductExpirationDate)) {
+                            Alert adminMenu_addProduct_ProductAddedAlert = new Alert(Alert.AlertType.INFORMATION);
+                            adminMenu_addProduct_ProductAddedAlert.setTitle("Add Product");
+                            try {
+                                admin.saveData();
+                            } catch (IOException ex) {
+                                Alert adminMenu_addProduct_ProductAddingFailed = new Alert(Alert.AlertType.ERROR);
+                                adminMenu_addProduct_ProductAddingFailed.setTitle("PRODUCT ADDITION FAILED");
+                                adminMenu_addProduct_ProductAddingFailed.setHeaderText("Failed to add product to the database");
+                                adminMenu_addProduct_ProductAddingFailed.showAndWait();
+                                primaryStage.setScene(adminMenuScene);
+                            }
+                            adminMenu_addProduct_ProductAddedAlert.setHeaderText("Product successfully added!");
+                            adminMenu_addProduct_ProductAddedAlert.setContentText("Press OK to continue");
+                            adminMenu_addProduct_ProductAddedAlert.showAndWait();
                             primaryStage.setScene(adminMenuScene);
                         }
-                        adminMenu_addProduct_ProductAddedAlert.setHeaderText("Product successfully added!");
-                        adminMenu_addProduct_ProductAddedAlert.setContentText("Press OK to continue");
-                        adminMenu_addProduct_ProductAddedAlert.showAndWait();
-                        primaryStage.setScene(adminMenuScene);
+                    } catch (NumberFormatException | DateTimeParseException ex) {
+                        primaryStage.setScene(adminMenu_addProductScene);
                     }
                 }
             });
