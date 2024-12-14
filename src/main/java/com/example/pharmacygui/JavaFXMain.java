@@ -2196,6 +2196,9 @@ public class JavaFXMain extends Application {
             TextField cashierMenu_addProToCart_ProductName = new TextField();
 
             Label cartProductQuantity = new Label("Enter Product Quantity: ");
+            Label cashierMenu_addProToCart_ProductQuantityWarning = new Label("Quantity Must be Integer!");
+            cashierMenu_addProToCart_ProductQuantityWarning.setTextFill(Color.RED);
+            cashierMenu_addProToCart_ProductQuantityWarning.setVisible(false);
             TextField cashierMenu_addProToCart_ProductQuantity = new TextField();
 
             Button cashierMenu_addProToCartButton = new Button("Add Product to Cart");
@@ -2210,6 +2213,7 @@ public class JavaFXMain extends Application {
             cashierMenu_addProToCartGridPane.add(cashierMenu_addProToCart_ProductNameWarning, 2, 1);
             cashierMenu_addProToCartGridPane.add(cartProductQuantity, 0, 2);
             cashierMenu_addProToCartGridPane.add(cashierMenu_addProToCart_ProductQuantity, 1, 2);
+            cashierMenu_addProToCartGridPane.add(cashierMenu_addProToCart_ProductQuantityWarning, 2, 2);
             cashierMenu_addProToCartGridPane.add(cashierMenu_addProToCartButton, 0, 3);
             cashierMenu_addProToCartGridPane.add(cashierMenu_addProToCartCancelButton, 0, 4);
 
@@ -2239,22 +2243,30 @@ public class JavaFXMain extends Application {
                     Cart cashierCart = new Cart(admin.searchCartByField("id", cashierMenu_addProToCart_cartId.getText()));
                     Product cashierProduct = new Product(admin.searchProductByField("name", cashierMenu_addProToCart_ProductName.getText()));
 
-                    if (currentCashier.addProductToCart(cashierCart, cashierProduct, Integer.parseInt(cashierMenu_addProToCart_ProductQuantity.getText()))) {
-                        Alert cashierMenu_addProductToCart_ProductAddedAlert = new Alert(Alert.AlertType.INFORMATION);
-                        cashierMenu_addProductToCart_ProductAddedAlert.setTitle("Add Product To Cart");
-                        try {
-                            admin.saveData();
-                        } catch (IOException ex) {
-                            Alert cashierMenu_addProductToCart_ProductAddingFailled = new Alert(Alert.AlertType.ERROR);
-                            cashierMenu_addProductToCart_ProductAddingFailled.setTitle("PRODUCT ADDITION TO CART FAILED");
-                            cashierMenu_addProductToCart_ProductAddingFailled.setHeaderText("Failed to add product to cart");
-                            cashierMenu_addProductToCart_ProductAddingFailled.showAndWait();
+                    int parseCashierMenu_addProToCart_ProductQuantity = 0;
+                    try {
+                        parseCashierMenu_addProToCart_ProductQuantity = Integer.parseInt(cashierMenu_addProToCart_ProductQuantity.getText());
+                        if (currentCashier.addProductToCart(cashierCart, cashierProduct, parseCashierMenu_addProToCart_ProductQuantity)) {
+                            Alert cashierMenu_addProductToCart_ProductAddedAlert = new Alert(Alert.AlertType.INFORMATION);
+                            cashierMenu_addProductToCart_ProductAddedAlert.setTitle("Add Product To Cart");
+                            try {
+                                admin.saveData();
+                            } catch (IOException ex) {
+                                Alert cashierMenu_addProductToCart_ProductAddingFailled = new Alert(Alert.AlertType.ERROR);
+                                cashierMenu_addProductToCart_ProductAddingFailled.setTitle("PRODUCT ADDITION TO CART FAILED");
+                                cashierMenu_addProductToCart_ProductAddingFailled.setHeaderText("Failed to add product to cart");
+                                cashierMenu_addProductToCart_ProductAddingFailled.showAndWait();
+                                primaryStage.setScene(cashierScene);
+                            }
+                            cashierMenu_addProductToCart_ProductAddedAlert.setHeaderText("Product successfully added!");
+                            cashierMenu_addProductToCart_ProductAddedAlert.setContentText("Press OK to continue");
+                            cashierMenu_addProductToCart_ProductAddedAlert.showAndWait();
                             primaryStage.setScene(cashierScene);
                         }
-                        cashierMenu_addProductToCart_ProductAddedAlert.setHeaderText("Product successfully added!");
-                        cashierMenu_addProductToCart_ProductAddedAlert.setContentText("Press OK to continue");
-                        cashierMenu_addProductToCart_ProductAddedAlert.showAndWait();
-                        primaryStage.setScene(cashierScene);
+                    } catch (NumberFormatException ex) {
+                        cashierMenu_addProToCart_ProductQuantityWarning.setVisible(true);
+                        primaryStage.setScene(addProToCartScene);
+                        cashierMenu_addProToCart_ProductQuantity.setText("");
                     }
                 }
             });
