@@ -19,8 +19,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class JavaFXMain extends Application {
@@ -1570,11 +1569,10 @@ public class JavaFXMain extends Application {
         Label label10 = new Label("Click on your choice");
         Button cashierReport = new Button("View Report About Cashiers");
         Button customerReport = new Button("View Report About Customers");
-        Button customerMaxOrderAndMaxRevenue = new Button("View Customers with Max Orders and Revenue");
         Button supplierReport = new Button("View Report About Suppliers");
         Button back5 = new Button("Back");
 
-        VBox vbox8 = new VBox(cashierReport, customerReport, customerMaxOrderAndMaxRevenue, supplierReport, back5);
+        VBox vbox8 = new VBox(cashierReport, customerReport, supplierReport, back5);
         vbox8.setAlignment(Pos.CENTER);
         vbox8.setSpacing(10);
         Scene userReportScene = new Scene(vbox8, 300, 400);
@@ -1584,7 +1582,7 @@ public class JavaFXMain extends Application {
         //********************************************************************************
         //Admin Menu -> User Report Menu -> Cashier Report Button
         cashierReport.setOnAction(e -> {
-            /*Label titleLabel = new Label("Cashier Reports");
+            Label titleLabel = new Label("Cashier Reports");
             titleLabel.setFont(Font.font("System", FontWeight.BOLD, 25));
             titleLabel.setUnderline(true);
 
@@ -1598,24 +1596,24 @@ public class JavaFXMain extends Application {
             int rowIndex = 1;
 
             // Placeholder for Cashier Data
-            Map<Cashier, List<Order>> cashierOrders = new HashMap<>();
-            for (Cashier cashier : admin.getCashiers()) {
-                cashierOrders.put(cashier, cashier.getOrders());
+            Map<Cashier, List<Cart>> cashierOrders = new HashMap<>();
+            for (Cashier cashier1 : admin.getCashiers()) {
+                cashierOrders.put(cashier1, cashier1.getOrdersHandled());
             }
 
             // Display Number of Orders and Order Details per Cashier
-            for (Map.Entry<Cashier, List<Order>> entry : cashierOrders.entrySet()) {
-                Cashier cashier = entry.getKey();
-                List<Order> orders = entry.getValue();
+            for (Map.Entry<Cashier, List<Cart>> entry : cashierOrders.entrySet()) {
+                Cashier cashier1 = entry.getKey();
+                List<Cart> orders = entry.getValue();
 
-                Label cashierLabel = new Label("Cashier: " + cashier.getName());
+                Label cashierLabel = new Label("Cashier: " + cashier1.getName());
                 cashierLabel.setFont(Font.font("System", FontWeight.BOLD, 15));
                 Label orderCountLabel = new Label("Number of Orders: " + orders.size());
 
                 cashierReportGridPane.add(cashierLabel, 0, rowIndex++);
                 cashierReportGridPane.add(orderCountLabel, 0, rowIndex++);
 
-                for (Order order : orders) {
+                for (Cart order : orders) {
                     Label orderDetails = new Label("Order: " + order.toString());
                     cashierReportGridPane.add(orderDetails, 0, rowIndex++);
                 }
@@ -1627,7 +1625,7 @@ public class JavaFXMain extends Application {
             Cashier maxOrdersCashier = null;
             int maxOrders = 0;
 
-            for (Map.Entry<Cashier, List<Order>> entry : cashierOrders.entrySet()) {
+            for (Map.Entry<Cashier, List<Cart>> entry : cashierOrders.entrySet()) {
                 if (entry.getValue().size() > maxOrders) {
                     maxOrders = entry.getValue().size();
                     maxOrdersCashier = entry.getKey();
@@ -1652,16 +1650,16 @@ public class JavaFXMain extends Application {
             Cashier maxRevenueCashier = null;
             double maxRevenue = 0;
 
-            for (Map.Entry<Cashier, List<Order>> entry : cashierOrders.entrySet()) {
+            for (Map.Entry<Cashier, List<Cart>> entry : cashierOrders.entrySet()) {
                 double totalRevenue = 0;
-                for (Order order : entry.getValue()) {
-                    totalRevenue += order.getTotalAmount();
+                for (Cart order : entry.getValue()) {
+                    totalRevenue += order.getTotalPrice();
                 }
                 if (totalRevenue > maxRevenue) {
                     maxRevenue = totalRevenue;
                     maxRevenueCashier = entry.getKey();
                 }
-            }
+            } //s
 
             Label maxRevenueLabel = new Label("Cashier with Maximum Revenue:");
             maxRevenueLabel.setFont(Font.font("System", FontWeight.BOLD, 20));
@@ -1688,7 +1686,7 @@ public class JavaFXMain extends Application {
 
             // Creates and sets the Scene
             Scene cashierReportScene = new Scene(scrollPane, 900, 700);
-            primaryStage.setScene(cashierReportScene);*/
+            primaryStage.setScene(cashierReportScene);
         });
 
         //********************************************************************************
@@ -1717,6 +1715,49 @@ public class JavaFXMain extends Application {
                 }
             }
 
+
+            //Customer with the maximum number of Orders and Revenue
+            Label CustomerMaxOrder = new Label("Customer with the maximum number of Orders: ");
+            CustomerMaxOrder.setFont(Font.font("System", FontWeight.BOLD, 25));
+            CustomerMaxOrder.setUnderline(true);
+            Label CustomerMaxRevenue = new Label("Customer with the maximum Revenue: ");
+            CustomerMaxRevenue.setFont(Font.font("System", FontWeight.BOLD, 25));
+            CustomerMaxRevenue.setUnderline(true);
+            adminMenu_userReportGridPane.add(CustomerMaxOrder, 0, i1);
+            i1++;
+            Customer maxOrderCustomer = null;
+            double maxOrders_customer = 0;
+            Customer maxRevenueCustomer = null;
+            double maxRevenue_customer = 0;
+            for (Customer customer2 : admin.getCustomers()) {
+                if (customer2.getOrderHistory().size() > maxOrders_customer) {
+                    maxOrders_customer = customer2.getOrderHistory().size() ;
+                    maxOrderCustomer = customer2;
+                }
+                if (customer2.getTotalPriceOfAllOrders() > maxRevenue_customer) {
+                    maxRevenue_customer = customer2.getTotalPriceOfAllOrders();
+                    maxRevenueCustomer = customer2;
+                }
+            }
+            if (maxOrderCustomer != null && maxRevenueCustomer != null) {
+                Label CustomerMaxOrderInfo = new Label("Customer: " + maxOrderCustomer);
+                adminMenu_userReportGridPane.add(CustomerMaxOrderInfo, 0, i1);
+                i1++;
+                Label CustomerMaxNumOfOrder = new Label("Number of Orders: " + maxOrders_customer);
+                adminMenu_userReportGridPane.add(CustomerMaxNumOfOrder, 0, i1);
+                i1++;
+                adminMenu_userReportGridPane.add(CustomerMaxRevenue, 0, i1);
+                i1++;
+                Label CustomerMaxRevenueInfo = new Label("Customer: " + maxRevenueCustomer);
+                adminMenu_userReportGridPane.add(CustomerMaxRevenueInfo, 0, i1);
+                i1++;
+                Label maxRevenueInfo = new Label("Revenue: " + maxRevenue_customer);
+                adminMenu_userReportGridPane.add(maxRevenueInfo, 0, i1);
+            } else {
+                Label noCustomer = new Label("No customers to determine the maximum no. of Orders");
+                adminMenu_userReportGridPane.add(noCustomer, 0, i1);
+            }
+
             i1++;
             Button back6 = new Button("Back");
             adminMenu_userReportGridPane.add(back6, 0, i1);
@@ -1725,62 +1766,6 @@ public class JavaFXMain extends Application {
             scrollPane.setFitToWidth(true);
             Scene scene11 = new Scene(scrollPane, 900, 700);
             primaryStage.setScene(scene11);
-        });
-
-        //********************************************************************************
-        //Admin Menu -> User Report Menu -> customerMaxOrderAndMaxRevenue Button
-        customerMaxOrderAndMaxRevenue.setOnAction(e1 -> {
-            GridPane customerMaxOrderAndMaxRevenueGridPane = new GridPane();
-            customerMaxOrderAndMaxRevenueGridPane.setAlignment(Pos.CENTER);
-            customerMaxOrderAndMaxRevenueGridPane.setHgap(10);
-            customerMaxOrderAndMaxRevenueGridPane.setVgap(10);
-
-            Customer maxOrderCustomer = null;
-            double maxOrders_customer = 0;
-            Customer maxRevCustomer = null;
-            double maxRevCustomerRev=0;
-
-            for (Customer cu : admin.getCustomers()) {
-                if (cu.getOrderHistory().size() > maxOrders_customer) {
-                    maxOrders_customer = cu.getOrderHistory().size() ;
-                    maxOrderCustomer = cu;
-                }
-                if (cu.getTotalPriceOfAllOrders() > maxRevCustomerRev) {
-                    maxRevCustomerRev = cu.getTotalPriceOfAllOrders();
-                    maxRevCustomer = cu;
-                }
-            }
-            if (maxOrderCustomer != null && maxRevCustomer != null) {
-                Label CustomerMaxOrder = new Label("Customer with Maximum Orders:");
-                Label CustomerMaxOrderInfo = new Label("Customer: " + maxOrderCustomer);
-
-                Label CustomerMaxRevenue = new Label("Customer with Maximum Revenue:");
-                Label CustomerMaxRevenueInfo = new Label("Customer: " + maxRevCustomer);
-                Label maxRevenueInfo = new Label("Revenue: " + maxRevCustomerRev);
-
-                Button done = new Button("Done Viewing");
-                done.setAlignment(Pos.CENTER);
-
-                customerMaxOrderAndMaxRevenueGridPane.add(CustomerMaxOrder, 0, 0);
-                customerMaxOrderAndMaxRevenueGridPane.add(CustomerMaxOrderInfo, 0, 1);
-                customerMaxOrderAndMaxRevenueGridPane.add(CustomerMaxRevenue, 0, 2);
-                customerMaxOrderAndMaxRevenueGridPane.add(CustomerMaxRevenueInfo, 0, 3);
-                customerMaxOrderAndMaxRevenueGridPane.add(maxRevenueInfo, 0, 4);
-                customerMaxOrderAndMaxRevenueGridPane.add(done, 0, 5);
-
-                Scene customerMaxOrderAndMaxRevenueScene = new Scene(customerMaxOrderAndMaxRevenueGridPane, 300, 400);
-                primaryStage.setScene(customerMaxOrderAndMaxRevenueScene);
-
-                done.setOnAction(e2 -> {
-                    primaryStage.setScene(userReportScene);
-                });
-            } else {
-                Alert noCustomersAlert = new Alert(Alert.AlertType.ERROR);
-                noCustomersAlert.setTitle("NO CUSTOMERS FOUND!");
-                noCustomersAlert.setHeaderText("No Customers to determine the maximum no. of Orders or Revenue");
-                noCustomersAlert.showAndWait();
-                primaryStage.setScene(adminMenuScene);
-            }
         });
 
         //********************************************************************************
