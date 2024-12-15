@@ -19,8 +19,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class JavaFXMain extends Application {
@@ -1584,7 +1583,7 @@ public class JavaFXMain extends Application {
         //********************************************************************************
         //Admin Menu -> User Report Menu -> Cashier Report Button
         cashierReport.setOnAction(e -> {
-            /*Label titleLabel = new Label("Cashier Reports");
+            Label titleLabel = new Label("Cashier Reports");
             titleLabel.setFont(Font.font("System", FontWeight.BOLD, 25));
             titleLabel.setUnderline(true);
 
@@ -1598,24 +1597,24 @@ public class JavaFXMain extends Application {
             int rowIndex = 1;
 
             // Placeholder for Cashier Data
-            Map<Cashier, List<Order>> cashierOrders = new HashMap<>();
-            for (Cashier cashier : admin.getCashiers()) {
-                cashierOrders.put(cashier, cashier.getOrders());
+            Map<Cashier, List<Cart>> cashierOrders = new HashMap<>();
+            for (Cashier cashier1 : admin.getCashiers()) {
+                cashierOrders.put(cashier1, cashier1.getOrdersHandled());
             }
 
             // Display Number of Orders and Order Details per Cashier
-            for (Map.Entry<Cashier, List<Order>> entry : cashierOrders.entrySet()) {
-                Cashier cashier = entry.getKey();
-                List<Order> orders = entry.getValue();
+            for (Map.Entry<Cashier, List<Cart>> entry : cashierOrders.entrySet()) {
+                Cashier cashier1 = entry.getKey();
+                List<Cart> orders = entry.getValue();
 
-                Label cashierLabel = new Label("Cashier: " + cashier.getName());
+                Label cashierLabel = new Label("Cashier: " + cashier1.getName());
                 cashierLabel.setFont(Font.font("System", FontWeight.BOLD, 15));
                 Label orderCountLabel = new Label("Number of Orders: " + orders.size());
 
                 cashierReportGridPane.add(cashierLabel, 0, rowIndex++);
                 cashierReportGridPane.add(orderCountLabel, 0, rowIndex++);
 
-                for (Order order : orders) {
+                for (Cart order : orders) {
                     Label orderDetails = new Label("Order: " + order.toString());
                     cashierReportGridPane.add(orderDetails, 0, rowIndex++);
                 }
@@ -1627,7 +1626,7 @@ public class JavaFXMain extends Application {
             Cashier maxOrdersCashier = null;
             int maxOrders = 0;
 
-            for (Map.Entry<Cashier, List<Order>> entry : cashierOrders.entrySet()) {
+            for (Map.Entry<Cashier, List<Cart>> entry : cashierOrders.entrySet()) {
                 if (entry.getValue().size() > maxOrders) {
                     maxOrders = entry.getValue().size();
                     maxOrdersCashier = entry.getKey();
@@ -1652,10 +1651,10 @@ public class JavaFXMain extends Application {
             Cashier maxRevenueCashier = null;
             double maxRevenue = 0;
 
-            for (Map.Entry<Cashier, List<Order>> entry : cashierOrders.entrySet()) {
+            for (Map.Entry<Cashier, List<Cart>> entry : cashierOrders.entrySet()) {
                 double totalRevenue = 0;
-                for (Order order : entry.getValue()) {
-                    totalRevenue += order.getTotalAmount();
+                for (Cart order : entry.getValue()) {
+                    totalRevenue += order.getTotalPrice();
                 }
                 if (totalRevenue > maxRevenue) {
                     maxRevenue = totalRevenue;
@@ -1688,7 +1687,7 @@ public class JavaFXMain extends Application {
 
             // Creates and sets the Scene
             Scene cashierReportScene = new Scene(scrollPane, 900, 700);
-            primaryStage.setScene(cashierReportScene);*/
+            primaryStage.setScene(cashierReportScene);
         });
 
         //********************************************************************************
