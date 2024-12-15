@@ -1660,7 +1660,7 @@ public class JavaFXMain extends Application {
                     maxRevenue = totalRevenue;
                     maxRevenueCashier = entry.getKey();
                 }
-            }
+            } //s
 
             Label maxRevenueLabel = new Label("Cashier with Maximum Revenue:");
             maxRevenueLabel.setFont(Font.font("System", FontWeight.BOLD, 20));
