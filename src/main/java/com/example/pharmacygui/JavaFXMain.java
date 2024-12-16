@@ -2603,14 +2603,14 @@ public class JavaFXMain extends Application {
                 if(CheckCartExistence(admin, cancelCart_Id_textField.getText())) {
                     //The cart actually exists
                     cancelCart_IDWarning.setVisible(false);
-                    Cart cart = new Cart(admin.searchCartByField("id", cancelCart_Id_textField.getText()));
-                    System.out.println("cart id: " + cart.getId());
-                    System.out.println("orders:\n" + admin.getOrders());
+                    Cart cart = admin.searchCartByField("id", cancelCart_Id_textField.getText());
 
                     if (admin.getOrders().remove(cart)) {
                         currentCashier.cancelCart(cart);
-                        admin.getOrders().remove(cart);
-                        currentCustomer.getOrderHistory().remove(cart);
+                        for (Customer customers: admin.getCustomers())
+                        {
+                            customers.getOrderHistory().remove(cart);
+                        }
                         Alert cashierMenu_cancelCart_CartCancelledAlert = new Alert(Alert.AlertType.INFORMATION);
                         cashierMenu_cancelCart_CartCancelledAlert.setTitle("Cancel Cart");
                         try {
@@ -2638,7 +2638,6 @@ public class JavaFXMain extends Application {
                     cancelCart_ID.setText("");
                 }
             });
-
             cancelCart_CancelButton.setOnAction(e1 -> {
                 primaryStage.setScene(cashierScene);
             });
