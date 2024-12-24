@@ -2127,9 +2127,18 @@ public class JavaFXMain extends Application {
         //*********************************************************************
         //Customer Menu -> View Orders History Button
         viewOrders.setOnAction(e -> {
-            TextArea textArea = new TextArea();
-            Scene customerMenu_viewOrder_scene = new Scene(textArea, 300, 250);
-            currentCustomer.displayOrderHistory(textArea);
+            GridPane orderHistoryGridPane = new GridPane();
+            orderHistoryGridPane.setAlignment(Pos.TOP_LEFT);
+            Label l1 = new Label(currentCustomer.name + " Order History:");
+            l1.setFont(Font.font("System", FontWeight.BOLD, 25));
+            orderHistoryGridPane.add(l1, 0, 0);
+            int row = 1;
+            for (Cart order : currentCustomer.getOrderHistory()) {
+                Label l2 = new Label(order.toString());
+                orderHistoryGridPane.add(l2, 0, row);
+                row++;
+            }
+            Scene customerMenu_viewOrder_scene = new Scene(orderHistoryGridPane, 500, 300);
             primaryStage.setScene(customerMenu_viewOrder_scene);
         });
 
