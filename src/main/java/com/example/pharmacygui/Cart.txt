@@ -5,4 +5,3 @@ Order_4F9C83A2,COMPLETED,Cashier_1021,Customer_3456,656.0,2024-01-22,Flopadex,3,
 Order_D5A72B8F,PENDING,Cashier_1021,Customer_7890,980.0,2024-03-13,Amoxil,2,Genuphil,2,Folic Acid,4
 Order_5,PENDING,Cashier_1021,Customer_1234,0.0,2024-12-08
 Order_6,PENDING,Cashier_1021,Customer_1234,135.0,2024-12-08,Panadol,3
-Order_7,PENDING,Cashier_1021,Customer_1234,75.0,2024-12-10,Amoxil,3

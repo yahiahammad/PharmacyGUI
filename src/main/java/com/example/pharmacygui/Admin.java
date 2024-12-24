@@ -840,20 +840,6 @@ Admin extends User{
         File cashierFile =    new File(      "src/main/java/com/example/pharmacygui/Cashier.txt");
         File customerFile =   new File(      "src/main/java/com/example/pharmacygui/Customer.txt");
 
-
-//        File TMPsupplierFile =new File(      "src\\PharmacyManagementSystem\\TMPSuppliers.txt");
-//        File TMPproductFile = new File(      "src\\PharmacyManagementSystem\\TMPProducts.txt");
-//        File TMPcartFile =    new File(      "src\\PharmacyManagementSystem\\TMPCart.txt");
-//        File TMPcashierFile = new File(      "src\\PharmacyManagementSystem\\TMPCashier.txt");
-//        File TMPcustomerFile =new File(      "src\\PharmacyManagementSystem\\TMPCustomer.txt");
-
-//        TMPsupplierFile.createNewFile();
-//        TMPproductFile.createNewFile();
-//        TMPcartFile.createNewFile();
-//        TMPcashierFile.createNewFile();
-//        TMPcustomerFile.createNewFile();
-
-
         try{
             FileWriter writer = new FileWriter(supplierFile);
             //suppliers;
@@ -922,39 +908,6 @@ Admin extends User{
                     writer.write(order.fileSaver() + '\n');
             }
             writer.close();
-
-
-
-
-
-
-
-
-//            supplierFile.delete();
-//            productFile.delete();
-//            cartFile.delete();
-//            cashierFile.delete();
-//            customerFile.delete();
-//
-//
-//            File hfsupplierFile =   new File(      "src\\PharmacyManagementSystem\\Suppliers.txt");
-//            File hfproductFile =    new File(      "src\\PharmacyManagementSystem\\Products.txt");
-//            File hfcartFile =       new File(      "src\\PharmacyManagementSystem\\Cart.txt");
-//            File hfcashierFile =    new File(      "src\\PharmacyManagementSystem\\Cashier.txt");
-//            File hfcustomerFile =   new File(      "src\\PharmacyManagementSystem\\Customer.txt");
-//
-//
-//            TMPsupplierFile.renameTo(hfsupplierFile       );//"src\\PharmacyManagementSystem\\Suppliers.txt");
-//            TMPproductFile.renameTo( hfproductFile       );//"src\\PharmacyManagementSystem\\Products.txt");
-//            TMPcartFile.renameTo(    hfcartFile       );//"src\\PharmacyManagementSystem\\Cart.txt");
-//            TMPcashierFile.renameTo( hfcashierFile       );//"src\\PharmacyManagementSystem\\Cashier.txt");
-//            TMPcustomerFile.renameTo(hfcustomerFile       );//"src\\PharmacyManagementSystem\\Customer.txt");
-
-
-
-
-
-
         }
         catch(IOException e)
         {
