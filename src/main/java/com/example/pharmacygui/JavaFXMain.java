@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
@@ -24,6 +25,7 @@ import java.util.*;
 
 public class JavaFXMain extends Application {
 
+    int scene_height = 1080, scene_width = 1920;
     Admin admin = new Admin("Rina", "Rina123@gmail.com", "1234");
     Customer currentCustomer = null;
     Cashier currentCashier = null;
@@ -38,26 +40,37 @@ public class JavaFXMain extends Application {
         //**************************************************
         //Main Menu
         Button mainMenu_adminButton = new Button("Admin");
-        Button customer = new Button("Customer");
-        Button cashier = new Button("Cashier");
-        Button exit = new Button("Exit");
+        Button mainMenu_customerButton = new Button("Customer");
+        Button mainMenu_cashierButton = new Button("Cashier");
+        Button mainMenu_exitButton = new Button("Exit");
 
-        VBox vbox1 = new VBox(new Label("Choose your role"), mainMenu_adminButton, customer, cashier, exit);
+
+        styleButton(mainMenu_adminButton);
+        styleButton(mainMenu_customerButton);
+        styleButton(mainMenu_cashierButton);
+        styleButton(mainMenu_exitButton);
+
+        Label mainMenu_welcomeLabel = new Label("Welcome to Pharmacy Management System!");
+        styleLabel(mainMenu_welcomeLabel);
+        VBox vbox1 = new VBox(mainMenu_welcomeLabel, mainMenu_adminButton, mainMenu_customerButton, mainMenu_cashierButton, mainMenu_exitButton);
         vbox1.setAlignment(Pos.CENTER);
         vbox1.setSpacing(10);
-        mainMenuScene = new Scene(vbox1, 300, 250);
+        mainMenuScene = new Scene(vbox1, scene_width, scene_height);
         primaryStage.setScene(mainMenuScene);
 
-        exit.setOnAction(e -> primaryStage.close());
+        mainMenu_exitButton.setOnAction(e -> primaryStage.close());
 
         //***********************************************************
         //Admin Login
         PasswordField adminPasswordTextField = new PasswordField();
+        styleTextField(adminPasswordTextField);
         Label adminPasswordLabel = new Label("Password: ");
+        styleLabel(adminPasswordLabel);
         Label adminWrongPasswordLabel = new Label("Wrong Password, try again");
         adminWrongPasswordLabel.setTextFill(Color.RED);
         adminWrongPasswordLabel.setVisible(false);
         Button adminPasswordBackButton = new Button("Back");
+        styleButton(adminPasswordBackButton);
 
         HBox adminLoginHbox = new HBox(adminPasswordLabel, adminPasswordTextField, adminPasswordBackButton);
         adminLoginHbox.setAlignment(Pos.CENTER);
@@ -67,7 +80,7 @@ public class JavaFXMain extends Application {
         adminLoginVbox.setAlignment(Pos.CENTER);
         adminLoginVbox.setSpacing(10);
 
-        adminLoginScene = new Scene(adminLoginVbox, 400, 400);
+        adminLoginScene = new Scene(adminLoginVbox, scene_width, scene_height);
 
         adminPasswordBackButton.setOnAction(e -> primaryStage.setScene(mainMenuScene));
         mainMenu_adminButton.setOnAction(e -> primaryStage.setScene(adminLoginScene));
@@ -89,7 +102,42 @@ public class JavaFXMain extends Application {
         Button adminMenu_AvgRevenueAndTotalRevenueForOrders = new Button("View Average Revenue and Total Revenue for Orders");
         Button adminMenu_logOut = new Button("Log Out");
 
-        VBox vbox2 = new VBox(new Label("What would you like to do?"), adminMenu_addProduct, adminMenu_editProduct,
+        int buttonWidth = 400;
+        int buttonHeight = 30;
+
+        styleButton(adminMenu_addProduct);
+        styleButton(adminMenu_editProduct);
+        styleButton(adminMenu_removeProduct);
+        styleButton(adminMenu_searchProduct);
+        styleButton(adminMenu_productReport);
+        styleButton(adminMenu_BestsellerAndMostRevenueProduct);
+        styleButton(adminMenu_addUser);
+        styleButton(adminMenu_editUser);
+        styleButton(adminMenu_removeUser);
+        styleButton(adminMenu_searchUser);
+        styleButton(adminMenu_userReport);
+        styleButton(adminMenu_orderReport);
+        styleButton(adminMenu_AvgRevenueAndTotalRevenueForOrders);
+        styleButton(adminMenu_logOut);
+
+        adminMenu_addProduct.setPrefSize(buttonWidth,30);
+        adminMenu_editProduct.setPrefSize(buttonWidth,30);
+        adminMenu_removeProduct.setPrefSize(buttonWidth,30);
+        adminMenu_searchProduct.setPrefSize(buttonWidth,30);
+        adminMenu_productReport.setPrefSize(buttonWidth,30);
+        adminMenu_BestsellerAndMostRevenueProduct.setPrefSize(buttonWidth,30);
+        adminMenu_addUser.setPrefSize(buttonWidth,30);
+        adminMenu_editUser.setPrefSize(buttonWidth,30);
+        adminMenu_removeUser.setPrefSize(buttonWidth,30);
+        adminMenu_searchUser.setPrefSize(buttonWidth,30);
+        adminMenu_userReport.setPrefSize(buttonWidth,30);
+        adminMenu_orderReport.setPrefSize(buttonWidth,30);
+        adminMenu_AvgRevenueAndTotalRevenueForOrders.setPrefSize(buttonWidth,30);
+        adminMenu_logOut.setPrefSize(buttonWidth,30);
+
+        Label adminMenu_welcomeLabel = new Label("What would you like to do?");
+        styleLabel(adminMenu_welcomeLabel);
+        VBox vbox2 = new VBox(adminMenu_welcomeLabel, adminMenu_addProduct, adminMenu_editProduct,
                 adminMenu_removeProduct, adminMenu_searchProduct,
                 adminMenu_productReport, adminMenu_BestsellerAndMostRevenueProduct,
                 adminMenu_addUser, adminMenu_editUser, adminMenu_removeUser,
@@ -97,7 +145,7 @@ public class JavaFXMain extends Application {
                 adminMenu_AvgRevenueAndTotalRevenueForOrders, adminMenu_logOut);
         vbox2.setAlignment(Pos.CENTER);
         vbox2.setSpacing(10);
-        adminMenuScene = new Scene(vbox2, 600, 600);
+        adminMenuScene = new Scene(vbox2, scene_width,scene_height);
         adminPasswordTextField.setOnAction(e -> {
             if (adminPasswordTextField.getText().equals(admin.getPassword())) {
                 adminPasswordTextField.setText("");
@@ -117,22 +165,30 @@ public class JavaFXMain extends Application {
             adminMenu_addProductGridPane.setAlignment(Pos.CENTER);
 
             Label productName = new Label("Enter Product Name: ");
+            styleLabel(productName);
             Label adminMenu_addProduct_ProductNameWarning = new Label("Product Already Exists!");
             adminMenu_addProduct_ProductNameWarning.setTextFill(Color.RED);
             adminMenu_addProduct_ProductNameWarning.setVisible(false);
             TextField adminMenu_addProduct_ProductName = new TextField();
+            styleTextField(adminMenu_addProduct_ProductName);
 
             Label productPrice = new Label("Enter Product Price: ");
+            styleLabel(productPrice);
             Label adminMenu_addProduct_ProductPriceWarning = new Label("Price Must be Double or Integer!");
             adminMenu_addProduct_ProductPriceWarning.setTextFill(Color.RED);
             adminMenu_addProduct_ProductPriceWarning.setVisible(false);
             TextField adminMenu_addProduct_ProductPrice = new TextField();
+            styleTextField(adminMenu_addProduct_ProductPrice);
 
             Label productQuantity = new Label("Enter Product Quantity: ");
+            styleLabel(productQuantity);
             Label adminMenu_addProduct_ProductQuantityWarning = new Label("Quantity Must be Integer!");
             adminMenu_addProduct_ProductQuantityWarning.setTextFill(Color.RED);
             adminMenu_addProduct_ProductQuantityWarning.setVisible(false);
+
             TextField adminMenu_addProduct_ProductQuantity = new TextField();
+            styleTextField(adminMenu_addProduct_ProductQuantity);
+
 
             Label productSupplier = new Label("Enter Product Supplier ID: ");
             Label adminMenu_addProduct_SupplierIDWarning = new Label("Supplier Doesn't Exist!");
@@ -171,7 +227,7 @@ public class JavaFXMain extends Application {
             adminMenu_addProductGridPane.setHgap(10);
             adminMenu_addProductGridPane.setVgap(10);
 
-            Scene adminMenu_addProductScene = new Scene(adminMenu_addProductGridPane, 500, 500);
+            Scene adminMenu_addProductScene = new Scene(adminMenu_addProductGridPane, scene_width, scene_height);
             primaryStage.setScene(adminMenu_addProductScene);
 
             //************************************************************
@@ -293,7 +349,7 @@ public class JavaFXMain extends Application {
             adminMenu_editProductGridPane.setHgap(10);
             adminMenu_editProductGridPane.setVgap(10);
 
-            Scene editProduct_scene = new Scene(adminMenu_editProductGridPane, 600, 400);
+            Scene editProduct_scene = new Scene(adminMenu_editProductGridPane, scene_width, scene_height);
             primaryStage.setScene(editProduct_scene);
 
             adminMenu_editProductButton.setOnAction(e1 -> {
@@ -364,7 +420,7 @@ public class JavaFXMain extends Application {
             adminMenu_removeProductGridPane.setHgap(10);
             adminMenu_removeProductGridPane.setVgap(10);
 
-            Scene removeProduct_scene = new Scene(adminMenu_removeProductGridPane, 600, 300);
+            Scene removeProduct_scene = new Scene(adminMenu_removeProductGridPane, scene_width, scene_height);
             primaryStage.setScene(removeProduct_scene);
 
             adminMenu_removeProductButton.setOnAction(e1 -> {
@@ -429,7 +485,7 @@ public class JavaFXMain extends Application {
             adminMenu_searchProductGridPane.setHgap(10);
             adminMenu_searchProductGridPane.setVgap(10);
 
-            Scene searchProduct_scene = new Scene(adminMenu_searchProductGridPane, 600, 600);
+            Scene searchProduct_scene = new Scene(adminMenu_searchProductGridPane, scene_width, scene_height);
             primaryStage.setScene(searchProduct_scene);
 
             adminMenu_searchProductButton.setOnAction(e1 -> {
@@ -507,7 +563,7 @@ public class JavaFXMain extends Application {
             ScrollPane scrollPane = new ScrollPane(productReportGridPane);
             scrollPane.setFitToWidth(true);
 
-            Scene productReportScene = new Scene(scrollPane, 900, 700);
+            Scene productReportScene = new Scene(scrollPane, scene_width, scene_height);
             primaryStage.setScene(productReportScene);
         });
 
@@ -548,7 +604,7 @@ public class JavaFXMain extends Application {
             adminMenu_BestsellerAndMostRevenueProductGridPane.setHgap(10);
             adminMenu_BestsellerAndMostRevenueProductGridPane.setVgap(10);
 
-            Scene adminMenu_BestsellerAndMostRevenueScene = new Scene(adminMenu_BestsellerAndMostRevenueProductGridPane, 400, 400);
+            Scene adminMenu_BestsellerAndMostRevenueScene = new Scene(adminMenu_BestsellerAndMostRevenueProductGridPane, scene_width, scene_height);
             primaryStage.setScene(adminMenu_BestsellerAndMostRevenueScene);
 
             getBestsellerButton.setOnAction(e1 -> {
@@ -639,7 +695,7 @@ public class JavaFXMain extends Application {
         VBox adminMenu_addUser_Vbox = new VBox(adminMenu_addUser_ChoiceLabel, adminMenu_addUser_addCashier, adminMenu_addUser_addCustomer, adminMenu_addUser_addSupplier, adminMenu_addUser_back);
         adminMenu_addUser_Vbox.setAlignment(Pos.CENTER);
         adminMenu_addUser_Vbox.setSpacing(10);
-        adminMenu_addUserScene = new Scene(adminMenu_addUser_Vbox, 300, 250);
+        adminMenu_addUserScene = new Scene(adminMenu_addUser_Vbox, scene_width, scene_height);
         adminMenu_addUser.setOnAction(e -> primaryStage.setScene(adminMenu_addUserScene));
         adminMenu_addUser_back.setOnAction(e -> primaryStage.setScene(adminMenuScene));
 
@@ -675,7 +731,7 @@ public class JavaFXMain extends Application {
             adminMenu_addUser_addCashier_GridPane.add(adminMenu_addUser_addCashierButton, 1, 2);
             adminMenu_addUser_addCashier_GridPane.add(adminMenu_addUser_addCashierCancelButton, 1, 3);
 
-            Scene scene = new Scene(adminMenu_addUser_addCashier_GridPane, 600, 250);
+            Scene scene = new Scene(adminMenu_addUser_addCashier_GridPane, scene_width, scene_height);
             primaryStage.setScene(scene);
             adminMenu_addUser_addCashierButton.setOnAction(e1 -> {
 
@@ -755,7 +811,7 @@ public class JavaFXMain extends Application {
             adminMenu_addUser_addCustomer_GridPane.add(adminMenu_addUser_addCustomerButton, 1, 2);
             adminMenu_addUser_addCustomer_GridPane.add(adminMenu_addUser_addCustomerCancelButton, 1, 3);
 
-            Scene scene = new Scene(adminMenu_addUser_addCustomer_GridPane, 600, 250);
+            Scene scene = new Scene(adminMenu_addUser_addCustomer_GridPane, scene_width, scene_height);
             primaryStage.setScene(scene);
             adminMenu_addUser_addCustomerButton.setOnAction(e1 -> {
 
@@ -843,7 +899,7 @@ public class JavaFXMain extends Application {
             adminMenu_addUser_addSupplier_GridPane.add(adminMenu_addUser_addSupplierButton, 1, 3);
             adminMenu_addUser_addSupplier_GridPane.add(adminMenu_addUser_addSupplierCancelButton, 2, 3);
 
-            Scene scene = new Scene(adminMenu_addUser_addSupplier_GridPane, 600, 250);
+            Scene scene = new Scene(adminMenu_addUser_addSupplier_GridPane, scene_width, scene_height);
             primaryStage.setScene(scene);
             adminMenu_addUser_addSupplierButton.setOnAction(e1 -> {
 
@@ -910,7 +966,7 @@ public class JavaFXMain extends Application {
         VBox vbox5 = new VBox(label7, editCashier, editCustomer, editSupplier, back2);
         vbox5.setAlignment(Pos.CENTER);
         vbox5.setSpacing(10);
-        scene7 = new Scene(vbox5, 300, 250);
+        scene7 = new Scene(vbox5, scene_width, scene_height);
         adminMenu_editUser.setOnAction(e -> primaryStage.setScene(scene7));
         back2.setOnAction(e -> primaryStage.setScene(adminMenuScene));
 
@@ -951,7 +1007,7 @@ public class JavaFXMain extends Application {
             adminMenu_editUser_editCashierGridPane.add(adminMenu_editUser_editCashierCancelButton, 1, 3);
             adminMenu_editUser_editCashierGridPane.add(adminMenu_editUser_editCashierSaveButton, 0, 3);
 
-            Scene scene = new Scene(adminMenu_editUser_editCashierGridPane, 400, 400);
+            Scene scene = new Scene(adminMenu_editUser_editCashierGridPane, scene_width, scene_height);
             primaryStage.setScene(scene);
 
             adminMenu_editUser_editCashierSaveButton.setOnAction(e1 -> {
@@ -1033,7 +1089,7 @@ public class JavaFXMain extends Application {
             adminMenu_editUser_editCustomerGridPane.add(adminMenu_editUser_editCustomerCancelButton, 1, 3);
             adminMenu_editUser_editCustomerGridPane.add(adminMenu_editUser_editCustomerSaveButton, 0, 3);
 
-            Scene scene = new Scene(adminMenu_editUser_editCustomerGridPane, 400, 400);
+            Scene scene = new Scene(adminMenu_editUser_editCustomerGridPane, scene_width, scene_height);
             primaryStage.setScene(scene);
 
             adminMenu_editUser_editCustomerSaveButton.setOnAction(e1 -> {
@@ -1115,7 +1171,7 @@ public class JavaFXMain extends Application {
             adminMenu_editUser_editSupplierGridPane.add(adminMenu_editUser_editSupplierCancelButton, 1, 3);
             adminMenu_editUser_editSupplierGridPane.add(adminMenu_editUser_editSupplierSaveButton, 0, 3);
 
-            Scene scene = new Scene(adminMenu_editUser_editSupplierGridPane, 400, 400);
+            Scene scene = new Scene(adminMenu_editUser_editSupplierGridPane, scene_width, scene_height);
             primaryStage.setScene(scene);
 
             adminMenu_editUser_editSupplierSaveButton.setOnAction(e1 -> {
@@ -1171,7 +1227,7 @@ public class JavaFXMain extends Application {
         VBox vbox6 = new VBox(label8, removeCashier, removeCustomer, removeSupplier, back3);
         vbox6.setAlignment(Pos.CENTER);
         vbox6.setSpacing(10);
-        scene8 = new Scene(vbox6, 300, 250);
+        scene8 = new Scene(vbox6, scene_width, scene_height);
         adminMenu_removeUser.setOnAction(e -> primaryStage.setScene(scene8));
         back3.setOnAction(e -> primaryStage.setScene(adminMenuScene));
 
@@ -1201,7 +1257,7 @@ public class JavaFXMain extends Application {
             adminMenu_removeCashierGridPane.setHgap(10);
             adminMenu_removeCashierGridPane.setVgap(10);
 
-            Scene removeCashier_scene = new Scene(adminMenu_removeCashierGridPane, 600, 300);
+            Scene removeCashier_scene = new Scene(adminMenu_removeCashierGridPane, scene_width, scene_height);
             primaryStage.setScene(removeCashier_scene);
 
             adminMenu_removeCashierButton.setOnAction(e1 -> {
@@ -1261,7 +1317,7 @@ public class JavaFXMain extends Application {
             adminMenu_removeCustomerGridPane.setHgap(10);
             adminMenu_removeCustomerGridPane.setVgap(10);
 
-            Scene removeCustomer_scene = new Scene(adminMenu_removeCustomerGridPane, 600, 300);
+            Scene removeCustomer_scene = new Scene(adminMenu_removeCustomerGridPane, scene_width, scene_height);
             primaryStage.setScene(removeCustomer_scene);
 
             adminMenu_removeCustomerButton.setOnAction(e1 -> {
@@ -1321,7 +1377,7 @@ public class JavaFXMain extends Application {
             adminMenu_removeSupplierGridPane.setHgap(10);
             adminMenu_removeSupplierGridPane.setVgap(10);
 
-            Scene removeSupplier_scene = new Scene(adminMenu_removeSupplierGridPane, 600, 300);
+            Scene removeSupplier_scene = new Scene(adminMenu_removeSupplierGridPane, scene_width, scene_height);
             primaryStage.setScene(removeSupplier_scene);
 
             adminMenu_removeSupplierButton.setOnAction(e1 -> {
@@ -1367,7 +1423,7 @@ public class JavaFXMain extends Application {
         VBox vbox7 = new VBox(label9, searchCashier, searchCustomer, searchSupplier, back4);
         vbox7.setAlignment(Pos.CENTER);
         vbox7.setSpacing(10);
-        scene9 = new Scene(vbox7, 300, 250);
+        scene9 = new Scene(vbox7, scene_width, scene_height);
         adminMenu_searchUser.setOnAction(e -> primaryStage.setScene(scene9));
         back4.setOnAction(e -> primaryStage.setScene(adminMenuScene));
 
@@ -1402,7 +1458,7 @@ public class JavaFXMain extends Application {
             adminMenu_searchCashierGridPane.setHgap(10);
             adminMenu_searchCashierGridPane.setVgap(10);
 
-            Scene searchCashier_scene = new Scene(adminMenu_searchCashierGridPane, 600, 250);
+            Scene searchCashier_scene = new Scene(adminMenu_searchCashierGridPane, scene_width, scene_height);
             primaryStage.setScene(searchCashier_scene);
 
             adminMenu_searchCashierButton.setOnAction(e1 -> {
@@ -1466,7 +1522,7 @@ public class JavaFXMain extends Application {
             adminMenu_searchCustomerGridPane.setHgap(10);
             adminMenu_searchCustomerGridPane.setVgap(10);
 
-            Scene searchCustomer_scene = new Scene(adminMenu_searchCustomerGridPane, 600, 250);
+            Scene searchCustomer_scene = new Scene(adminMenu_searchCustomerGridPane, scene_width, scene_height);
             primaryStage.setScene(searchCustomer_scene);
 
             adminMenu_searchCustomerButton.setOnAction(e1 -> {
@@ -1530,7 +1586,7 @@ public class JavaFXMain extends Application {
             adminMenu_searchSupplierGridPane.setHgap(10);
             adminMenu_searchSupplierGridPane.setVgap(10);
 
-            Scene searchSupplier_scene = new Scene(adminMenu_searchSupplierGridPane, 600, 250);
+            Scene searchSupplier_scene = new Scene(adminMenu_searchSupplierGridPane, scene_width, scene_height);
             primaryStage.setScene(searchSupplier_scene);
 
             adminMenu_searchSupplierButton.setOnAction(e1 -> {
@@ -1575,7 +1631,7 @@ public class JavaFXMain extends Application {
         VBox vbox8 = new VBox(cashierReport, customerReport, supplierReport, back5);
         vbox8.setAlignment(Pos.CENTER);
         vbox8.setSpacing(10);
-        Scene userReportScene = new Scene(vbox8, 300, 400);
+        Scene userReportScene = new Scene(vbox8, scene_width, scene_height);
         adminMenu_userReport.setOnAction(e -> primaryStage.setScene(userReportScene));
         back5.setOnAction(e -> primaryStage.setScene(adminMenuScene));
 
@@ -1685,7 +1741,7 @@ public class JavaFXMain extends Application {
             scrollPane.setFitToWidth(true);
 
             // Creates and sets the Scene
-            Scene cashierReportScene = new Scene(scrollPane, 900, 700);
+            Scene cashierReportScene = new Scene(scrollPane, scene_width, scene_height);
             primaryStage.setScene(cashierReportScene);
         });
 
@@ -1764,7 +1820,7 @@ public class JavaFXMain extends Application {
             back6.setOnAction(e1 -> primaryStage.setScene(userReportScene));
             ScrollPane scrollPane = new ScrollPane(adminMenu_userReportGridPane);
             scrollPane.setFitToWidth(true);
-            Scene scene11 = new Scene(scrollPane, 900, 700);
+            Scene scene11 = new Scene(scrollPane, scene_width, scene_width);
             primaryStage.setScene(scene11);
         });
 
@@ -1852,7 +1908,7 @@ public class JavaFXMain extends Application {
             back7.setOnAction(e1 -> primaryStage.setScene(userReportScene));
             ScrollPane scrollPane = new ScrollPane(adminMenu_supplierReportGridPane);
             scrollPane.setFitToWidth(true);
-            Scene scene12 = new Scene(scrollPane, 900, 700);
+            Scene scene12 = new Scene(scrollPane, scene_width, scene_width);
             primaryStage.setScene(scene12);
         });
 
@@ -1930,7 +1986,7 @@ public class JavaFXMain extends Application {
             avgRevenueAndTotalRevenueForOrdersGridPane.add(getTotalRevenueButton, 1, 2);
             avgRevenueAndTotalRevenueForOrdersGridPane.add(avgAndTotalRevenueCancelButton, 0, 3);
 
-            Scene avgRevenueAndTotalRevenueForOrdersScene = new Scene(avgRevenueAndTotalRevenueForOrdersGridPane, 400, 400);
+            Scene avgRevenueAndTotalRevenueForOrdersScene = new Scene(avgRevenueAndTotalRevenueForOrdersGridPane, scene_width, scene_height);
             primaryStage.setScene(avgRevenueAndTotalRevenueForOrdersScene);
 
             getAvgRevenueButton.setOnAction(e1 -> {
@@ -2098,7 +2154,7 @@ public class JavaFXMain extends Application {
         vbox.setAlignment(Pos.CENTER);
         vbox.setSpacing(10);
         Scene customerScene = new Scene(vbox, 300, 250);
-        customer.setOnAction(e -> primaryStage.setScene(customerLoginScene));
+        mainMenu_customerButton.setOnAction(e -> primaryStage.setScene(customerLoginScene));
         LogOut.setOnAction(e -> primaryStage.setScene(mainMenuScene));
 
         //*************************************************************
@@ -2247,7 +2303,7 @@ public class JavaFXMain extends Application {
         vbox3.setAlignment(Pos.CENTER);
         vbox3.setSpacing(10);
         Scene cashierScene = new Scene(vbox3, 300, 250);
-        cashier.setOnAction(e -> primaryStage.setScene(cashierLoginScene));
+        mainMenu_cashierButton.setOnAction(e -> primaryStage.setScene(cashierLoginScene));
         lg.setOnAction(e -> primaryStage.setScene(mainMenuScene));
 
         //**************************************************************
@@ -2298,7 +2354,7 @@ public class JavaFXMain extends Application {
                 cashierMenu_createCartGridPane.setHgap(10);
                 cashierMenu_createCartGridPane.setVgap(10);
 
-                Scene createCartScene = new Scene(cashierMenu_createCartGridPane, 600, 400);
+                Scene createCartScene = new Scene(cashierMenu_createCartGridPane, scene_width, scene_height);
                 primaryStage.setScene(createCartScene);
 
                 cashierMenu_createCartButton.setOnAction(e1 -> {
@@ -2385,7 +2441,7 @@ public class JavaFXMain extends Application {
             cashierMenu_addProToCartGridPane.setHgap(10);
             cashierMenu_addProToCartGridPane.setVgap(10);
 
-            Scene addProToCartScene = new Scene(cashierMenu_addProToCartGridPane, 500, 500);
+            Scene addProToCartScene = new Scene(cashierMenu_addProToCartGridPane, scene_width, scene_height);
             primaryStage.setScene(addProToCartScene);
 
             cashierMenu_addProToCartButton.setOnAction(e1 -> {
@@ -2475,7 +2531,7 @@ public class JavaFXMain extends Application {
             cashierMenu_removeProFromCartGridPane.setHgap(10);
             cashierMenu_removeProFromCartGridPane.setVgap(10);
 
-            Scene removeProFromCartScene = new Scene(cashierMenu_removeProFromCartGridPane, 600, 400);
+            Scene removeProFromCartScene = new Scene(cashierMenu_removeProFromCartGridPane, scene_width, scene_height);
             primaryStage.setScene(removeProFromCartScene);
 
             cashierMenu_removeProductButton.setOnAction(e1 -> {
@@ -2544,7 +2600,7 @@ public class JavaFXMain extends Application {
             cashierMenu_calculatePaymentGridPane.add(cashierMenu_cartIDButton, 0, 1);
             cashierMenu_calculatePaymentGridPane.add(cashierMenu_cartIDCancelButton, 0, 2);
 
-            Scene calculatePaymentScene = new Scene(cashierMenu_calculatePaymentGridPane, 600, 400);
+            Scene calculatePaymentScene = new Scene(cashierMenu_calculatePaymentGridPane, scene_width, scene_height);
             primaryStage.setScene(calculatePaymentScene);
 
             cashierMenu_cartIDButton.setOnAction(e1 -> {
@@ -2596,7 +2652,7 @@ public class JavaFXMain extends Application {
             cancelCart_gridPane.setHgap(10);
             cancelCart_gridPane.setVgap(10);
 
-            Scene cancelCartScene = new Scene(cancelCart_gridPane, 600, 400);
+            Scene cancelCartScene = new Scene(cancelCart_gridPane, scene_width, scene_height);
             primaryStage.setScene(cancelCartScene);
 
             cancelCart_Button.setOnAction(e1 -> {
@@ -2681,5 +2737,110 @@ public class JavaFXMain extends Application {
         m = p.matcher(email);
         return m.matches();
     }
+    public static void styleButton(Button button) {
+        // Set a custom background color and rounded corners
+        button.setStyle(
+                "-fx-background-color: linear-gradient(to bottom, #4CAF50, #2E7D32);" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-size: 14px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-padding: 10 20 10 20;" +
+                        "-fx-background-radius: 20;" +
+                        "-fx-border-radius: 20;"
+        );
+
+        // Add a subtle shadow effect
+        DropShadow shadow = new DropShadow();
+        shadow.setColor(Color.web("#000000", 0.3));
+        shadow.setRadius(5);
+        shadow.setOffsetX(3);
+        shadow.setOffsetY(3);
+        button.setEffect(shadow);
+
+        // Add hover effects
+        button.setOnMouseEntered(e -> button.setStyle(
+                "-fx-background-color: linear-gradient(to bottom, #66BB6A, #388E3C);" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-size: 14px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-padding: 10 20 10 20;" +
+                        "-fx-background-radius: 20;" +
+                        "-fx-border-radius: 20;"
+        ));
+
+        button.setOnMouseExited(e -> button.setStyle(
+                "-fx-background-color: linear-gradient(to bottom, #4CAF50, #2E7D32);" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-size: 14px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-padding: 10 20 10 20;" +
+                        "-fx-background-radius: 20;" +
+                        "-fx-border-radius: 20;"
+        ));
+    }
+    public static void styleTextField(TextField textField) {
+        // Set a custom background and border
+        textField.setStyle(
+                "-fx-background-color: #F9F9F9;" +
+                        "-fx-border-color: #BDBDBD;" +
+                        "-fx-border-width: 1;" +
+                        "-fx-border-radius: 10;" +
+                        "-fx-background-radius: 10;" +
+                        "-fx-padding: 5 10 5 10;" +
+                        "-fx-font-size: 14px;"
+        );
+
+        // Add focus effects
+        textField.focusedProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal) {
+                textField.setStyle(
+                        "-fx-background-color: #FFFFFF;" +
+                                "-fx-border-color: #4CAF50;" +
+                                "-fx-border-width: 2;" +
+                                "-fx-border-radius: 10;" +
+                                "-fx-background-radius: 10;" +
+                                "-fx-padding: 5 10 5 10;" +
+                                "-fx-font-size: 14px;"
+                );
+            } else {
+                textField.setStyle(
+                        "-fx-background-color: #F9F9F9;" +
+                                "-fx-border-color: #BDBDBD;" +
+                                "-fx-border-width: 1;" +
+                                "-fx-border-radius: 10;" +
+                                "-fx-background-radius: 10;" +
+                                "-fx-padding: 5 10 5 10;" +
+                                "-fx-font-size: 14px;"
+                );
+            }
+        });
+
+        // Add a subtle shadow effect
+        DropShadow shadow = new DropShadow();
+        shadow.setColor(Color.web("#000000", 0.1));
+        shadow.setRadius(3);
+        shadow.setOffsetX(1);
+        shadow.setOffsetY(1);
+        textField.setEffect(shadow);
+    }
+    public static void styleLabel(Label label) {
+        // Set a custom font style and color
+        label.setStyle(
+                "-fx-text-fill: #333333;" +
+                        "-fx-font-size: 16px;" +
+                        "-fx-font-weight: bold;"
+        );
+
+        // Add a subtle shadow effect
+        DropShadow shadow = new DropShadow();
+        shadow.setColor(Color.web("#000000", 0.2));
+        shadow.setRadius(2);
+        shadow.setOffsetX(1);
+        shadow.setOffsetY(1);
+        label.setEffect(shadow);
+    }
+
+
+
 }
 
