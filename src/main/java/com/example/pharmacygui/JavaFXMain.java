@@ -25,7 +25,7 @@ import java.util.*;
 
 public class JavaFXMain extends Application {
 
-    int scene_height = 1080, scene_width = 1920;
+    int scene_height = 800, scene_width = 900;
     Admin admin = new Admin("Rina", "Rina123@gmail.com", "1234");
     Customer currentCustomer = null;
     Cashier currentCashier = null;
