@@ -1360,7 +1360,7 @@ public class JavaFXMain extends Application {
             });
 
             adminMenu_editUser_editSupplierCancelButton.setOnAction(e1 -> {
-               primaryStage.setScene(scene7);
+                primaryStage.setScene(scene7);
             });
         });
 
@@ -2379,7 +2379,7 @@ public class JavaFXMain extends Application {
             });
 
             avgAndTotalRevenueCancelButton.setOnAction(e1 -> {
-               primaryStage.setScene(adminMenuScene);
+                primaryStage.setScene(adminMenuScene);
             });
         });
 
@@ -3234,4 +3234,3 @@ public class JavaFXMain extends Application {
 
 
 }
-

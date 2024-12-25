@@ -54,4 +54,3 @@ public abstract class User implements java.io.Serializable{
         this.email = email;
     }
 }
-

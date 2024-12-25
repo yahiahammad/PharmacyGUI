@@ -116,4 +116,3 @@ public class Customer extends User implements java.io.Serializable{
                 + orderHistory.size() +" }";
     }
 }
-
