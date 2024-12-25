@@ -720,6 +720,119 @@ Admin extends User{
         return Id;
     }
 
+//    private void initializeAdmin()
+//    {
+//        String supplierFile =   "src/main/java/com/example/pharmacygui/Suppliers.txt";
+//        String productFile =    "src/main/java/com/example/pharmacygui/Products.txt";
+//        String cartFile =       "src/main/java/com/example/pharmacygui/Cart.txt";
+//        String cashierFile =    "src/main/java/com/example/pharmacygui/Cashier.txt";
+//        String customerFile =   "src/main/java/com/example/pharmacygui/Customer.txt";
+//
+//        BufferedReader reader;
+//        String line;
+//
+//        //read supplier file
+//        try {
+//            reader = new BufferedReader(new FileReader(supplierFile));
+//            while ((line = reader.readLine()) != null)
+//            {
+//                String[] parts = line.split(",");
+//                String sName = parts[0];
+//                String sID = parts[1];
+//                String sEmail = parts[2];
+//                String sContact = parts[3];
+//                //ArrayList<Product> sProducts = new ArrayList<>();
+//
+//                suppliers.add(new Supplier(sName,sID,sEmail,sContact));
+//            }
+//        }
+//        catch (IOException e) {
+//            System.out.println("Supplier File error");
+//        }
+//
+//        //read product file
+//        try {
+//            reader = new BufferedReader(new FileReader(productFile));
+//            while ((line = reader.readLine()) != null)
+//            {
+//                String[] parts = line.split(",");
+//                String pName = parts[0];
+//                String pID = parts[1];
+//                double pPrice = Double.parseDouble(parts[2]);
+//                int pQuantity = Integer.parseInt(parts[3]);
+//                Supplier pSupplier = searchSupplierByField("name" , parts[4]);
+//                LocalDate pExpiryDate = LocalDate.parse(parts[5]);
+//                products.add(new Product(pName,pPrice, pQuantity, pSupplier, pExpiryDate));
+//                pSupplier.addProduct(products.get(products.size()-1));
+//            }
+//        }
+//        catch (IOException e) {
+//            System.out.println("Product File error");
+//        }
+//
+//        //read customer file
+//        try {
+//            reader = new BufferedReader(new FileReader(customerFile));
+//            while ((line = reader.readLine()) != null)
+//            {
+//                String[] parts = line.split(",");
+//                String custName = parts[0];
+//                String custID = parts[1];
+//                String custEmail = parts[2];
+//
+//                customers.add(new Customer(custName,custEmail, custID));
+//            }
+//        }
+//        catch (Exception e) {
+//            System.out.println("Customer File error");
+//        }
+//
+//        //read cashier file
+//        try {
+//            reader = new BufferedReader(new FileReader(cashierFile));
+//            while ((line = reader.readLine()) != null)
+//            {
+//                String[] parts = line.split(",");
+//                String cashName = parts[0];
+//                String cashID = parts[1];
+//                String cashEmail = parts[2];
+//
+//                cashiers.add(new Cashier(cashName,cashID,cashEmail));
+//            }
+//        }
+//        catch (Exception e) {
+//            System.out.println("Cashier File error");
+//        }
+//
+//        //read cart file
+//        try {
+//            reader = new BufferedReader(new FileReader(cartFile));
+//            int j = 0;
+//            while ((line = reader.readLine()) != null)
+//            {
+//                String[] parts = line.split(",");
+//                String cartID = parts[0];
+//                Cart.Status cartStatus = Cart.Status.valueOf(parts[1]);
+//                String cartCashierID = parts[2];
+//                String cartCustomerID = parts[3];
+//                double cartPrice = Double.parseDouble(parts[4]);
+//                LocalDate cartDate = LocalDate.parse(parts[5]);
+//
+//                orders.add(new Cart(cartID,cartStatus,searchCustomerByField("id", cartCustomerID),searchCashierByField("id",cartCashierID),cartPrice,cartDate));
+//
+//                for (int i = 6, x = 7; x < parts.length; i += 2, x +=2) {
+//                    orders.get(j).addProduct(searchProductByField("name", parts[i]), Integer.parseInt(parts[x]));
+//                }
+//                j++;
+//                searchCustomerByField("id", cartCustomerID).addOrder(orders.get(orders.size()-1));
+//                searchCashierByField("id",cartCashierID).addOrderHandled(orders.get(orders.size()-1));
+//            }
+//        }
+//        catch (IOException e) {
+//            System.out.println("Cart File error");
+//        }
+//    }
+
     private void initializeAdmin()
     {
         File supplierFile =   new File(      "src/main/java/com/example/pharmacygui/Suppliers.dat");
@@ -810,7 +923,6 @@ Admin extends User{
             System.out.println("FILE SAVING ERROR: " + e.getMessage());
         }
     }
-
     /*
     each file is to be saved in the same format, each attribute
     mentioned seperated with a comma "," and each object separated with a new line
