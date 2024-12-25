@@ -2185,14 +2185,31 @@ public class JavaFXMain extends Application {
         viewOrders.setOnAction(e -> {
             GridPane orderHistoryGridPane = new GridPane();
             orderHistoryGridPane.setAlignment(Pos.TOP_LEFT);
-            Label l1 = new Label(currentCustomer.name + " Order History:");
+            Label l1 = new Label("Order History:");
             l1.setFont(Font.font("System", FontWeight.BOLD, 25));
+            l1.setUnderline(true);
             orderHistoryGridPane.add(l1, 0, 0);
             int row = 1;
-            for (Cart order : currentCustomer.getOrderHistory()) {
-                Label l2 = new Label(order.toString());
-                orderHistoryGridPane.add(l2, 0, row);
-                row++;
+            int index = 1;
+            int size = currentCustomer.getOrderHistory().size();
+            System.out.println(size);
+            if (currentCustomer.getOrderHistory().isEmpty()){
+                Label empty = new Label("No orders found!");
+                orderHistoryGridPane.add(empty, 0, row);
+            }
+            else {
+                for (Cart order : currentCustomer.getOrderHistory()) {
+                    Label orderIndex = new Label("Order " + index + ":");
+                    orderIndex.setFont(Font.font("System", FontWeight.BOLD, 10));
+                    orderHistoryGridPane.add(orderIndex, 0, row++);
+                    Label id = new Label("ID: " + order.id);
+                    orderHistoryGridPane.add(id, 0, row++);
+                    Label price = new Label("Total Price: " + order.totalPrice);
+                    orderHistoryGridPane.add(price, 0, row++);
+                    Label date = new Label("Date: " + order.getOrderDate());
+                    orderHistoryGridPane.add(date, 0, row++);
+                    index++;
+                }
             }
             Scene customerMenu_viewOrder_scene = new Scene(orderHistoryGridPane, 500, 300);
             primaryStage.setScene(customerMenu_viewOrder_scene);
