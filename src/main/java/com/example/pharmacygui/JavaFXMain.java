@@ -2163,9 +2163,9 @@ public class JavaFXMain extends Application {
             String customerId = customerLoginIDTextField.getText();
             boolean customerExists = CheckCustomerExistence(admin, customerId);
             if (customerExists) {
-                currentCustomer = new Customer(admin.searchCustomerByField("id", customerId));
-
-                if (currentCustomer != null) {
+                Customer retrievedCustomer = admin.searchCustomerByField("id", customerId);
+                if (retrievedCustomer != null) {
+                    currentCustomer = new Customer(retrievedCustomer);
                     customerLoginMessage.setText("Login successful!");
                     primaryStage.setScene(customerScene);
                 } else {
@@ -2176,15 +2176,18 @@ public class JavaFXMain extends Application {
             }
         });
 
+
         customerLoginCancelButton.setOnAction(e -> {
             primaryStage.setScene(mainMenuScene);
         });
 
         //*********************************************************************
         //Customer Menu -> View Orders History Button
-        viewOrders.setOnAction(e -> {
+        viewOrders.setOnAction(e1 -> {
             GridPane orderHistoryGridPane = new GridPane();
             orderHistoryGridPane.setAlignment(Pos.TOP_LEFT);
+            orderHistoryGridPane.setHgap(15);
+            orderHistoryGridPane.setVgap(15);
             Label l1 = new Label("Order History:");
             l1.setFont(Font.font("System", FontWeight.BOLD, 25));
             l1.setUnderline(true);
@@ -2195,7 +2198,7 @@ public class JavaFXMain extends Application {
             System.out.println(size);
             if (currentCustomer.getOrderHistory().isEmpty()){
                 Label empty = new Label("No orders found!");
-                orderHistoryGridPane.add(empty, 0, row);
+                orderHistoryGridPane.add(empty, 0, row++);
             }
             else {
                 for (Cart order : currentCustomer.getOrderHistory()) {
@@ -2211,9 +2214,16 @@ public class JavaFXMain extends Application {
                     index++;
                 }
             }
-            Scene customerMenu_viewOrder_scene = new Scene(orderHistoryGridPane, 500, 300);
+            Button back = new Button("Back");
+            back.setOnAction(e2 -> primaryStage.setScene(customerScene));
+            orderHistoryGridPane.add(back, 0, row);
+            ScrollPane scrollPane = new ScrollPane(orderHistoryGridPane);
+            scrollPane.setFitToHeight(true);
+            scrollPane.setFitToWidth(true);
+            Scene customerMenu_viewOrder_scene = new Scene(scrollPane, 800, 300);
             primaryStage.setScene(customerMenu_viewOrder_scene);
         });
+
 
         //**********************************************************************
         //Customer Menu -> Rate Order Button

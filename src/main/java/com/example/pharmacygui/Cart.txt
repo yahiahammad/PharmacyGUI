@@ -6,4 +6,4 @@ Order_D5A72B8F,PENDING,Cashier_1021,Customer_7890,980.0,2024-03-13,Amoxil,2,Genu
 Order_5,PENDING,Cashier_1021,Customer_1234,0.0,2024-12-08
 Order_6,PENDING,Cashier_1021,Customer_1234,135.0,2024-12-08,Panadol,3
 Order_7,PENDING,Cashier_1021,Customer_1234,75.0,2024-12-10,Amoxil,3
-Order_8,PENDING,Cashier_1021,Customer_1234,0.0,2024-12-25
+Order_8,PENDING,Cashier_1021,Customer_1234,240.0,2024-12-25,Ibuprofen,3
