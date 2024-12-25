@@ -2,7 +2,7 @@ package com.example.pharmacygui;
 
 import java.util.ArrayList;
 
-public class Supplier extends User {
+public class Supplier extends User implements java.io.Serializable {
     private String contactInfo;
     private ArrayList<Product> productSupplied;
     private static int n = 0;

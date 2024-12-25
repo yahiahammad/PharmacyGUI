@@ -3,7 +3,7 @@ package com.example.pharmacygui;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class Product {
+public class Product implements java.io.Serializable {
     private String productId;
     private String name;
     private double price;
