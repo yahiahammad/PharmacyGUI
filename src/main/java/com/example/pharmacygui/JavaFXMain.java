@@ -2459,12 +2459,47 @@ public class JavaFXMain extends Application {
 
         //*********************************************************************
         //Customer Menu -> View Orders History Button
-        viewOrders.setOnAction(e -> {
-            TextArea textArea = new TextArea();
-            Scene customerMenu_viewOrder_scene = new Scene(textArea, 300, 250);
-            currentCustomer.displayOrderHistory(textArea);
+        viewOrders.setOnAction(e1 -> {
+            GridPane orderHistoryGridPane = new GridPane();
+            orderHistoryGridPane.setAlignment(Pos.TOP_LEFT);
+            orderHistoryGridPane.setHgap(15);
+            orderHistoryGridPane.setVgap(15);
+            Label l1 = new Label("Order History:");
+            l1.setFont(Font.font("System", FontWeight.BOLD, 25));
+            l1.setUnderline(true);
+            orderHistoryGridPane.add(l1, 0, 0);
+            int row = 1;
+            int index = 1;
+            int size = currentCustomer.getOrderHistory().size();
+            System.out.println(size);
+            if (currentCustomer.getOrderHistory().isEmpty()){
+                Label empty = new Label("No orders found!");
+                orderHistoryGridPane.add(empty, 0, row++);
+            }
+            else {
+                for (Cart order : currentCustomer.getOrderHistory()) {
+                    Label orderIndex = new Label("Order " + index + ":");
+                    orderIndex.setFont(Font.font("System", FontWeight.BOLD, 10));
+                    orderHistoryGridPane.add(orderIndex, 0, row++);
+                    Label id = new Label("ID: " + order.id);
+                    orderHistoryGridPane.add(id, 0, row++);
+                    Label price = new Label("Total Price: " + order.totalPrice);
+                    orderHistoryGridPane.add(price, 0, row++);
+                    Label date = new Label("Date: " + order.getOrderDate());
+                    orderHistoryGridPane.add(date, 0, row++);
+                    index++;
+                }
+            }
+            Button back = new Button("Back");
+            back.setOnAction(e2 -> primaryStage.setScene(customerScene));
+            orderHistoryGridPane.add(back, 0, row);
+            ScrollPane scrollPane = new ScrollPane(orderHistoryGridPane);
+            scrollPane.setFitToHeight(true);
+            scrollPane.setFitToWidth(true);
+            Scene customerMenu_viewOrder_scene = new Scene(scrollPane, scene_width, scene_height);
             primaryStage.setScene(customerMenu_viewOrder_scene);
         });
+
 
         //**********************************************************************
         //Customer Menu -> Rate Order Button
