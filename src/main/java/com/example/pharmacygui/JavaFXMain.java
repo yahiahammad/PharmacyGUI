@@ -1,15 +1,13 @@
 package com.example.pharmacygui;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -49,6 +47,11 @@ public class JavaFXMain extends Application {
         styleButton(mainMenu_customerButton);
         styleButton(mainMenu_cashierButton);
         styleButton(mainMenu_exitButton);
+
+        mainMenu_adminButton.setPrefSize(200, 30);
+        mainMenu_customerButton.setPrefSize(200, 30);
+        mainMenu_cashierButton.setPrefSize(200, 30);
+        mainMenu_exitButton.setPrefSize(200, 30);
 
         Label mainMenu_welcomeLabel = new Label("Welcome to Pharmacy Management System!");
         styleLabel(mainMenu_welcomeLabel);
@@ -120,20 +123,20 @@ public class JavaFXMain extends Application {
         styleButton(adminMenu_AvgRevenueAndTotalRevenueForOrders);
         styleButton(adminMenu_logOut);
 
-        adminMenu_addProduct.setPrefSize(buttonWidth,30);
-        adminMenu_editProduct.setPrefSize(buttonWidth,30);
-        adminMenu_removeProduct.setPrefSize(buttonWidth,30);
-        adminMenu_searchProduct.setPrefSize(buttonWidth,30);
-        adminMenu_productReport.setPrefSize(buttonWidth,30);
-        adminMenu_BestsellerAndMostRevenueProduct.setPrefSize(buttonWidth,30);
-        adminMenu_addUser.setPrefSize(buttonWidth,30);
-        adminMenu_editUser.setPrefSize(buttonWidth,30);
-        adminMenu_removeUser.setPrefSize(buttonWidth,30);
-        adminMenu_searchUser.setPrefSize(buttonWidth,30);
-        adminMenu_userReport.setPrefSize(buttonWidth,30);
-        adminMenu_orderReport.setPrefSize(buttonWidth,30);
-        adminMenu_AvgRevenueAndTotalRevenueForOrders.setPrefSize(buttonWidth,30);
-        adminMenu_logOut.setPrefSize(buttonWidth,30);
+        adminMenu_addProduct.setPrefSize(buttonWidth,buttonHeight);
+        adminMenu_editProduct.setPrefSize(buttonWidth,buttonHeight);
+        adminMenu_removeProduct.setPrefSize(buttonWidth,buttonHeight);
+        adminMenu_searchProduct.setPrefSize(buttonWidth,buttonHeight);
+        adminMenu_productReport.setPrefSize(buttonWidth,buttonHeight);
+        adminMenu_BestsellerAndMostRevenueProduct.setPrefSize(buttonWidth,buttonHeight);
+        adminMenu_addUser.setPrefSize(buttonWidth,buttonHeight);
+        adminMenu_editUser.setPrefSize(buttonWidth,buttonHeight);
+        adminMenu_removeUser.setPrefSize(buttonWidth,buttonHeight);
+        adminMenu_searchUser.setPrefSize(buttonWidth,buttonHeight);
+        adminMenu_userReport.setPrefSize(buttonWidth,buttonHeight);
+        adminMenu_orderReport.setPrefSize(buttonWidth,buttonHeight);
+        adminMenu_AvgRevenueAndTotalRevenueForOrders.setPrefSize(buttonWidth,buttonHeight);
+        adminMenu_logOut.setPrefSize(buttonWidth,buttonHeight);
 
         Label adminMenu_welcomeLabel = new Label("What would you like to do?");
         styleLabel(adminMenu_welcomeLabel);
@@ -191,20 +194,30 @@ public class JavaFXMain extends Application {
 
 
             Label productSupplier = new Label("Enter Product Supplier ID: ");
+            styleLabel(productSupplier);
             Label adminMenu_addProduct_SupplierIDWarning = new Label("Supplier Doesn't Exist!");
             adminMenu_addProduct_SupplierIDWarning.setTextFill(Color.RED);
             adminMenu_addProduct_SupplierIDWarning.setVisible(false);
             TextField adminMenu_addProduct_ProductSupplierID = new TextField();
+            styleTextField(adminMenu_addProduct_ProductSupplierID);
 
             Label productExpirationDate = new Label("Enter Product Expiration Date: ");
+            styleLabel(productExpirationDate);
             Label adminMenu_addProduct_ProductExpirationDateWarning = new Label("Expiration Date Must be Date!");
             adminMenu_addProduct_ProductExpirationDateWarning.setTextFill(Color.RED);
             adminMenu_addProduct_ProductExpirationDateWarning.setVisible(false);
             TextField adminMenu_addProduct_ProductExpirationDate = new TextField("yyyy-MM-dd");
+            styleTextField(adminMenu_addProduct_ProductExpirationDate);
 
             Button adminMenu_addProductButton = new Button("Add Product");
             Button adminMenu_addProductCancelButton = new Button("Cancel");
             adminMenu_addProductButton.setAlignment(Pos.CENTER);
+
+            styleButton(adminMenu_addProductButton);
+            styleButton(adminMenu_addProductCancelButton);
+
+            adminMenu_addProductButton.setPrefSize(200, 30);
+            adminMenu_addProductCancelButton.setPrefSize(200, 30);
 
             adminMenu_addProductGridPane.add(productName, 0, 0);
             adminMenu_addProductGridPane.add(adminMenu_addProduct_ProductName, 1, 0);
@@ -312,27 +325,39 @@ public class JavaFXMain extends Application {
             adminMenu_editProductGridPane.setAlignment(Pos.CENTER);
 
             Label productName2 = new Label("Enter Product Name: ");
+            styleLabel(productName2);
             Label adminMenu_editProduct_ProductNameWarning = new Label("Product Does Not Exist!");
             adminMenu_editProduct_ProductNameWarning.setTextFill(Color.RED);
             adminMenu_editProduct_ProductNameWarning.setVisible(false);
             TextField adminMenu_editProduct_ProductName = new TextField();
+            styleTextField(adminMenu_editProduct_ProductName);
 
             Label productField = new Label("Enter The Field You Want To Edit: ");
+            styleLabel(productField);
             Label adminMenu_editProduct_ProductFieldWarning = new Label("Only Name, Price, and Quantity can be edited!");
             adminMenu_editProduct_ProductFieldWarning.setTextFill(Color.RED);
             adminMenu_editProduct_ProductFieldWarning.setVisible(false);
             TextField adminMenu_editProduct_ProductField = new TextField();
+            styleTextField(adminMenu_editProduct_ProductField);
 
             Label productValue = new Label("Enter New Value: ");
+            styleLabel(productValue);
             Label adminMenu_editProduct_ProductValueWarning = new Label("Type Mismatch!");
             adminMenu_editProduct_ProductValueWarning.setTextFill(Color.RED);
             adminMenu_editProduct_ProductValueWarning.setVisible(false);
             TextField adminMenu_editProduct_ProductValue = new TextField();
+            styleTextField(adminMenu_editProduct_ProductValue);
 
             Button adminMenu_editProductButton = new Button("Edit Product");
             Button adminMenu_editProductCancelButton = new Button("Cancel");
             adminMenu_editProductButton.setAlignment(Pos.CENTER);
             adminMenu_editProductCancelButton.setAlignment(Pos.CENTER);
+
+            styleButton(adminMenu_editProductButton);
+            styleButton(adminMenu_editProductCancelButton);
+
+            adminMenu_editProductButton.setPrefSize(200, 30);
+            adminMenu_editProductCancelButton.setPrefSize(200, 30);
 
             adminMenu_editProductGridPane.add(productName2, 0, 0);
             adminMenu_editProductGridPane.add(adminMenu_editProduct_ProductName, 1, 0);
@@ -401,15 +426,23 @@ public class JavaFXMain extends Application {
             adminMenu_removeProductGridPane.setAlignment(Pos.CENTER);
 
             Label removeProductName = new Label("Enter Name of Product to be removed: ");
+            styleLabel(removeProductName);
             Label adminMenu_removeProductNameWarning = new Label("Product Does Not Exist!");
             adminMenu_removeProductNameWarning.setTextFill(Color.RED);
             adminMenu_removeProductNameWarning.setVisible(false);
             TextField adminMenu_removeProductName = new TextField();
+            styleTextField(adminMenu_removeProductName);
 
             Button adminMenu_removeProductButton = new Button("Remove Product");
             Button adminMenu_removeProductCancelButton = new Button("Cancel");
             adminMenu_removeProductButton.setAlignment(Pos.CENTER);
             adminMenu_removeProductCancelButton.setAlignment(Pos.CENTER);
+
+            styleButton(adminMenu_removeProductButton);
+            styleButton(adminMenu_removeProductCancelButton);
+
+            adminMenu_removeProductButton.setPrefSize(200, 30);
+            adminMenu_removeProductCancelButton.setPrefSize(200, 30);
 
             adminMenu_removeProductGridPane.add(removeProductName, 0, 0);
             adminMenu_removeProductGridPane.add(adminMenu_removeProductName, 1, 0);
@@ -461,18 +494,28 @@ public class JavaFXMain extends Application {
             adminMenu_searchProductGridPane.setAlignment(Pos.CENTER);
 
             Label searchProductField = new Label("Enter Search Field: ");
+            styleLabel(searchProductField);
             Label adminMenu_searchProduct_ProductFieldWarning = new Label("Only Name or ID can be used!");
             adminMenu_searchProduct_ProductFieldWarning.setTextFill(Color.RED);
             adminMenu_searchProduct_ProductFieldWarning.setVisible(false);
             TextField adminMenu_searchProduct_ProductField = new TextField();
+            styleTextField(adminMenu_searchProduct_ProductField);
 
             Label searchProductValue = new Label("Enter Value to Search with: ");
+            styleLabel(searchProductValue);
             TextField adminMenu_searchProduct_ProductValue = new TextField();
+            styleTextField(adminMenu_searchProduct_ProductValue);
 
             Button adminMenu_searchProductButton = new Button("Search Product");
             Button adminMenu_searchProductCancelButton = new Button("Cancel");
             adminMenu_searchProductButton.setAlignment(Pos.CENTER);
             adminMenu_searchProductCancelButton.setAlignment(Pos.CENTER);
+
+            styleButton(adminMenu_searchProductButton);
+            styleButton(adminMenu_searchProductCancelButton);
+
+            adminMenu_searchProductButton.setPrefSize(200, 30);
+            adminMenu_searchProductCancelButton.setPrefSize(200, 30);
 
             adminMenu_searchProductGridPane.add(searchProductField, 0, 0);
             adminMenu_searchProductGridPane.add(adminMenu_searchProduct_ProductField, 1, 0);
@@ -528,10 +571,19 @@ public class JavaFXMain extends Application {
 
             // Create a GridPane to display the product details
             GridPane productReportGridPane = new GridPane();
-            productReportGridPane.setAlignment(Pos.CENTER);
+            productReportGridPane.setAlignment(Pos.TOP_CENTER);
             productReportGridPane.setHgap(15);
             productReportGridPane.setVgap(15);
             productReportGridPane.add(titleLabel, 0, 0);
+
+            productReportGridPane.setPrefWidth(800);
+            productReportGridPane.setPrefHeight(Region.USE_COMPUTED_SIZE);
+
+
+            VBox wrapper1 = new VBox(productReportGridPane);
+            wrapper1.setPrefWidth(Region.USE_COMPUTED_SIZE);
+            wrapper1.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            wrapper1.setPadding(new Insets(10));
 
             int rowIndex = 1;
 
@@ -560,10 +612,13 @@ public class JavaFXMain extends Application {
             backButton.setOnAction(e1 -> primaryStage.setScene(adminMenuScene));
 
 
-            ScrollPane scrollPane = new ScrollPane(productReportGridPane);
+            ScrollPane scrollPane = new ScrollPane(wrapper1);
+            scrollPane.setPrefViewportHeight(scene_height);
+            scrollPane.setPrefViewportWidth(scene_width);
             scrollPane.setFitToWidth(true);
+            scrollPane.setFitToHeight(false);
 
-            Scene productReportScene = new Scene(scrollPane, scene_width, scene_height);
+            Scene productReportScene = new Scene(scrollPane, 1800, 900);
             primaryStage.setScene(productReportScene);
         });
 
@@ -574,16 +629,20 @@ public class JavaFXMain extends Application {
             adminMenu_BestsellerAndMostRevenueProductGridPane.setAlignment(Pos.CENTER);
 
             Label startDate = new Label("Enter Start Date: ");
+            styleLabel(startDate);
             Label startDateWarning = new Label("Invalid input!");
             startDateWarning.setTextFill(Color.RED);
             startDateWarning.setVisible(false);
             TextField startDateField = new TextField();
+            styleTextField(startDateField);
 
             Label endDate = new Label("Enter End Date: ");
+            styleLabel(endDate);
             Label endDateWarning = new Label("Invalid input!");
             endDateWarning.setTextFill(Color.RED);
             endDateWarning.setVisible(false);
             TextField endDateField = new TextField();
+            styleTextField(endDateField);
 
             Button getBestsellerButton = new Button("Best seller Product");
             Button getMostRevenueButton = new Button("Most Revenue Product");
@@ -692,6 +751,17 @@ public class JavaFXMain extends Application {
         Button adminMenu_addUser_addSupplier = new Button("Add New Supplier");
         Button adminMenu_addUser_back = new Button("Back");
 
+        styleButton(adminMenu_addUser_addCashier);
+        styleButton(adminMenu_addUser_addCustomer);
+        styleButton(adminMenu_addUser_addSupplier);
+        styleButton(adminMenu_addUser_back);
+
+        adminMenu_addUser_addCashier.setPrefSize(300, 30);
+        adminMenu_addUser_addCustomer.setPrefSize(300, 30);
+        adminMenu_addUser_addSupplier.setPrefSize(300, 30);
+        adminMenu_addUser_back.setPrefSize(300, 30);
+
+
         VBox adminMenu_addUser_Vbox = new VBox(adminMenu_addUser_ChoiceLabel, adminMenu_addUser_addCashier, adminMenu_addUser_addCustomer, adminMenu_addUser_addSupplier, adminMenu_addUser_back);
         adminMenu_addUser_Vbox.setAlignment(Pos.CENTER);
         adminMenu_addUser_Vbox.setSpacing(10);
@@ -704,19 +774,25 @@ public class JavaFXMain extends Application {
         adminMenu_addUser_addCashier.setOnAction(e -> {
 
             Label adminMenu_addUser_addCashierNameLabel = new Label("Enter Name: ");
+            styleLabel(adminMenu_addUser_addCashierNameLabel);
             Label adminMenu_addUser_addCashierInvalidNameLabel = new Label("Invalid Name!");
             adminMenu_addUser_addCashierInvalidNameLabel.setTextFill(Color.RED);
             adminMenu_addUser_addCashierInvalidNameLabel.setVisible(false);
             TextField adminMenu_addUser_addCashierNameTF = new TextField();
+            styleTextField(adminMenu_addUser_addCashierNameTF);
 
             Label adminMenu_addUser_addCashierEmailLabel = new Label("Enter Email: ");
+            styleLabel(adminMenu_addUser_addCashierEmailLabel);
             Label adminMenu_addUser_addCashierInvalidEmailLabel = new Label("Invalid Email!");
             adminMenu_addUser_addCashierInvalidEmailLabel.setTextFill(Color.RED);
             adminMenu_addUser_addCashierInvalidEmailLabel.setVisible(false);
             TextField adminMenu_addUser_addCashierEmailTF = new TextField();
+            styleTextField(adminMenu_addUser_addCashierEmailTF);
 
             Button adminMenu_addUser_addCashierButton = new Button("Add New Cashier");
+            styleButton(adminMenu_addUser_addCashierButton);
             Button adminMenu_addUser_addCashierCancelButton = new Button("Cancel");
+            styleButton(adminMenu_addUser_addCashierCancelButton);
 
             GridPane adminMenu_addUser_addCashier_GridPane = new GridPane();
             adminMenu_addUser_addCashier_GridPane.setHgap(10);
@@ -765,18 +841,18 @@ public class JavaFXMain extends Application {
                         adminMenu_addUser_addCashier_CashierAdditionFailed.setTitle("CASHIER ADDITION FAILED");
                         adminMenu_addUser_addCashier_CashierAdditionFailed.setHeaderText("Failed to add cashier to the database");
                         adminMenu_addUser_addCashier_CashierAdditionFailed.showAndWait();
-                        primaryStage.setScene(adminMenuScene);
+                        primaryStage.setScene(adminMenu_addUserScene);
                     }
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Add Cashier");
                     alert.setHeaderText("Cashier added Successfully!");
                     alert.showAndWait();
-                    primaryStage.setScene(adminMenuScene);
+                    primaryStage.setScene(adminMenu_addUserScene);
                 }
             });
 
             adminMenu_addUser_addCashierCancelButton.setOnAction(e2 -> {
-                primaryStage.setScene(adminMenuScene);
+                primaryStage.setScene(adminMenu_addUserScene);
             });
         });
 
@@ -784,19 +860,25 @@ public class JavaFXMain extends Application {
         //Admin Menu -> Add User Menu -> Add Customer Button
         adminMenu_addUser_addCustomer.setOnAction(e -> {
             Label adminMenu_addUser_addCustomerNameLabel = new Label("Enter Name: ");
+            styleLabel(adminMenu_addUser_addCustomerNameLabel);
             Label adminMenu_addUser_addCustomerInvalidNameLabel = new Label("Invalid Name!");
             adminMenu_addUser_addCustomerInvalidNameLabel.setTextFill(Color.RED);
             adminMenu_addUser_addCustomerInvalidNameLabel.setVisible(false);
             TextField adminMenu_addUser_addCustomerNameTF = new TextField();
+            styleTextField(adminMenu_addUser_addCustomerNameTF);
 
             Label adminMenu_addUser_addCustomerEmailLabel = new Label("Enter Email: ");
+            styleLabel(adminMenu_addUser_addCustomerEmailLabel);
             Label adminMenu_addUser_addCustomerInvalidEmailLabel = new Label("Invalid Email!");
             adminMenu_addUser_addCustomerInvalidEmailLabel.setTextFill(Color.RED);
             adminMenu_addUser_addCustomerInvalidEmailLabel.setVisible(false);
             TextField adminMenu_addUser_addCustomerEmailTF = new TextField();
+            styleTextField(adminMenu_addUser_addCustomerEmailTF);
 
             Button adminMenu_addUser_addCustomerButton = new Button("Add New Customer");
+            styleButton(adminMenu_addUser_addCustomerButton);
             Button adminMenu_addUser_addCustomerCancelButton = new Button("Cancel");
+            styleButton(adminMenu_addUser_addCustomerCancelButton);
 
             GridPane adminMenu_addUser_addCustomer_GridPane = new GridPane();
             adminMenu_addUser_addCustomer_GridPane.setHgap(10);
@@ -845,16 +927,16 @@ public class JavaFXMain extends Application {
                         adminMenu_addUser_addCustomer_CustomerAdditionFailed.setTitle("Customer ADDITION FAILED");
                         adminMenu_addUser_addCustomer_CustomerAdditionFailed.setHeaderText("Failed to add Customer to the database");
                         adminMenu_addUser_addCustomer_CustomerAdditionFailed.showAndWait();
-                        primaryStage.setScene(adminMenuScene);
+                        primaryStage.setScene(adminMenu_addUserScene);
                     }
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Add Customer");
                     alert.setHeaderText("Customer added Successfully!");
                     alert.showAndWait();
-                    primaryStage.setScene(adminMenuScene);
+                    primaryStage.setScene(adminMenu_addUserScene);
                 }
             });
-            adminMenu_addUser_addCustomerCancelButton.setOnAction(e2 -> primaryStage.setScene(adminMenuScene));
+            adminMenu_addUser_addCustomerCancelButton.setOnAction(e2 -> primaryStage.setScene(adminMenu_addUserScene));
 
         });
 
@@ -862,26 +944,34 @@ public class JavaFXMain extends Application {
         //Admin Menu -> Add User Menu -> Add Supplier Button
         adminMenu_addUser_addSupplier.setOnAction(e -> {
             Label adminMenu_addUser_addSupplierNameLabel = new Label("Enter Name: ");
+            styleLabel(adminMenu_addUser_addSupplierNameLabel);
             Label adminMenu_addUser_addSupplierInvalidNameLabel = new Label("Invalid Name!");
             adminMenu_addUser_addSupplierInvalidNameLabel.setTextFill(Color.RED);
             adminMenu_addUser_addSupplierInvalidNameLabel.setVisible(false);
             TextField adminMenu_addUser_addSupplierNameTF = new TextField();
+            styleTextField(adminMenu_addUser_addSupplierNameTF);
 
             Label adminMenu_addUser_addSupplierEmailLabel = new Label("Enter Email: ");
+            styleLabel(adminMenu_addUser_addSupplierEmailLabel);
             Label adminMenu_addUser_addSupplierInvalidEmailLabel = new Label("Invalid Email!");
             adminMenu_addUser_addSupplierInvalidEmailLabel.setTextFill(Color.RED);
             adminMenu_addUser_addSupplierInvalidEmailLabel.setVisible(false);
             TextField adminMenu_addUser_addSupplierEmailTF = new TextField();
+            styleTextField(adminMenu_addUser_addSupplierEmailTF);
 
             Label adminMenu_addUser_addSupplierContactLabel = new Label("Enter Contact info: ");
+            styleLabel(adminMenu_addUser_addSupplierContactLabel);
             Label adminMenu_addUser_addSupplierInvalidContactLabel = new Label("Invalid Contact!");
             adminMenu_addUser_addSupplierInvalidContactLabel.setTextFill(Color.RED);
             adminMenu_addUser_addSupplierInvalidContactLabel.setVisible(false);
             TextField adminMenu_addUser_addSupplierContactTF = new TextField();
+            styleTextField(adminMenu_addUser_addSupplierContactTF);
 
 
             Button adminMenu_addUser_addSupplierButton = new Button("Add New Supplier");
+            styleButton(adminMenu_addUser_addSupplierButton);
             Button adminMenu_addUser_addSupplierCancelButton = new Button("Cancel");
+            styleButton(adminMenu_addUser_addSupplierCancelButton);
 
             GridPane adminMenu_addUser_addSupplier_GridPane = new GridPane();
             adminMenu_addUser_addSupplier_GridPane.setHgap(10);
@@ -897,7 +987,7 @@ public class JavaFXMain extends Application {
             adminMenu_addUser_addSupplier_GridPane.add(adminMenu_addUser_addSupplierContactTF, 1, 2);
             adminMenu_addUser_addSupplier_GridPane.add(adminMenu_addUser_addSupplierInvalidContactLabel, 2, 2);
             adminMenu_addUser_addSupplier_GridPane.add(adminMenu_addUser_addSupplierButton, 1, 3);
-            adminMenu_addUser_addSupplier_GridPane.add(adminMenu_addUser_addSupplierCancelButton, 2, 3);
+            adminMenu_addUser_addSupplier_GridPane.add(adminMenu_addUser_addSupplierCancelButton, 1, 4);
 
             Scene scene = new Scene(adminMenu_addUser_addSupplier_GridPane, scene_width, scene_height);
             primaryStage.setScene(scene);
@@ -943,25 +1033,36 @@ public class JavaFXMain extends Application {
                         adminMenu_addUser_addSupplier_SupplierAdditionFailed.setTitle("Supplier ADDITION FAILED");
                         adminMenu_addUser_addSupplier_SupplierAdditionFailed.setHeaderText("Failed to add Supplier to the database");
                         adminMenu_addUser_addSupplier_SupplierAdditionFailed.showAndWait();
-                        primaryStage.setScene(adminMenuScene);
+                        primaryStage.setScene(adminMenu_addUserScene);
                     }
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Add Supplier");
                     alert.setHeaderText("Supplier added Successfully!");
                     alert.showAndWait();
-                    primaryStage.setScene(adminMenuScene);
+                    primaryStage.setScene(adminMenu_addUserScene);
                 }
             });
-            adminMenu_addUser_addSupplierCancelButton.setOnAction(e2 -> primaryStage.setScene(adminMenuScene));
+            adminMenu_addUser_addSupplierCancelButton.setOnAction(e2 -> primaryStage.setScene(adminMenu_addUserScene));
         });
 
         //***********************************************************
         //Admin Menu -> Edit User Menu
         Label label7 = new Label("Click on your choice");
+        styleLabel(label7);
         Button editCashier = new Button("Edit Cashier");
         Button editCustomer = new Button("Edit Customer");
         Button editSupplier = new Button("Edit Supplier");
         Button back2 = new Button("Back");
+
+        styleButton(editCashier);
+        styleButton(editCustomer);
+        styleButton(editSupplier);
+        styleButton(back2);
+
+        editCashier.setPrefSize(300, 30);
+        editCustomer.setPrefSize(300, 30);
+        editSupplier.setPrefSize(300, 30);
+        back2.setPrefSize(300, 30);
 
         VBox vbox5 = new VBox(label7, editCashier, editCustomer, editSupplier, back2);
         vbox5.setAlignment(Pos.CENTER);
@@ -979,22 +1080,34 @@ public class JavaFXMain extends Application {
             adminMenu_editUser_editCashierGridPane.setVgap(10);
 
             Label adminMenu_editUser_editCashierID = new Label("Cashier ID: ");
+            styleLabel(adminMenu_editUser_editCashierID);
             TextField adminMenu_editUser_editCashierIDTF = new TextField();
+            styleTextField(adminMenu_editUser_editCashierIDTF);
             Label adminMenu_editUser_editCashierInvalidIDLabel = new Label("Cashier ID Invalid");
             adminMenu_editUser_editCashierInvalidIDLabel.setTextFill(Color.RED);
             adminMenu_editUser_editCashierInvalidIDLabel.setVisible(false);
 
             Label adminMenu_editUser_editCashierField = new Label("Enter edit field: ");
+            styleLabel(adminMenu_editUser_editCashierField);
             TextField adminMenu_editUser_editCashierFieldTF = new TextField();
+            styleTextField(adminMenu_editUser_editCashierFieldTF);
             Label adminMenu_editUser_editCashierInvalidFieldLabel = new Label("Only Name Or E-mail can be used!");
             adminMenu_editUser_editCashierInvalidFieldLabel.setTextFill(Color.RED);
             adminMenu_editUser_editCashierInvalidFieldLabel.setVisible(false);
 
             Label adminMenu_editUser_editCashierValue = new Label("Enter edit value: ");
+            styleLabel(adminMenu_editUser_editCashierValue);
             TextField adminMenu_editUser_editCashierValueTF = new TextField();
+            styleTextField(adminMenu_editUser_editCashierValueTF);
 
             Button adminMenu_editUser_editCashierCancelButton = new Button("Cancel");
             Button adminMenu_editUser_editCashierSaveButton = new Button("Save");
+
+            styleButton(adminMenu_editUser_editCashierCancelButton);
+            styleButton(adminMenu_editUser_editCashierSaveButton);
+
+            adminMenu_editUser_editCashierCancelButton.setPrefSize(200, 30);
+            adminMenu_editUser_editCashierSaveButton.setPrefSize(200, 30);
 
             adminMenu_editUser_editCashierGridPane.add(adminMenu_editUser_editCashierID, 0, 0);
             adminMenu_editUser_editCashierGridPane.add(adminMenu_editUser_editCashierIDTF, 1, 0);
@@ -1041,14 +1154,18 @@ public class JavaFXMain extends Application {
                         adminMenu_editUser_editCashier_CashierAdditionFailed.setTitle("CASHIER EDITING FAILED");
                         adminMenu_editUser_editCashier_CashierAdditionFailed.setHeaderText("Failed to edit cashier in the database");
                         adminMenu_editUser_editCashier_CashierAdditionFailed.showAndWait();
-                        primaryStage.setScene(adminMenuScene);
+                        primaryStage.setScene(scene7);
                     }
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Edit Cashier");
                     alert.setHeaderText("Cashier edited Successfully!");
                     alert.showAndWait();
-                    primaryStage.setScene(adminMenuScene);
+                    primaryStage.setScene(scene7);
                 }
+            });
+
+            adminMenu_editUser_editCashierCancelButton.setOnAction(e1 -> {
+                primaryStage.setScene(scene7);
             });
         });
 
@@ -1061,22 +1178,34 @@ public class JavaFXMain extends Application {
             adminMenu_editUser_editCustomerGridPane.setVgap(10);
 
             Label adminMenu_editUser_editCustomerID = new Label("Customer ID: ");
+            styleLabel(adminMenu_editUser_editCustomerID);
             TextField adminMenu_editUser_editCustomerIDTF = new TextField();
+            styleTextField(adminMenu_editUser_editCustomerIDTF);
             Label adminMenu_editUser_editCustomerInvalidIDLabel = new Label("Customer ID Invalid");
             adminMenu_editUser_editCustomerInvalidIDLabel.setTextFill(Color.RED);
             adminMenu_editUser_editCustomerInvalidIDLabel.setVisible(false);
 
             Label adminMenu_editUser_editCustomerField = new Label("Enter edit field: ");
+            styleLabel(adminMenu_editUser_editCustomerField);
             TextField adminMenu_editUser_editCustomerFieldTF = new TextField();
+            styleTextField(adminMenu_editUser_editCustomerFieldTF);
             Label adminMenu_editUser_editCustomerInvalidFieldLabel = new Label("Only Name Or E-mail can be used!");
             adminMenu_editUser_editCustomerInvalidFieldLabel.setTextFill(Color.RED);
             adminMenu_editUser_editCustomerInvalidFieldLabel.setVisible(false);
 
             Label adminMenu_editUser_editCustomerValue = new Label("Enter edit value: ");
+            styleLabel(adminMenu_editUser_editCustomerValue);
             TextField adminMenu_editUser_editCustomerValueTF = new TextField();
+            styleTextField(adminMenu_editUser_editCustomerValueTF);
 
             Button adminMenu_editUser_editCustomerCancelButton = new Button("Cancel");
             Button adminMenu_editUser_editCustomerSaveButton = new Button("Save");
+
+            styleButton(adminMenu_editUser_editCustomerCancelButton);
+            styleButton(adminMenu_editUser_editCustomerSaveButton);
+
+            adminMenu_editUser_editCustomerCancelButton.setPrefSize(200, 30);
+            adminMenu_editUser_editCustomerSaveButton.setPrefSize(200, 30);
 
             adminMenu_editUser_editCustomerGridPane.add(adminMenu_editUser_editCustomerID, 0, 0);
             adminMenu_editUser_editCustomerGridPane.add(adminMenu_editUser_editCustomerIDTF, 1, 0);
@@ -1123,14 +1252,18 @@ public class JavaFXMain extends Application {
                         adminMenu_editUser_editCustomer_CustomerAdditionFailed.setTitle("CUSTOMER EDITING FAILED");
                         adminMenu_editUser_editCustomer_CustomerAdditionFailed.setHeaderText("Failed to edit cashier in the database");
                         adminMenu_editUser_editCustomer_CustomerAdditionFailed.showAndWait();
-                        primaryStage.setScene(adminMenuScene);
+                        primaryStage.setScene(scene7);
                     }
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Edit Customer");
                     alert.setHeaderText("Customer edited Successfully!");
                     alert.showAndWait();
-                    primaryStage.setScene(adminMenuScene);
+                    primaryStage.setScene(scene7);
                 }
+            });
+
+            adminMenu_editUser_editCustomerCancelButton.setOnAction(e1 -> {
+                primaryStage.setScene(scene7);
             });
         });
 
@@ -1143,22 +1276,34 @@ public class JavaFXMain extends Application {
             adminMenu_editUser_editSupplierGridPane.setVgap(10);
 
             Label adminMenu_editUser_editSupplierID = new Label("Supplier ID: ");
+            styleLabel(adminMenu_editUser_editSupplierID);
             TextField adminMenu_editUser_editSupplierIDTF = new TextField();
+            styleTextField(adminMenu_editUser_editSupplierIDTF);
             Label adminMenu_editUser_editSupplierInvalidIDLabel = new Label("Supplier ID Invalid");
             adminMenu_editUser_editSupplierInvalidIDLabel.setTextFill(Color.RED);
             adminMenu_editUser_editSupplierInvalidIDLabel.setVisible(false);
 
             Label adminMenu_editUser_editSupplierField = new Label("Enter edit field: ");
+            styleLabel(adminMenu_editUser_editSupplierField);
             TextField adminMenu_editUser_editSupplierFieldTF = new TextField();
+            styleTextField(adminMenu_editUser_editSupplierFieldTF);
             Label adminMenu_editUser_editSupplierInvalidFieldLabel = new Label("Only Name Or E-mail can be used!");
             adminMenu_editUser_editSupplierInvalidFieldLabel.setTextFill(Color.RED);
             adminMenu_editUser_editSupplierInvalidFieldLabel.setVisible(false);
 
             Label adminMenu_editUser_editSupplierValue = new Label("Enter edit value: ");
+            styleLabel(adminMenu_editUser_editSupplierValue);
             TextField adminMenu_editUser_editSupplierValueTF = new TextField();
+            styleTextField(adminMenu_editUser_editSupplierValueTF);
 
             Button adminMenu_editUser_editSupplierCancelButton = new Button("Cancel");
             Button adminMenu_editUser_editSupplierSaveButton = new Button("Save");
+
+            styleButton(adminMenu_editUser_editSupplierCancelButton);
+            styleButton(adminMenu_editUser_editSupplierSaveButton);
+
+            adminMenu_editUser_editSupplierCancelButton.setPrefSize(200, 30);
+            adminMenu_editUser_editSupplierSaveButton.setPrefSize(200, 30);
 
             adminMenu_editUser_editSupplierGridPane.add(adminMenu_editUser_editSupplierID, 0, 0);
             adminMenu_editUser_editSupplierGridPane.add(adminMenu_editUser_editSupplierIDTF, 1, 0);
@@ -1205,24 +1350,39 @@ public class JavaFXMain extends Application {
                         adminMenu_editUser_editSupplier_SupplierAdditionFailed.setTitle("SUPPLIER EDITING FAILED");
                         adminMenu_editUser_editSupplier_SupplierAdditionFailed.setHeaderText("Failed to edit cashier in the database");
                         adminMenu_editUser_editSupplier_SupplierAdditionFailed.showAndWait();
-                        primaryStage.setScene(adminMenuScene);
+                        primaryStage.setScene(scene7);
                     }
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Edit Supplier");
                     alert.setHeaderText("Supplier edited Successfully!");
                     alert.showAndWait();
-                    primaryStage.setScene(adminMenuScene);
+                    primaryStage.setScene(scene7);
                 }
+            });
+
+            adminMenu_editUser_editSupplierCancelButton.setOnAction(e1 -> {
+               primaryStage.setScene(scene7);
             });
         });
 
         //***********************************************************
         //Admin Menu -> Remove User Menu
         Label label8 = new Label("Click on you choice");
+        styleLabel(label8);
         Button removeCashier = new Button("Remove Cashier");
         Button removeCustomer = new Button("Remove Customer");
         Button removeSupplier = new Button("Remove Supplier");
         Button back3 = new Button("Back");
+
+        styleButton(removeCashier);
+        styleButton(removeCustomer);
+        styleButton(removeSupplier);
+        styleButton(back3);
+
+        removeCashier.setPrefSize(200, 30);
+        removeCustomer.setPrefSize(200, 30);
+        removeSupplier.setPrefSize(200, 30);
+        back3.setPrefSize(200, 30);
 
         VBox vbox6 = new VBox(label8, removeCashier, removeCustomer, removeSupplier, back3);
         vbox6.setAlignment(Pos.CENTER);
@@ -1238,15 +1398,23 @@ public class JavaFXMain extends Application {
             adminMenu_removeCashierGridPane.setAlignment(Pos.CENTER);
 
             Label removeCashierID = new Label("Enter ID of Cashier to be removed: ");
+            styleLabel(removeCashierID);
             Label adminMenu_removeCashierIDWarning = new Label("Cashier Does Not Exist!");
             adminMenu_removeCashierIDWarning.setTextFill(Color.RED);
             adminMenu_removeCashierIDWarning.setVisible(false);
             TextField adminMenu_removeCashierID = new TextField();
+            styleTextField(adminMenu_removeCashierID);
 
             Button adminMenu_removeCashierButton = new Button("Remove Cashier");
             Button adminMenu_removeCashierCancelButton = new Button("Cancel");
             adminMenu_removeCashierButton.setAlignment(Pos.CENTER);
             adminMenu_removeCashierCancelButton.setAlignment(Pos.CENTER);
+
+            styleButton(adminMenu_removeCashierButton);
+            styleButton(adminMenu_removeCashierCancelButton);
+
+            adminMenu_removeCashierButton.setPrefSize(200, 30);
+            adminMenu_removeCashierCancelButton.setPrefSize(200, 30);
 
             adminMenu_removeCashierGridPane.add(removeCashierID, 0, 0);
             adminMenu_removeCashierGridPane.add(adminMenu_removeCashierID, 1, 0);
@@ -1276,18 +1444,18 @@ public class JavaFXMain extends Application {
                             adminMenu_removeCashier_CashierRemoveFailed.setTitle("CASHIER REMOVE FAILED");
                             adminMenu_removeCashier_CashierRemoveFailed.setHeaderText("Failed to remove cashier from the database");
                             adminMenu_removeCashier_CashierRemoveFailed.showAndWait();
-                            primaryStage.setScene(adminMenuScene);
+                            primaryStage.setScene(scene8);
                         }
                         adminMenu_removeCashier_CashierRemovedAlert.setHeaderText("Cashier successfully removed!");
                         adminMenu_removeCashier_CashierRemovedAlert.setContentText("Press OK to continue");
                         adminMenu_removeCashier_CashierRemovedAlert.showAndWait();
-                        primaryStage.setScene(adminMenuScene);
+                        primaryStage.setScene(scene8);
                     }
                 }
             });
 
             adminMenu_removeCashierCancelButton.setOnAction(e1 -> {
-                primaryStage.setScene(adminMenuScene);
+                primaryStage.setScene(scene8);
             });
         });
 
@@ -1298,15 +1466,23 @@ public class JavaFXMain extends Application {
             adminMenu_removeCustomerGridPane.setAlignment(Pos.CENTER);
 
             Label removeCustomerID = new Label("Enter ID of Customer to be removed: ");
+            styleLabel(removeCustomerID);
             Label adminMenu_removeCustomerIDWarning = new Label("Customer Does Not Exist!");
             adminMenu_removeCustomerIDWarning.setTextFill(Color.RED);
             adminMenu_removeCustomerIDWarning.setVisible(false);
             TextField adminMenu_removeCustomerID = new TextField();
+            styleTextField(adminMenu_removeCustomerID);
 
             Button adminMenu_removeCustomerButton = new Button("Remove Customer");
             Button adminMenu_removeCustomerCancelButton = new Button("Cancel");
             adminMenu_removeCustomerButton.setAlignment(Pos.CENTER);
             adminMenu_removeCustomerCancelButton.setAlignment(Pos.CENTER);
+
+            styleButton(adminMenu_removeCustomerButton);
+            styleButton(adminMenu_removeCustomerCancelButton);
+
+            adminMenu_removeCustomerButton.setPrefSize(200, 30);
+            adminMenu_removeCustomerCancelButton.setPrefSize(200, 30);
 
             adminMenu_removeCustomerGridPane.add(removeCustomerID, 0, 0);
             adminMenu_removeCustomerGridPane.add(adminMenu_removeCustomerID, 1, 0);
@@ -1336,18 +1512,18 @@ public class JavaFXMain extends Application {
                             adminMenu_removeCustomer_CustomerRemoveFailed.setTitle("CUSTOMER REMOVE FAILED");
                             adminMenu_removeCustomer_CustomerRemoveFailed.setHeaderText("Failed to remove customer from the database");
                             adminMenu_removeCustomer_CustomerRemoveFailed.showAndWait();
-                            primaryStage.setScene(adminMenuScene);
+                            primaryStage.setScene(scene8);
                         }
                         adminMenu_removeCustomer_CustomerRemovedAlert.setHeaderText("Customer successfully removed!");
                         adminMenu_removeCustomer_CustomerRemovedAlert.setContentText("Press OK to continue");
                         adminMenu_removeCustomer_CustomerRemovedAlert.showAndWait();
-                        primaryStage.setScene(adminMenuScene);
+                        primaryStage.setScene(scene8);
                     }
                 }
             });
 
             adminMenu_removeCustomerCancelButton.setOnAction(e1 -> {
-                primaryStage.setScene(adminMenuScene);
+                primaryStage.setScene(scene8);
             });
         });
 
@@ -1358,15 +1534,23 @@ public class JavaFXMain extends Application {
             adminMenu_removeSupplierGridPane.setAlignment(Pos.CENTER);
 
             Label removeSupplierID = new Label("Enter ID of Supplier to be removed: ");
+            styleLabel(removeSupplierID);
             Label adminMenu_removeSupplierIDWarning = new Label("Supplier Does Not Exist!");
             adminMenu_removeSupplierIDWarning.setTextFill(Color.RED);
             adminMenu_removeSupplierIDWarning.setVisible(false);
             TextField adminMenu_removeSupplierID = new TextField();
+            styleTextField(adminMenu_removeSupplierID);
 
             Button adminMenu_removeSupplierButton = new Button("Remove Supplier");
             Button adminMenu_removeSupplierCancelButton = new Button("Cancel");
             adminMenu_removeSupplierButton.setAlignment(Pos.CENTER);
             adminMenu_removeSupplierCancelButton.setAlignment(Pos.CENTER);
+
+            styleButton(adminMenu_removeSupplierButton);
+            styleButton(adminMenu_removeSupplierCancelButton);
+
+            adminMenu_removeSupplierButton.setPrefSize(200, 30);
+            adminMenu_removeSupplierCancelButton.setPrefSize(200, 30);
 
             adminMenu_removeSupplierGridPane.add(removeSupplierID, 0, 0);
             adminMenu_removeSupplierGridPane.add(adminMenu_removeSupplierID, 1, 0);
@@ -1396,18 +1580,18 @@ public class JavaFXMain extends Application {
                             adminMenu_removeSupplier_SupplierRemoveFailed.setTitle("SUPPLIER REMOVE FAILED");
                             adminMenu_removeSupplier_SupplierRemoveFailed.setHeaderText("Failed to remove supplier from the database");
                             adminMenu_removeSupplier_SupplierRemoveFailed.showAndWait();
-                            primaryStage.setScene(adminMenuScene);
+                            primaryStage.setScene(scene8);
                         }
                         adminMenu_removeSupplier_SupplierRemovedAlert.setHeaderText("Supplier successfully removed!");
                         adminMenu_removeSupplier_SupplierRemovedAlert.setContentText("Press OK to continue");
                         adminMenu_removeSupplier_SupplierRemovedAlert.showAndWait();
-                        primaryStage.setScene(adminMenuScene);
+                        primaryStage.setScene(scene8);
                     }
                 }
             });
 
             adminMenu_removeSupplierCancelButton.setOnAction(e1 -> {
-                primaryStage.setScene(adminMenuScene);
+                primaryStage.setScene(scene8);
             });
         });
 
@@ -1415,10 +1599,21 @@ public class JavaFXMain extends Application {
         //***********************************************************
         //Admin Menu -> Search User Menu
         Label label9 = new Label("Click on your choice");
+        styleLabel(label9);
         Button searchCashier = new Button("Search for a Cashier");
         Button searchCustomer = new Button("Search for a Customer");
         Button searchSupplier = new Button("Search for a Supplier");
         Button back4 = new Button("Back");
+
+        styleButton(searchCashier);
+        styleButton(searchCustomer);
+        styleButton(searchSupplier);
+        styleButton(back4);
+
+        searchCashier.setPrefSize(300, 30);
+        searchCustomer.setPrefSize(300, 30);
+        searchSupplier.setPrefSize(300, 30);
+        back4.setPrefSize(300, 30);
 
         VBox vbox7 = new VBox(label9, searchCashier, searchCustomer, searchSupplier, back4);
         vbox7.setAlignment(Pos.CENTER);
@@ -1434,18 +1629,28 @@ public class JavaFXMain extends Application {
             adminMenu_searchCashierGridPane.setAlignment(Pos.CENTER);
 
             Label searchCashierField = new Label("Enter Search Field: ");
+            styleLabel(searchCashierField);
             Label adminMenu_searchCashier_CashierFieldWarning = new Label("Only Name, or ID, or Email can be used!");
             adminMenu_searchCashier_CashierFieldWarning.setTextFill(Color.RED);
             adminMenu_searchCashier_CashierFieldWarning.setVisible(false);
             TextField adminMenu_searchCashier_CashierField = new TextField();
+            styleTextField(adminMenu_searchCashier_CashierField);
 
             Label searchCashierValue = new Label("Enter Value to Search with: ");
+            styleLabel(searchCashierValue);
             TextField adminMenu_searchCashier_CashierValue = new TextField();
+            styleTextField(adminMenu_searchCashier_CashierValue);
 
             Button adminMenu_searchCashierButton = new Button("Search Cashier");
             Button adminMenu_searchCashierCancelButton = new Button("Cancel");
             adminMenu_searchCashierButton.setAlignment(Pos.CENTER);
             adminMenu_searchCashierCancelButton.setAlignment(Pos.CENTER);
+
+            styleButton(adminMenu_searchCashierButton);
+            styleButton(adminMenu_searchCashierCancelButton);
+
+            adminMenu_searchCashierButton.setPrefSize(300, 30);
+            adminMenu_searchCashierCancelButton.setPrefSize(300, 30);
 
             adminMenu_searchCashierGridPane.add(searchCashierField, 0, 0);
             adminMenu_searchCashierGridPane.add(adminMenu_searchCashier_CashierField, 1, 0);
@@ -1478,7 +1683,7 @@ public class JavaFXMain extends Application {
                         adminMenu_searchCashier_CashierSearchAlert.setHeaderText("Cashier found:\n" + ca.toString());
                         adminMenu_searchCashier_CashierSearchAlert.setContentText("Press OK to continue");
                         adminMenu_searchCashier_CashierSearchAlert.showAndWait();
-                        primaryStage.setScene(adminMenuScene);
+                        primaryStage.setScene(scene9);
                     }
                 } else {
                     adminMenu_searchCashier_CashierFieldWarning.setVisible(true);
@@ -1487,7 +1692,7 @@ public class JavaFXMain extends Application {
             });
 
             adminMenu_searchCashierCancelButton.setOnAction(e2 -> {
-                primaryStage.setScene(adminMenuScene);
+                primaryStage.setScene(scene9);
             });
         });
 
@@ -1498,18 +1703,28 @@ public class JavaFXMain extends Application {
             adminMenu_searchCustomerGridPane.setAlignment(Pos.CENTER);
 
             Label searchCustomerField = new Label("Enter Search Field: ");
+            styleLabel(searchCustomerField);
             Label adminMenu_searchCustomer_CustomerFieldWarning = new Label("Only Name, or ID, or Email can be used!");
             adminMenu_searchCustomer_CustomerFieldWarning.setTextFill(Color.RED);
             adminMenu_searchCustomer_CustomerFieldWarning.setVisible(false);
             TextField adminMenu_searchCustomer_CustomerField = new TextField();
+            styleTextField(adminMenu_searchCustomer_CustomerField);
 
             Label searchCustomerValue = new Label("Enter Value to Search with: ");
+            styleLabel(searchCustomerValue);
             TextField adminMenu_searchCustomer_CustomerValue = new TextField();
+            styleTextField(adminMenu_searchCustomer_CustomerValue);
 
             Button adminMenu_searchCustomerButton = new Button("Search Customer");
             Button adminMenu_searchCustomerCancelButton = new Button("Cancel");
             adminMenu_searchCustomerButton.setAlignment(Pos.CENTER);
             adminMenu_searchCustomerButton.setAlignment(Pos.CENTER);
+
+            styleButton(adminMenu_searchCustomerButton);
+            styleButton(adminMenu_searchCustomerCancelButton);
+
+            adminMenu_searchCustomerButton.setPrefSize(300, 30);
+            adminMenu_searchCustomerCancelButton.setPrefSize(300, 30);
 
             adminMenu_searchCustomerGridPane.add(searchCustomerField, 0, 0);
             adminMenu_searchCustomerGridPane.add(adminMenu_searchCustomer_CustomerField, 1, 0);
@@ -1542,7 +1757,7 @@ public class JavaFXMain extends Application {
                         adminMenu_searchCustomer_CustomerSearchAlert.setHeaderText("Customer found:\n" + cu.toString());
                         adminMenu_searchCustomer_CustomerSearchAlert.setContentText("Press OK to continue");
                         adminMenu_searchCustomer_CustomerSearchAlert.showAndWait();
-                        primaryStage.setScene(adminMenuScene);
+                        primaryStage.setScene(scene9);
                     }
                 } else {
                     adminMenu_searchCustomer_CustomerFieldWarning.setVisible(true);
@@ -1551,7 +1766,7 @@ public class JavaFXMain extends Application {
             });
 
             adminMenu_searchCustomerCancelButton.setOnAction(e2 -> {
-                primaryStage.setScene(adminMenuScene);
+                primaryStage.setScene(scene9);
             });
         });
 
@@ -1562,18 +1777,28 @@ public class JavaFXMain extends Application {
             adminMenu_searchSupplierGridPane.setAlignment(Pos.CENTER);
 
             Label searchSupplierField = new Label("Enter Search Field: ");
+            styleLabel(searchSupplierField);
             Label adminMenu_searchSupplier_SupplierFieldWarning = new Label("Only Name, or ID, or Email can be used!");
             adminMenu_searchSupplier_SupplierFieldWarning.setTextFill(Color.RED);
             adminMenu_searchSupplier_SupplierFieldWarning.setVisible(false);
             TextField adminMenu_searchSupplier_SupplierField = new TextField();
+            styleTextField(adminMenu_searchSupplier_SupplierField);
 
             Label searchSupplierValue = new Label("Enter Value to Search with: ");
+            styleLabel(searchSupplierValue);
             TextField adminMenu_searchSupplier_SupplierValue = new TextField();
+            styleTextField(adminMenu_searchSupplier_SupplierValue);
 
             Button adminMenu_searchSupplierButton = new Button("Search Supplier");
             Button adminMenu_searchSupplierCancelButton = new Button("Cancel");
             adminMenu_searchSupplierButton.setAlignment(Pos.CENTER);
             adminMenu_searchSupplierCancelButton.setAlignment(Pos.CENTER);
+
+            styleButton(adminMenu_searchSupplierButton);
+            styleButton(adminMenu_searchSupplierCancelButton);
+
+            adminMenu_searchSupplierButton.setPrefSize(300, 30);
+            adminMenu_searchSupplierCancelButton.setPrefSize(300, 30);
 
             adminMenu_searchSupplierGridPane.add(searchSupplierField, 0, 0);
             adminMenu_searchSupplierGridPane.add(adminMenu_searchSupplier_SupplierField, 1, 0);
@@ -1606,7 +1831,7 @@ public class JavaFXMain extends Application {
                         adminMenu_searchSupplier_SupplierSearchAlert.setHeaderText("Supplier found:\n" + s.toString());
                         adminMenu_searchSupplier_SupplierSearchAlert.setContentText("Press OK to continue");
                         adminMenu_searchSupplier_SupplierSearchAlert.showAndWait();
-                        primaryStage.setScene(adminMenuScene);
+                        primaryStage.setScene(scene9);
                     }
                 } else {
                     adminMenu_searchSupplier_SupplierFieldWarning.setVisible(true);
@@ -1615,7 +1840,7 @@ public class JavaFXMain extends Application {
             });
 
             adminMenu_searchSupplierCancelButton.setOnAction(e2 -> {
-                primaryStage.setScene(adminMenuScene);
+                primaryStage.setScene(scene9);
             });
         });
 
@@ -1623,10 +1848,21 @@ public class JavaFXMain extends Application {
         //***********************************************************
         //Admin Menu -> User Report Menu
         Label label10 = new Label("Click on your choice");
+        styleLabel(label10);
         Button cashierReport = new Button("View Report About Cashiers");
         Button customerReport = new Button("View Report About Customers");
         Button supplierReport = new Button("View Report About Suppliers");
         Button back5 = new Button("Back");
+
+        styleButton(cashierReport);
+        styleButton(customerReport);
+        styleButton(supplierReport);
+        styleButton(back5);
+
+        cashierReport.setPrefSize(300, 30);
+        customerReport.setPrefSize(300, 30);
+        supplierReport.setPrefSize(300, 30);
+        back5.setPrefSize(300, 30);
 
         VBox vbox8 = new VBox(cashierReport, customerReport, supplierReport, back5);
         vbox8.setAlignment(Pos.CENTER);
@@ -1644,10 +1880,18 @@ public class JavaFXMain extends Application {
 
             // Creates a GridPane for layout
             GridPane cashierReportGridPane = new GridPane();
-            cashierReportGridPane.setAlignment(Pos.CENTER);
+            cashierReportGridPane.setAlignment(Pos.TOP_CENTER);
             cashierReportGridPane.setHgap(15);
             cashierReportGridPane.setVgap(15);
             cashierReportGridPane.add(titleLabel, 0, 0);
+
+            cashierReportGridPane.setPrefWidth(800);
+            cashierReportGridPane.setPrefHeight(Region.USE_COMPUTED_SIZE);
+
+            VBox wrapper2 = new VBox(cashierReportGridPane);
+            wrapper2.setPrefWidth(Region.USE_COMPUTED_SIZE);
+            wrapper2.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            wrapper2.setPadding(new Insets(10));
 
             int rowIndex = 1;
 
@@ -1734,14 +1978,16 @@ public class JavaFXMain extends Application {
             // Back Button to return to Admin Menu
             Button backButton = new Button("Back");
             cashierReportGridPane.add(backButton, 0, rowIndex++);
-            backButton.setOnAction(e1 -> primaryStage.setScene(adminMenuScene));
+            backButton.setOnAction(e1 -> primaryStage.setScene(userReportScene));
 
             // Add GridPane to a ScrollPane for large data
             ScrollPane scrollPane = new ScrollPane(cashierReportGridPane);
+            scrollPane.setPrefSize(scene_width, scene_height);
             scrollPane.setFitToWidth(true);
+            scrollPane.setFitToHeight(false);
 
             // Creates and sets the Scene
-            Scene cashierReportScene = new Scene(scrollPane, scene_width, scene_height);
+            Scene cashierReportScene = new Scene(scrollPane, 2000, 2000);
             primaryStage.setScene(cashierReportScene);
         });
 
@@ -1830,11 +2076,19 @@ public class JavaFXMain extends Application {
             Label label19 = new Label("Number of Orders per each Supplier and their details:");
             label19.setFont(Font.font("System", FontWeight.BOLD, 25));
             label19.setUnderline(true);
+
             GridPane adminMenu_supplierReportGridPane = new GridPane();
-            adminMenu_supplierReportGridPane.setAlignment(Pos.CENTER);
+            adminMenu_supplierReportGridPane.setAlignment(Pos.TOP_CENTER);
             adminMenu_supplierReportGridPane.setHgap(15);
             adminMenu_supplierReportGridPane.setVgap(15);
             adminMenu_supplierReportGridPane.add(label19, 0, 0);
+            adminMenu_supplierReportGridPane.setPrefSize(scene_width, scene_height);
+
+            VBox wrapper3 = new VBox(adminMenu_supplierReportGridPane);
+            wrapper3.setPrefWidth(Region.USE_COMPUTED_SIZE);
+            wrapper3.setPrefWidth(Region.USE_COMPUTED_SIZE);
+            wrapper3.setPadding(new Insets(10));
+
             int i2 = 1;
             for (Supplier supplier : admin.getSuppliers()) {
                 Label label20 = new Label(supplier.getName() + " Orders Details:");
@@ -1906,9 +2160,14 @@ public class JavaFXMain extends Application {
             Button back7 = new Button("Back");
             adminMenu_supplierReportGridPane.add(back7, 0, i2);
             back7.setOnAction(e1 -> primaryStage.setScene(userReportScene));
+
             ScrollPane scrollPane = new ScrollPane(adminMenu_supplierReportGridPane);
+            scrollPane.setPrefWidth(scene_width);
+            scrollPane.setPrefHeight(scene_height);
             scrollPane.setFitToWidth(true);
-            Scene scene12 = new Scene(scrollPane, scene_width, scene_width);
+            scrollPane.setFitToHeight(false);
+
+            Scene scene12 = new Scene(scrollPane, 2000, 2000);
             primaryStage.setScene(scene12);
         });
 
@@ -1945,7 +2204,7 @@ public class JavaFXMain extends Application {
             ScrollPane scrollPane = new ScrollPane(adminMenu_orderReportGridPane);
             scrollPane.setFitToHeight(true);
             scrollPane.setFitToWidth(true);
-            Scene scene = new Scene(scrollPane);
+            Scene scene = new Scene(scrollPane, scene_width, scene_height);
             primaryStage.setScene(scene);
         });
 
@@ -1959,22 +2218,34 @@ public class JavaFXMain extends Application {
 
             //check when you parse the string into a date(because no entry of it directly) if an exception may occur unintentionally by user
             Label startDate = new Label("Enter Start Date: ");
+            styleLabel(startDate);
             Label startDateWarning = new Label("Invalid input!");
             startDateWarning.setTextFill(Color.RED);
             startDateWarning.setVisible(false);
             TextField startDateField = new TextField();
+            styleTextField(startDateField);
 
             Label endDate = new Label("Enter End Date: ");
+            styleLabel(endDate);
             Label endDateWarning = new Label("Invalid input!");
             endDateWarning.setTextFill(Color.RED);
             endDateWarning.setVisible(false);
             TextField endDateField = new TextField();
+            styleTextField(endDateField);
 
             Button getAvgRevenueButton = new Button("Average Revenue For Orders");
             Button getTotalRevenueButton = new Button("Total Revenue For Orders");
             Button avgAndTotalRevenueCancelButton = new Button("Cancel");
             getAvgRevenueButton.setAlignment(Pos.CENTER);
             getTotalRevenueButton.setAlignment(Pos.CENTER);
+
+            styleButton(getAvgRevenueButton);
+            styleButton(getTotalRevenueButton);
+            styleButton(avgAndTotalRevenueCancelButton);
+
+            getAvgRevenueButton.setPrefSize(300, 30);
+            getTotalRevenueButton.setPrefSize(300, 30);
+            avgAndTotalRevenueCancelButton.setPrefSize(300, 30);
 
             avgRevenueAndTotalRevenueForOrdersGridPane.add(startDate, 0, 0);
             avgRevenueAndTotalRevenueForOrdersGridPane.add(startDateField, 1, 0);
@@ -1983,8 +2254,8 @@ public class JavaFXMain extends Application {
             avgRevenueAndTotalRevenueForOrdersGridPane.add(endDateField, 1, 1);
             avgRevenueAndTotalRevenueForOrdersGridPane.add(endDateWarning, 2, 1);
             avgRevenueAndTotalRevenueForOrdersGridPane.add(getAvgRevenueButton, 0, 2);
-            avgRevenueAndTotalRevenueForOrdersGridPane.add(getTotalRevenueButton, 1, 2);
-            avgRevenueAndTotalRevenueForOrdersGridPane.add(avgAndTotalRevenueCancelButton, 0, 3);
+            avgRevenueAndTotalRevenueForOrdersGridPane.add(getTotalRevenueButton, 0, 3);
+            avgRevenueAndTotalRevenueForOrdersGridPane.add(avgAndTotalRevenueCancelButton, 0, 4);
 
             Scene avgRevenueAndTotalRevenueForOrdersScene = new Scene(avgRevenueAndTotalRevenueForOrdersGridPane, scene_width, scene_height);
             primaryStage.setScene(avgRevenueAndTotalRevenueForOrdersScene);
@@ -2121,20 +2392,41 @@ public class JavaFXMain extends Application {
                     primaryStage.setScene(avgRevenueAndTotalRevenueForOrdersScene);
                 }
             });
+
+            avgAndTotalRevenueCancelButton.setOnAction(e1 -> {
+               primaryStage.setScene(adminMenuScene);
+            });
         });
 
         //***********************************************************
         //Customer Menu
         Label label3 = new Label("What would you like to do?");
+        styleLabel(label3);
         Button viewOrders = new Button("View Orders History");
         Button rateOrder = new Button("Rate Order");
         Button LogOut = new Button("Log Out");
 
+        styleButton(viewOrders);
+        styleButton(rateOrder);
+        styleButton(LogOut);
+
+        viewOrders.setPrefSize(300, 30);
+        rateOrder.setPrefSize(300, 30);
+        LogOut.setPrefSize(300, 30);
+
         Label customerLoginLabel = new Label("Enter Customer ID: ");
+        styleLabel(customerLoginLabel);
         TextField customerLoginIDTextField = new TextField();
+        styleTextField(customerLoginIDTextField);
         Button customerLoginButton = new Button("Login");
         Button customerLoginCancelButton = new Button("Cancel");
         Label customerLoginMessage = new Label();
+
+        styleButton(customerLoginButton);
+        styleButton(customerLoginCancelButton);
+
+        customerLoginButton.setPrefSize(300, 30);
+        customerLoginCancelButton.setPrefSize(300, 30);
 
         GridPane customerLoginGridPane = new GridPane();
         customerLoginGridPane.setAlignment(Pos.CENTER);
@@ -2148,12 +2440,12 @@ public class JavaFXMain extends Application {
         customerLoginGridPane.setHgap(10);
         customerLoginGridPane.setVgap(10);
 
-        Scene customerLoginScene = new Scene(customerLoginGridPane, 500, 250);
+        Scene customerLoginScene = new Scene(customerLoginGridPane, scene_width, scene_height);
 
         VBox vbox = new VBox(label3, viewOrders, rateOrder, LogOut);
         vbox.setAlignment(Pos.CENTER);
         vbox.setSpacing(10);
-        Scene customerScene = new Scene(vbox, 300, 250);
+        Scene customerScene = new Scene(vbox, scene_width, scene_height);
         mainMenu_customerButton.setOnAction(e -> primaryStage.setScene(customerLoginScene));
         LogOut.setOnAction(e -> primaryStage.setScene(mainMenuScene));
 
@@ -2163,9 +2455,10 @@ public class JavaFXMain extends Application {
             String customerId = customerLoginIDTextField.getText();
             boolean customerExists = CheckCustomerExistence(admin, customerId);
             if (customerExists) {
-                currentCustomer = new Customer(admin.searchCustomerByField("id", customerId));
-
-                if (currentCustomer != null) {
+                //currentCustomer = new Customer(admin.searchCustomerByField("id", customerId));
+                Customer retrievedCustomer = admin.searchCustomerByField("id", customerId);
+                if (retrievedCustomer != null) {
+                    currentCustomer = new Customer(retrievedCustomer);
                     customerLoginMessage.setText("Login successful!");
                     primaryStage.setScene(customerScene);
                 } else {
@@ -2182,10 +2475,44 @@ public class JavaFXMain extends Application {
 
         //*********************************************************************
         //Customer Menu -> View Orders History Button
-        viewOrders.setOnAction(e -> {
-            TextArea textArea = new TextArea();
-            Scene customerMenu_viewOrder_scene = new Scene(textArea, 300, 250);
-            currentCustomer.displayOrderHistory(textArea);
+        viewOrders.setOnAction(e1 -> {
+            GridPane orderHistoryGridPane = new GridPane();
+            orderHistoryGridPane.setAlignment(Pos.TOP_LEFT);
+            orderHistoryGridPane.setHgap(15);
+            orderHistoryGridPane.setVgap(15);
+            Label l1 = new Label("Order History:");
+            l1.setFont(Font.font("System", FontWeight.BOLD, 25));
+            l1.setUnderline(true);
+            orderHistoryGridPane.add(l1, 0, 0);
+            int row = 1;
+            int index = 1;
+            int size = currentCustomer.getOrderHistory().size();
+            System.out.println(size);
+            if (currentCustomer.getOrderHistory().isEmpty()){
+                Label empty = new Label("No orders found!");
+                orderHistoryGridPane.add(empty, 0, row++);
+            }
+            else {
+                for (Cart order : currentCustomer.getOrderHistory()) {
+                    Label orderIndex = new Label("Order " + index + ":");
+                    orderIndex.setFont(Font.font("System", FontWeight.BOLD, 10));
+                    orderHistoryGridPane.add(orderIndex, 0, row++);
+                    Label id = new Label("ID: " + order.id);
+                    orderHistoryGridPane.add(id, 0, row++);
+                    Label price = new Label("Total Price: " + order.totalPrice);
+                    orderHistoryGridPane.add(price, 0, row++);
+                    Label date = new Label("Date: " + order.getOrderDate());
+                    orderHistoryGridPane.add(date, 0, row++);
+                    index++;
+                }
+            }
+            Button back = new Button("Back");
+            back.setOnAction(e2 -> primaryStage.setScene(customerScene));
+            orderHistoryGridPane.add(back, 0, row);
+            ScrollPane scrollPane = new ScrollPane(orderHistoryGridPane);
+            scrollPane.setFitToHeight(true);
+            scrollPane.setFitToWidth(true);
+            Scene customerMenu_viewOrder_scene = new Scene(scrollPane, 800, 300);
             primaryStage.setScene(customerMenu_viewOrder_scene);
         });
 
@@ -2195,18 +2522,28 @@ public class JavaFXMain extends Application {
         //this will get changed
         Scene customerMenu_rateOrder_scene;
         Label customerMenu_OrderIDLabel = new Label("Order ID: ");
+        styleLabel(customerMenu_OrderIDLabel);
         TextField customerMenu_OrderIDTF = new TextField();
+        styleTextField(customerMenu_OrderIDTF);
         Label customerMenu_OrderIDWarningLabel = new Label("Invalid Order ID. Please try again");
         customerMenu_OrderIDWarningLabel.setVisible(false);
         customerMenu_OrderIDWarningLabel.setTextFill(Color.RED);
 
         Label customerMenu_orderRating = new Label("Rate:");
+        styleLabel(customerMenu_orderRating);
         Label customerMenu_rateWarningLabel = new Label("Rating has to be between 1 and 10");
         customerMenu_rateWarningLabel.setTextFill(Color.RED);
         customerMenu_rateWarningLabel.setVisible(false);
         TextField customerMenu_rateTF = new TextField();
+        styleTextField(customerMenu_rateTF);
         Button customerMenu_doneRating = new Button("Done");
         Button customerMenu_cancelRating = new Button("Cancel");
+
+        styleButton(customerMenu_doneRating);
+        styleButton(customerMenu_cancelRating);
+
+        customerMenu_doneRating.setPrefSize(100, 30);
+        customerMenu_cancelRating.setPrefSize(100, 30);
 
         GridPane rateOrderGridPane = new GridPane();
         rateOrderGridPane.setAlignment(Pos.CENTER);
@@ -2218,12 +2555,12 @@ public class JavaFXMain extends Application {
         rateOrderGridPane.add(customerMenu_rateTF, 1, 1);
         rateOrderGridPane.add(customerMenu_rateWarningLabel, 2, 1);
         rateOrderGridPane.add(customerMenu_doneRating, 1, 2);
-        rateOrderGridPane.add(customerMenu_cancelRating, 2, 2);
+        rateOrderGridPane.add(customerMenu_cancelRating, 1, 3);
         rateOrderGridPane.setHgap(10);
         rateOrderGridPane.setVgap(10);
 
 
-        customerMenu_rateOrder_scene = new Scene(rateOrderGridPane, 600, 300);
+        customerMenu_rateOrder_scene = new Scene(rateOrderGridPane, scene_width, scene_height);
         rateOrder.setOnAction(e1 -> primaryStage.setScene(customerMenu_rateOrder_scene));
         customerMenu_doneRating.setOnAction(e1 -> {
 
@@ -2261,8 +2598,6 @@ public class JavaFXMain extends Application {
                 }
             }
 
-
-
             primaryStage.setScene(customerScene);
         });
         customerMenu_cancelRating.setOnAction(e1 -> {
@@ -2272,6 +2607,7 @@ public class JavaFXMain extends Application {
         //**********************************************************
         //Cashier Menu
         Label label5 = new Label("What would you like to do?");
+        styleLabel(label5);
         Button createCart = new Button("Create Cart");
         Button addProToCart = new Button("Add Product to Cart");
         Button removeProFromCart = new Button("Remove Product from Cart");
@@ -2279,11 +2615,33 @@ public class JavaFXMain extends Application {
         Button cancelCart = new Button("Cancel Cart");
         Button lg = new Button("Log Out");
 
+        styleButton(createCart);
+        styleButton(addProToCart);
+        styleButton(removeProFromCart);
+        styleButton(payment);
+        styleButton(cancelCart);
+        styleButton(lg);
+
+        createCart.setPrefSize(300, 30);
+        addProToCart.setPrefSize(300, 30);
+        removeProFromCart.setPrefSize(300, 30);
+        payment.setPrefSize(300, 30);
+        cancelCart.setPrefSize(300, 30);
+        lg.setPrefSize(300, 30);
+
         Label cashierLoginLabel = new Label("Enter Cashier ID: ");
+        styleLabel(cashierLoginLabel);
         TextField cashierLoginIDTextField = new TextField();
+        styleTextField(cashierLoginIDTextField);
         Button cashierLoginButton = new Button("Login");
         Button cashierLoginCancelButton = new Button("Cancel");
         Label cashierLoginMessage = new Label();
+
+        styleButton(cashierLoginButton);
+        styleButton(cashierLoginCancelButton);
+
+        cashierLoginButton.setPrefSize(300, 30);
+        cashierLoginCancelButton.setPrefSize(300, 30);
 
         GridPane cashierLoginGridPane = new GridPane();
         cashierLoginGridPane.setAlignment(Pos.CENTER);
@@ -2297,12 +2655,12 @@ public class JavaFXMain extends Application {
         cashierLoginGridPane.setHgap(10);
         cashierLoginGridPane.setVgap(10);
 
-        Scene cashierLoginScene = new Scene(cashierLoginGridPane, 500, 250);
+        Scene cashierLoginScene = new Scene(cashierLoginGridPane, scene_width, scene_height);
 
         VBox vbox3 = new VBox(label5, createCart, addProToCart, removeProFromCart, payment, cancelCart, lg);
         vbox3.setAlignment(Pos.CENTER);
         vbox3.setSpacing(10);
-        Scene cashierScene = new Scene(vbox3, 300, 250);
+        Scene cashierScene = new Scene(vbox3, scene_width, scene_height);
         mainMenu_cashierButton.setOnAction(e -> primaryStage.setScene(cashierLoginScene));
         lg.setOnAction(e -> primaryStage.setScene(mainMenuScene));
 
@@ -2336,14 +2694,22 @@ public class JavaFXMain extends Application {
                 cashierMenu_createCartGridPane.setAlignment(Pos.CENTER);
 
                 Label customerIdLabel = new Label("Enter Customer ID: ");
+                styleLabel(customerIdLabel);
                 Label cashierMenu_createCart_CustomerIDWarning = new Label("Customer Does Not Exist!");
                 cashierMenu_createCart_CustomerIDWarning.setTextFill(Color.RED);
                 cashierMenu_createCart_CustomerIDWarning.setVisible(false);
                 TextField cashierMenu_createCart_customerId = new TextField();
+                styleTextField(cashierMenu_createCart_customerId);
 
                 Button cashierMenu_createCartButton = new Button("Create Cart");
                 Button cashierMenu_createCartCancelButton = new Button("Cancel");
                 cashierMenu_createCartButton.setAlignment(Pos.CENTER);
+
+                styleButton(cashierMenu_createCartButton);
+                styleButton(cashierMenu_createCartCancelButton);
+
+                cashierMenu_createCartButton.setPrefSize(300, 30);
+                cashierMenu_createCartCancelButton.setPrefSize(300, 30);
 
                 cashierMenu_createCartGridPane.add(customerIdLabel, 0, 0);
                 cashierMenu_createCartGridPane.add(cashierMenu_createCart_customerId, 1, 0);
@@ -2405,26 +2771,38 @@ public class JavaFXMain extends Application {
             cashierMenu_addProToCartGridPane.setAlignment(Pos.CENTER);
 
             Label cartId = new Label("Enter Cart ID: ");
+            styleLabel(cartId);
             Label cashierMenu_addProToCart_CartIDWarning = new Label("Cart Does Not Exist!");
             cashierMenu_addProToCart_CartIDWarning.setTextFill(Color.RED);
             cashierMenu_addProToCart_CartIDWarning.setVisible(false);
             TextField cashierMenu_addProToCart_cartId = new TextField();
+            styleTextField(cashierMenu_addProToCart_cartId);
 
             Label cartProductName = new Label("Enter Product Name: ");
+            styleLabel(cartProductName);
             Label cashierMenu_addProToCart_ProductNameWarning = new Label("Product Does Not Exist!");
             cashierMenu_addProToCart_ProductNameWarning.setTextFill(Color.RED);
             cashierMenu_addProToCart_ProductNameWarning.setVisible(false);
             TextField cashierMenu_addProToCart_ProductName = new TextField();
+            styleTextField(cashierMenu_addProToCart_ProductName);
 
             Label cartProductQuantity = new Label("Enter Product Quantity: ");
+            styleLabel(cartProductQuantity);
             Label cashierMenu_addProToCart_ProductQuantityWarning = new Label("Quantity Must be Integer!");
             cashierMenu_addProToCart_ProductQuantityWarning.setTextFill(Color.RED);
             cashierMenu_addProToCart_ProductQuantityWarning.setVisible(false);
             TextField cashierMenu_addProToCart_ProductQuantity = new TextField();
+            styleTextField(cashierMenu_addProToCart_ProductQuantity);
 
             Button cashierMenu_addProToCartButton = new Button("Add Product to Cart");
             Button cashierMenu_addProToCartCancelButton = new Button("Cancel");
             cashierMenu_addProToCartButton.setAlignment(Pos.CENTER);
+
+            styleButton(cashierMenu_addProToCartButton);
+            styleButton(cashierMenu_addProToCartCancelButton);
+
+            cashierMenu_addProToCartButton.setPrefSize(300, 30);
+            cashierMenu_addProToCartCancelButton.setPrefSize(300, 30);
 
             cashierMenu_addProToCartGridPane.add(cartId, 0, 0);
             cashierMenu_addProToCartGridPane.add(cashierMenu_addProToCart_cartId, 1, 0);
@@ -2503,21 +2881,31 @@ public class JavaFXMain extends Application {
             cashierMenu_removeProFromCartGridPane.setAlignment(Pos.CENTER);
 
             Label removeProductCartId = new Label("Enter ID of Cart you want to remove from: ");
+            styleLabel(removeProductCartId);
             Label cashierMenu_removeProductCartIDWarning = new Label("Cart Does Not Exist!");
             cashierMenu_removeProductCartIDWarning.setTextFill(Color.RED);
             cashierMenu_removeProductCartIDWarning.setVisible(false);
             TextField cashierMenu_removeProductCartID = new TextField();
+            styleTextField(cashierMenu_removeProductCartID);
 
             Label removeProductName = new Label("Enter Name of Product to be removed: ");
+            styleLabel(removeProductName);
             Label cashierMenu_removeProductNameWarning = new Label("Product Does Not Exist!");
             cashierMenu_removeProductNameWarning.setTextFill(Color.RED);
             cashierMenu_removeProductNameWarning.setVisible(false);
             TextField cashierMenu_removeProductName = new TextField();
+            styleTextField(cashierMenu_removeProductName);
 
             Button cashierMenu_removeProductButton = new Button("Remove Product");
             Button cashierMenu_removeProductCancelButton = new Button("Cancel");
             cashierMenu_removeProductButton.setAlignment(Pos.CENTER);
             cashierMenu_removeProductCancelButton.setAlignment(Pos.CENTER);
+
+            styleButton(cashierMenu_removeProductButton);
+            styleButton(cashierMenu_removeProductCancelButton);
+
+            cashierMenu_removeProductButton.setPrefSize(300, 30);
+            cashierMenu_removeProductCancelButton.setPrefSize(300, 30);
 
             cashierMenu_removeProFromCartGridPane.add(removeProductCartId, 0, 0);
             cashierMenu_removeProFromCartGridPane.add(cashierMenu_removeProductCartID, 1, 0);
@@ -2584,15 +2972,23 @@ public class JavaFXMain extends Application {
             cashierMenu_calculatePaymentGridPane.setVgap(10);
 
             Label cashierCartId = new Label("Enter Cart ID: ");
+            styleLabel(cashierCartId);
             Label cashierMenu_CartIDWarning = new Label("Cart Does Not Exist!");
             cashierMenu_CartIDWarning.setTextFill(Color.RED);
             cashierMenu_CartIDWarning.setVisible(false);
             TextField cashierMenu_CartID = new TextField();
+            styleTextField(cashierMenu_CartID);
 
             Button cashierMenu_cartIDButton = new Button("Calculate Payment");
             Button cashierMenu_cartIDCancelButton = new Button("Cancel");
             cashierMenu_cartIDButton.setAlignment(Pos.CENTER);
             cashierMenu_cartIDCancelButton.setAlignment(Pos.CENTER);
+
+            styleButton(cashierMenu_cartIDButton);
+            styleButton(cashierMenu_cartIDCancelButton);
+
+            cashierMenu_cartIDButton.setPrefSize(300, 30);
+            cashierMenu_cartIDCancelButton.setPrefSize(300, 30);
 
             cashierMenu_calculatePaymentGridPane.add(cashierCartId, 0, 0);
             cashierMenu_calculatePaymentGridPane.add(cashierMenu_CartID, 1, 0);
@@ -2633,15 +3029,23 @@ public class JavaFXMain extends Application {
             cancelCart_gridPane.setAlignment(Pos.CENTER);
 
             Label cancelCart_ID = new Label("Enter Cart ID: ");
+            styleLabel(cancelCart_ID);
             Label cancelCart_IDWarning = new Label("Cart Does Not Exist!");
             cancelCart_IDWarning.setTextFill(Color.RED);
             cancelCart_IDWarning.setVisible(false);
             TextField cancelCart_Id_textField = new TextField();
+            styleTextField(cancelCart_Id_textField);
 
             Button cancelCart_Button = new Button("Confirm Cancel Cart");
             Button cancelCart_CancelButton = new Button("Cancel");
             cancelCart_Button.setAlignment(Pos.CENTER);
             cancelCart_CancelButton.setAlignment(Pos.CENTER);
+
+            styleButton(cancelCart_Button);
+            styleButton(cancelCart_CancelButton);
+
+            cancelCart_Button.setPrefSize(300, 30);
+            cancelCart_CancelButton.setPrefSize(300, 30);
 
             cancelCart_gridPane.add(cancelCart_ID, 0, 0);
             cancelCart_gridPane.add(cancelCart_Id_textField,1,0);

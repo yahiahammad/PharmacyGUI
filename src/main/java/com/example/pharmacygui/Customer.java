@@ -30,6 +30,9 @@ public class Customer extends User{
         email = customer.email;
         role = customer.role;
         orderHistory = new ArrayList<>();
+        for (Cart order : customer.orderHistory) {
+            orderHistory.add(order);
+        }
     }
 
     //something wrong here
