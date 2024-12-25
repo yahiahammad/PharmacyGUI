@@ -1,13 +1,15 @@
 package com.example.pharmacygui;
 
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
-import javafx.scene.layout.*;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -571,19 +573,19 @@ public class JavaFXMain extends Application {
 
             // Create a GridPane to display the product details
             GridPane productReportGridPane = new GridPane();
-            productReportGridPane.setAlignment(Pos.TOP_CENTER);
+            productReportGridPane.setAlignment(Pos.CENTER);
             productReportGridPane.setHgap(15);
             productReportGridPane.setVgap(15);
             productReportGridPane.add(titleLabel, 0, 0);
 
-            productReportGridPane.setPrefWidth(800);
-            productReportGridPane.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            //productReportGridPane.setPrefWidth(800);
+            //productReportGridPane.setPrefHeight(Region.USE_COMPUTED_SIZE);
 
 
-            VBox wrapper1 = new VBox(productReportGridPane);
-            wrapper1.setPrefWidth(Region.USE_COMPUTED_SIZE);
-            wrapper1.setPrefHeight(Region.USE_COMPUTED_SIZE);
-            wrapper1.setPadding(new Insets(10));
+            //VBox wrapper1 = new VBox(productReportGridPane);
+            //wrapper1.setPrefWidth(Region.USE_COMPUTED_SIZE);
+            //wrapper1.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            //wrapper1.setPadding(new Insets(10));
 
             int rowIndex = 1;
 
@@ -612,13 +614,10 @@ public class JavaFXMain extends Application {
             backButton.setOnAction(e1 -> primaryStage.setScene(adminMenuScene));
 
 
-            ScrollPane scrollPane = new ScrollPane(wrapper1);
-            scrollPane.setPrefViewportHeight(scene_height);
-            scrollPane.setPrefViewportWidth(scene_width);
+            ScrollPane scrollPane = new ScrollPane(productReportGridPane);
             scrollPane.setFitToWidth(true);
-            scrollPane.setFitToHeight(false);
 
-            Scene productReportScene = new Scene(scrollPane, 1800, 900);
+            Scene productReportScene = new Scene(scrollPane, scene_width, scene_height);
             primaryStage.setScene(productReportScene);
         });
 
@@ -1880,18 +1879,18 @@ public class JavaFXMain extends Application {
 
             // Creates a GridPane for layout
             GridPane cashierReportGridPane = new GridPane();
-            cashierReportGridPane.setAlignment(Pos.TOP_CENTER);
+            cashierReportGridPane.setAlignment(Pos.CENTER);
             cashierReportGridPane.setHgap(15);
             cashierReportGridPane.setVgap(15);
             cashierReportGridPane.add(titleLabel, 0, 0);
 
-            cashierReportGridPane.setPrefWidth(800);
-            cashierReportGridPane.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            //cashierReportGridPane.setPrefWidth(800);
+            //cashierReportGridPane.setPrefHeight(Region.USE_COMPUTED_SIZE);
 
-            VBox wrapper2 = new VBox(cashierReportGridPane);
-            wrapper2.setPrefWidth(Region.USE_COMPUTED_SIZE);
-            wrapper2.setPrefHeight(Region.USE_COMPUTED_SIZE);
-            wrapper2.setPadding(new Insets(10));
+            //VBox wrapper2 = new VBox(cashierReportGridPane);
+            //wrapper2.setPrefWidth(Region.USE_COMPUTED_SIZE);
+            //wrapper2.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            //wrapper2.setPadding(new Insets(10));
 
             int rowIndex = 1;
 
@@ -1982,12 +1981,10 @@ public class JavaFXMain extends Application {
 
             // Add GridPane to a ScrollPane for large data
             ScrollPane scrollPane = new ScrollPane(cashierReportGridPane);
-            scrollPane.setPrefSize(scene_width, scene_height);
             scrollPane.setFitToWidth(true);
-            scrollPane.setFitToHeight(false);
 
             // Creates and sets the Scene
-            Scene cashierReportScene = new Scene(scrollPane, 2000, 2000);
+            Scene cashierReportScene = new Scene(scrollPane, scene_width, scene_height);
             primaryStage.setScene(cashierReportScene);
         });
 
@@ -2078,17 +2075,10 @@ public class JavaFXMain extends Application {
             label19.setUnderline(true);
 
             GridPane adminMenu_supplierReportGridPane = new GridPane();
-            adminMenu_supplierReportGridPane.setAlignment(Pos.TOP_CENTER);
+            adminMenu_supplierReportGridPane.setAlignment(Pos.CENTER);
             adminMenu_supplierReportGridPane.setHgap(15);
             adminMenu_supplierReportGridPane.setVgap(15);
             adminMenu_supplierReportGridPane.add(label19, 0, 0);
-            adminMenu_supplierReportGridPane.setPrefSize(scene_width, scene_height);
-
-            VBox wrapper3 = new VBox(adminMenu_supplierReportGridPane);
-            wrapper3.setPrefWidth(Region.USE_COMPUTED_SIZE);
-            wrapper3.setPrefWidth(Region.USE_COMPUTED_SIZE);
-            wrapper3.setPadding(new Insets(10));
-
             int i2 = 1;
             for (Supplier supplier : admin.getSuppliers()) {
                 Label label20 = new Label(supplier.getName() + " Orders Details:");
@@ -2160,14 +2150,9 @@ public class JavaFXMain extends Application {
             Button back7 = new Button("Back");
             adminMenu_supplierReportGridPane.add(back7, 0, i2);
             back7.setOnAction(e1 -> primaryStage.setScene(userReportScene));
-
             ScrollPane scrollPane = new ScrollPane(adminMenu_supplierReportGridPane);
-            scrollPane.setPrefWidth(scene_width);
-            scrollPane.setPrefHeight(scene_height);
             scrollPane.setFitToWidth(true);
-            scrollPane.setFitToHeight(false);
-
-            Scene scene12 = new Scene(scrollPane, 2000, 2000);
+            Scene scene12 = new Scene(scrollPane, scene_width, scene_width);
             primaryStage.setScene(scene12);
         });
 
@@ -2455,10 +2440,9 @@ public class JavaFXMain extends Application {
             String customerId = customerLoginIDTextField.getText();
             boolean customerExists = CheckCustomerExistence(admin, customerId);
             if (customerExists) {
-                //currentCustomer = new Customer(admin.searchCustomerByField("id", customerId));
-                Customer retrievedCustomer = admin.searchCustomerByField("id", customerId);
-                if (retrievedCustomer != null) {
-                    currentCustomer = new Customer(retrievedCustomer);
+                currentCustomer = new Customer(admin.searchCustomerByField("id", customerId));
+
+                if (currentCustomer != null) {
                     customerLoginMessage.setText("Login successful!");
                     primaryStage.setScene(customerScene);
                 } else {
@@ -2475,44 +2459,10 @@ public class JavaFXMain extends Application {
 
         //*********************************************************************
         //Customer Menu -> View Orders History Button
-        viewOrders.setOnAction(e1 -> {
-            GridPane orderHistoryGridPane = new GridPane();
-            orderHistoryGridPane.setAlignment(Pos.TOP_LEFT);
-            orderHistoryGridPane.setHgap(15);
-            orderHistoryGridPane.setVgap(15);
-            Label l1 = new Label("Order History:");
-            l1.setFont(Font.font("System", FontWeight.BOLD, 25));
-            l1.setUnderline(true);
-            orderHistoryGridPane.add(l1, 0, 0);
-            int row = 1;
-            int index = 1;
-            int size = currentCustomer.getOrderHistory().size();
-            System.out.println(size);
-            if (currentCustomer.getOrderHistory().isEmpty()){
-                Label empty = new Label("No orders found!");
-                orderHistoryGridPane.add(empty, 0, row++);
-            }
-            else {
-                for (Cart order : currentCustomer.getOrderHistory()) {
-                    Label orderIndex = new Label("Order " + index + ":");
-                    orderIndex.setFont(Font.font("System", FontWeight.BOLD, 10));
-                    orderHistoryGridPane.add(orderIndex, 0, row++);
-                    Label id = new Label("ID: " + order.id);
-                    orderHistoryGridPane.add(id, 0, row++);
-                    Label price = new Label("Total Price: " + order.totalPrice);
-                    orderHistoryGridPane.add(price, 0, row++);
-                    Label date = new Label("Date: " + order.getOrderDate());
-                    orderHistoryGridPane.add(date, 0, row++);
-                    index++;
-                }
-            }
-            Button back = new Button("Back");
-            back.setOnAction(e2 -> primaryStage.setScene(customerScene));
-            orderHistoryGridPane.add(back, 0, row);
-            ScrollPane scrollPane = new ScrollPane(orderHistoryGridPane);
-            scrollPane.setFitToHeight(true);
-            scrollPane.setFitToWidth(true);
-            Scene customerMenu_viewOrder_scene = new Scene(scrollPane, 800, 300);
+        viewOrders.setOnAction(e -> {
+            TextArea textArea = new TextArea();
+            Scene customerMenu_viewOrder_scene = new Scene(textArea, 300, 250);
+            currentCustomer.displayOrderHistory(textArea);
             primaryStage.setScene(customerMenu_viewOrder_scene);
         });
 
@@ -2597,6 +2547,8 @@ public class JavaFXMain extends Application {
                     primaryStage.setScene(mainMenuScene);
                 }
             }
+
+
 
             primaryStage.setScene(customerScene);
         });
