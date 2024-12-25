@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class Cart {
+public class Cart implements java.io.Serializable {
     protected String id = "0";
     private Status status; //I feel like it's unnecessary but idk
     protected Customer customer;

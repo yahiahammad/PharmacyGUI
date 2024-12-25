@@ -3,7 +3,7 @@ package com.example.pharmacygui;
 import java.util.ArrayList;
 import com.example.pharmacygui.Cart.Status;
 
-public class Cashier extends User{
+public class Cashier extends User implements java.io.Serializable {
     private ArrayList<Cart> orderHandled;
     private static int n = 0;
 

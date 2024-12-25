@@ -1,7 +1,7 @@
 package com.example.pharmacygui;
 
 //not sure if we need to have it as abstract, but we'll see
-public abstract class User {
+public abstract class User implements java.io.Serializable{
     protected String id = "0";
     protected String name;
     protected Role role;

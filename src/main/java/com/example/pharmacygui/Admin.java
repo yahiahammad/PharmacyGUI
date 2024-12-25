@@ -722,196 +722,92 @@ Admin extends User{
 
     private void initializeAdmin()
     {
-        String supplierFile =   "src/main/java/com/example/pharmacygui/Suppliers.txt";
-        String productFile =    "src/main/java/com/example/pharmacygui/Products.txt";
-        String cartFile =       "src/main/java/com/example/pharmacygui/Cart.txt";
-        String cashierFile =    "src/main/java/com/example/pharmacygui/Cashier.txt";
-        String customerFile =   "src/main/java/com/example/pharmacygui/Customer.txt";
+        File supplierFile =   new File(      "src/main/java/com/example/pharmacygui/Suppliers.dat");
+        File productFile =    new File(      "src/main/java/com/example/pharmacygui/Products.dat");
+        File cartFile =       new File(      "src/main/java/com/example/pharmacygui/Cart.dat");
+        File cashierFile =    new File(      "src/main/java/com/example/pharmacygui/Cashier.dat");
+        File customerFile =   new File(      "src/main/java/com/example/pharmacygui/Customer.dat");
 
-        BufferedReader reader;
-        String line;
+        try (ObjectInputStream supplierInputStream = new ObjectInputStream(new FileInputStream(supplierFile))) {
+            // Read the entire list
+            suppliers = (ArrayList<Supplier>) supplierInputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error reading supplier file: " + e.getMessage());
+        }
 
-        //read supplier file
-        try {
-            reader = new BufferedReader(new FileReader(supplierFile));
-            while ((line = reader.readLine()) != null)
-            {
-                String[] parts = line.split(",");
-                String sName = parts[0];
-                String sID = parts[1];
-                String sEmail = parts[2];
-                String sContact = parts[3];
-                //ArrayList<Product> sProducts = new ArrayList<>();
-
-                suppliers.add(new Supplier(sName,sID,sEmail,sContact));
+        try (ObjectInputStream productInputStream = new ObjectInputStream(new FileInputStream(productFile))) {
+            // Read the entire list
+            products = (ArrayList<Product>) productInputStream.readObject();
+            // Restore relationships after deserialization
+            for (Product product : products) {
+                product.getSupplier().addProduct(product);
             }
-        }
-        catch (IOException e) {
-            System.out.println("Supplier File error");
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error reading product file: " + e.getMessage());
         }
 
-        //read product file
-        try {
-            reader = new BufferedReader(new FileReader(productFile));
-            while ((line = reader.readLine()) != null)
-            {
-                String[] parts = line.split(",");
-                String pName = parts[0];
-                String pID = parts[1];
-                double pPrice = Double.parseDouble(parts[2]);
-                int pQuantity = Integer.parseInt(parts[3]);
-                Supplier pSupplier = searchSupplierByField("name" , parts[4]);
-                LocalDate pExpiryDate = LocalDate.parse(parts[5]);
-                products.add(new Product(pName,pPrice, pQuantity, pSupplier, pExpiryDate));
-                pSupplier.addProduct(products.get(products.size()-1));
+        try (ObjectInputStream customerInputStream = new ObjectInputStream(new FileInputStream(customerFile))) {
+            // Read the entire list
+            customers = (ArrayList<Customer>) customerInputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error reading customer file: " + e.getMessage());
+        }
+
+        try (ObjectInputStream cashierInputStream = new ObjectInputStream(new FileInputStream(cashierFile))) {
+            // Read the entire list
+            cashiers = (ArrayList<Cashier>) cashierInputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error reading cashier file: " + e.getMessage());
+        }
+
+        try (ObjectInputStream cartInputStream = new ObjectInputStream(new FileInputStream(cartFile))) {
+            // Read the entire list
+            orders = (ArrayList<Cart>) cartInputStream.readObject();
+            // Restore relationships after deserialization
+            for (Cart cart : orders) {
+                cart.getCustomer().addOrder(cart);
+                cart.getCashier().addOrderHandled(cart);
             }
-        }
-        catch (IOException e) {
-            System.out.println("Product File error");
-        }
-
-        //read customer file
-        try {
-            reader = new BufferedReader(new FileReader(customerFile));
-            while ((line = reader.readLine()) != null)
-            {
-                String[] parts = line.split(",");
-                String custName = parts[0];
-                String custID = parts[1];
-                String custEmail = parts[2];
-
-                customers.add(new Customer(custName,custEmail, custID));
-            }
-        }
-        catch (Exception e) {
-            System.out.println("Customer File error");
-        }
-
-        //read cashier file
-        try {
-            reader = new BufferedReader(new FileReader(cashierFile));
-            while ((line = reader.readLine()) != null)
-            {
-                String[] parts = line.split(",");
-                String cashName = parts[0];
-                String cashID = parts[1];
-                String cashEmail = parts[2];
-
-                cashiers.add(new Cashier(cashName,cashID,cashEmail));
-            }
-        }
-        catch (Exception e) {
-            System.out.println("Cashier File error");
-        }
-
-        //read cart file
-        try {
-            reader = new BufferedReader(new FileReader(cartFile));
-            int j = 0;
-            while ((line = reader.readLine()) != null)
-            {
-                String[] parts = line.split(",");
-                String cartID = parts[0];
-                Cart.Status cartStatus = Cart.Status.valueOf(parts[1]);
-                String cartCashierID = parts[2];
-                String cartCustomerID = parts[3];
-                double cartPrice = Double.parseDouble(parts[4]);
-                LocalDate cartDate = LocalDate.parse(parts[5]);
-
-                orders.add(new Cart(cartID,cartStatus,searchCustomerByField("id", cartCustomerID),searchCashierByField("id",cartCashierID),cartPrice,cartDate));
-
-                for (int i = 6, x = 7; x < parts.length; i += 2, x +=2) {
-                    orders.get(j).addProduct(searchProductByField("name", parts[i]), Integer.parseInt(parts[x]));
-                }
-                j++;
-                searchCustomerByField("id", cartCustomerID).addOrder(orders.get(orders.size()-1));
-                searchCashierByField("id",cartCashierID).addOrderHandled(orders.get(orders.size()-1));
-            }
-        }
-        catch (IOException e) {
-            System.out.println("Cart File error");
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error reading cart file: " + e.getMessage());
         }
     }
 
     public void saveData() throws IOException {
-        File supplierFile =   new File(      "src/main/java/com/example/pharmacygui/Suppliers.txt");
-        File productFile =    new File(      "src/main/java/com/example/pharmacygui/Products.txt");
-        File cartFile =       new File(      "src/main/java/com/example/pharmacygui/Cart.txt");
-        File cashierFile =    new File(      "src/main/java/com/example/pharmacygui/Cashier.txt");
-        File customerFile =   new File(      "src/main/java/com/example/pharmacygui/Customer.txt");
+        File supplierFile =   new File(      "src/main/java/com/example/pharmacygui/Suppliers.dat");
+        File productFile =    new File(      "src/main/java/com/example/pharmacygui/Products.dat");
+        File cartFile =       new File(      "src/main/java/com/example/pharmacygui/Cart.dat");
+        File cashierFile =    new File(      "src/main/java/com/example/pharmacygui/Cashier.dat");
+        File customerFile =   new File(      "src/main/java/com/example/pharmacygui/Customer.dat");
 
-        try{
-            FileWriter writer = new FileWriter(supplierFile);
-            //suppliers;
-            for (Supplier supplier : suppliers)
-            {
-                if (supplier == suppliers.getLast())
-                {
-                    writer.write(supplier.fileSaver());
-                }
-                else
-                    writer.write(supplier.fileSaver() + '\n');
-            }
-            writer.close();
+        try {
+            // Save suppliers
+            ObjectOutputStream supplierStream = new ObjectOutputStream(new FileOutputStream(supplierFile));
+            supplierStream.writeObject(suppliers);
+            supplierStream.close();
 
-            writer = new FileWriter(productFile);
-            //products
-            for (Product product : products)
-            {
-                if (product == products.getLast())
-                {
-                    writer.write(product.fileSaver());
-                }
-                else
-                    writer.write(product.fileSaver() + '\n');
-            }
-            writer.close();
+            // Save products
+            ObjectOutputStream productStream = new ObjectOutputStream(new FileOutputStream(productFile));
+            productStream.writeObject(products);
+            productStream.close();
 
-            writer = new FileWriter(cashierFile);
-            //cashiers;
-            for (Cashier cashier : cashiers)
-            {
-                if (cashier == cashiers.getLast())
-                {
-                    writer.write(cashier.fileSaver());
-                }
-                else
-                    writer.write(cashier.fileSaver() + '\n');
-            }
-            writer.close();
+            // Save cashiers
+            ObjectOutputStream cashierStream = new ObjectOutputStream(new FileOutputStream(cashierFile));
+            cashierStream.writeObject(cashiers);
+            cashierStream.close();
 
+            // Save customers
+            ObjectOutputStream customerStream = new ObjectOutputStream(new FileOutputStream(customerFile));
+            customerStream.writeObject(customers);
+            customerStream.close();
 
-            writer = new FileWriter(customerFile);
-            //customers;
-            for (Customer customer : customers)
-            {
-                if (customer == customers.getLast())
-                {
-                    writer.write(customer.fileSaver());
-                }
-                else
-                    writer.write(customer.fileSaver() + '\n');
+            // Save carts/orders
+            ObjectOutputStream cartStream = new ObjectOutputStream(new FileOutputStream(cartFile));
+            cartStream.writeObject(orders);
+            cartStream.close();
 
-
-            }
-            writer.close();
-
-            writer = new FileWriter(cartFile);
-            //carts;
-            for (Cart order : orders)
-            {
-                if (order == orders.getLast())
-                {
-                    writer.write(order.fileSaver());
-                }
-                else
-                    writer.write(order.fileSaver() + '\n');
-            }
-            writer.close();
-        }
-        catch(IOException e)
-        {
-            System.out.println("FILE SAVING ERROR");
+        } catch (IOException e) {
+            System.out.println("FILE SAVING ERROR: " + e.getMessage());
         }
     }
 
@@ -933,7 +829,5 @@ Admin extends User{
 
     Products.txt format:
     ProductName,ProductID,ProductPrice,ProductQuantity,SupplierName
-
-
      */
 }

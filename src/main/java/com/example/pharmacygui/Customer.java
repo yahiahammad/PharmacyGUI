@@ -4,7 +4,7 @@ import javafx.scene.control.TextArea;
 
 import java.util.ArrayList;
 
-public class Customer extends User{
+public class Customer extends User implements java.io.Serializable {
     private ArrayList<Cart> orderHistory;
     private static int n = 0; //for id
 
