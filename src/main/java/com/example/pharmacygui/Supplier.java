@@ -8,6 +8,9 @@ public class Supplier extends User implements java.io.Serializable {
     private static int n = 0;
 
     public Supplier() {}
+    public static void setN(int n) {
+        Supplier.n = n;
+    }
 
     public Supplier(String name, String email, String contactInfo) {
         super(name, Role.SUPPLIER, email);

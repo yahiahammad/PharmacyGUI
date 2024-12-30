@@ -24,6 +24,10 @@ public class Cart implements java.io.Serializable{
         CANCELLED
     }
 
+    public static void setN(int n) {
+        Cart.n = n;
+    }
+
     //no changes needed so far
     public Cart() {
         id = generateId();

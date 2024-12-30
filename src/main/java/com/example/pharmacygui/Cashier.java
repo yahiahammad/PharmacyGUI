@@ -11,6 +11,10 @@ public class Cashier extends User implements java.io.Serializable{
 
     public Cashier() {}
 
+    public static void setN(int n) {
+        Cashier.n = n;
+    }
+
     public Cashier(String name, String email) {
         super(name, Role.CASHIER, email);
         id = generateId();
