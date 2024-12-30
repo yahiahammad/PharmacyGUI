@@ -145,7 +145,8 @@ public class Cart implements java.io.Serializable{
     }
 
     public double getTotalPrice() {
-        return totalPrice;
+        //return totalPrice;
+        return calculateTotalPrice();
     }
 
     public LocalDate getOrderDate() {
@@ -240,7 +241,7 @@ public class Cart implements java.io.Serializable{
     //will check later
     @Override
     public String toString() {
-        StringBuffer result = new StringBuffer("Order ID: " + id + ", Customer: " + customer.getName() + ", Total Price: " + totalPrice + ", Order Status: " + status + ", Order Date: " + orderDate + ", Order Rating: " + rating);
+        StringBuffer result = new StringBuffer("Order ID: " + id + ", Customer: " + customer.getName() + ", Total Price: " + calculateTotalPrice() + ", Order Status: " + status + ", Order Date: " + orderDate + ", Order Rating: " + rating);
         for (Product product : productList) {
             result.append(", Product Name: ").append(product.getName());
             result.append(", Product Quantity: ").append(quantityList.get(productList.indexOf(product)));

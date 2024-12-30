@@ -2860,6 +2860,7 @@ public class JavaFXMain extends Application {
                     try {
                         parseCashierMenu_addProToCart_ProductQuantity = Integer.parseInt(cashierMenu_addProToCart_ProductQuantity.getText());
                         if (currentCashier.addProductToCart(cashierCart, cashierProduct, parseCashierMenu_addProToCart_ProductQuantity)) {
+
                             Alert cashierMenu_addProductToCart_ProductAddedAlert = new Alert(Alert.AlertType.INFORMATION);
                             cashierMenu_addProductToCart_ProductAddedAlert.setTitle("Add Product To Cart");
                             try {
