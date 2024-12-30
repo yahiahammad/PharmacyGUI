@@ -2624,6 +2624,7 @@ public class JavaFXMain extends Application {
         Button removeProFromCart = new Button("Remove Product from Cart");
         Button payment = new Button("Calculate Payment");
         Button cancelCart = new Button("Cancel Cart");
+        Button confirmOrderCompletion = new Button("Confirm Order Completion");
         Button lg = new Button("Log Out");
 
         styleButton(createCart);
@@ -2631,6 +2632,7 @@ public class JavaFXMain extends Application {
         styleButton(removeProFromCart);
         styleButton(payment);
         styleButton(cancelCart);
+        styleButton(confirmOrderCompletion);
         styleButton(lg);
 
         createCart.setPrefSize(300, 30);
@@ -2638,6 +2640,7 @@ public class JavaFXMain extends Application {
         removeProFromCart.setPrefSize(300, 30);
         payment.setPrefSize(300, 30);
         cancelCart.setPrefSize(300, 30);
+        confirmOrderCompletion.setPrefSize(300, 30);
         lg.setPrefSize(300, 30);
 
         Label cashierLoginLabel = new Label("Enter Cashier ID: ");
@@ -2668,7 +2671,7 @@ public class JavaFXMain extends Application {
 
         Scene cashierLoginScene = new Scene(cashierLoginGridPane, scene_width, scene_height);
 
-        VBox vbox3 = new VBox(label5, createCart, addProToCart, removeProFromCart, payment, cancelCart, lg);
+        VBox vbox3 = new VBox(label5, createCart, addProToCart, removeProFromCart, payment, cancelCart, confirmOrderCompletion, lg);
         vbox3.setAlignment(Pos.CENTER);
         vbox3.setSpacing(10);
         Scene cashierScene = new Scene(vbox3, scene_width, scene_height);
@@ -3120,6 +3123,77 @@ public class JavaFXMain extends Application {
                 primaryStage.setScene(cashierScene);
             });
         });
+
+        //**************************************************************
+        //Cashier Menu -> Confirm Order Completion
+        confirmOrderCompletion.setOnAction(e -> {
+            GridPane confirmOrderCompletionGridPane = new GridPane();
+            confirmOrderCompletionGridPane.setAlignment(Pos.CENTER);
+
+            Label cartId = new Label("Enter Cart ID: ");
+            styleLabel(cartId);
+            Label cartIdWarning = new Label("Cart Does Not Exist!");
+            cartIdWarning.setTextFill(Color.RED);
+            cartIdWarning.setVisible(false);
+            TextField cartIdTextField = new TextField();
+            styleTextField(cartIdTextField);
+
+            Button orderCompletionButton = new Button("Confirm Order Completion");
+            Button cancelOrderCompletionButton = new Button("Cancel");
+            orderCompletionButton.setAlignment(Pos.CENTER);
+            cancelOrderCompletionButton.setAlignment(Pos.CENTER);
+
+            styleButton(orderCompletionButton);
+            styleButton(cancelOrderCompletionButton);
+
+            orderCompletionButton.setPrefSize(300, 30);
+            cancelOrderCompletionButton.setPrefSize(300, 30);
+
+            confirmOrderCompletionGridPane.add(cartId, 0, 0);
+            confirmOrderCompletionGridPane.add(cartIdTextField, 1, 0);
+            confirmOrderCompletionGridPane.add(cartIdWarning, 2, 0);
+            confirmOrderCompletionGridPane.add(orderCompletionButton, 1, 1);
+            confirmOrderCompletionGridPane.add(cancelOrderCompletionButton, 1, 2);
+
+            confirmOrderCompletionGridPane.setHgap(10);
+            confirmOrderCompletionGridPane.setVgap(10);
+
+            Scene confirmOrderCompletionScene = new Scene(confirmOrderCompletionGridPane, scene_width, scene_height);
+            primaryStage.setScene(confirmOrderCompletionScene);
+
+            orderCompletionButton.setOnAction(e1 -> {
+                if(CheckCartExistence(admin, cartIdTextField.getText())) {
+                    cartIdWarning.setVisible(false);
+                    Cart cart = admin.searchCartByField("id", cartIdTextField.getText());
+                    cart.setStatus(Cart.Status.COMPLETED);
+
+                    Alert cashierMenu_completeCart_CartCompletedAlert = new Alert(Alert.AlertType.INFORMATION);
+                    cashierMenu_completeCart_CartCompletedAlert.setTitle("Complete Cart");
+                    try {
+                        admin.saveData();
+                    } catch (IOException ex) {
+                        Alert cashierMenu_completeCart_CartCompletionFailed = new Alert(Alert.AlertType.ERROR);
+                        cashierMenu_completeCart_CartCompletionFailed.setTitle("COMPLETE CART FAILED");
+                        cashierMenu_completeCart_CartCompletionFailed.setContentText("Failed to complete cart");
+                        cashierMenu_completeCart_CartCompletionFailed.showAndWait();
+                        primaryStage.setScene(cashierScene);
+                    }
+                    cashierMenu_completeCart_CartCompletedAlert.setHeaderText("Cart completion successfully");
+                    cashierMenu_completeCart_CartCompletedAlert.setContentText("Press OK to continue");
+                    cashierMenu_completeCart_CartCompletedAlert.showAndWait();
+                    primaryStage.setScene(cashierScene);
+                }
+                else {
+                    cartIdWarning.setVisible(true);
+                    cartIdTextField.setText("");
+                }
+            });
+
+            cancelOrderCompletionButton.setOnAction(e1 -> {
+                primaryStage.setScene(cashierScene);
+            });
+        });
+
 
         //**************************************************************
 
