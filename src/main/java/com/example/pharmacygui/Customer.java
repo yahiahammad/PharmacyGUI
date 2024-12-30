@@ -11,6 +11,9 @@ public class Customer extends User implements java.io.Serializable{
     //private static final long serialVersionUID = -1607522496875513406L;
 
     public Customer() {}
+    public static void setN(int n) {
+        Customer.n = n;
+    }
 
     public Customer(String name, String email) {
         super(name, Role.CUSTOMER, email);

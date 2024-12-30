@@ -10,10 +10,7 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class
@@ -845,7 +842,9 @@ Admin extends User{
         try (ObjectInputStream supplierInputStream = new ObjectInputStream(new FileInputStream(supplierFile))) {
             // Read the entire list
             suppliers = (ArrayList<Supplier>) supplierInputStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
+            Supplier.setN(Integer.parseInt(suppliers.getLast().id.replace("Supplier_","")) +1);
+
+        } catch (IOException | ClassNotFoundException | NoSuchElementException e) {
             System.out.println("Error reading supplier file: " + e.getMessage());
         }
 
@@ -856,21 +855,26 @@ Admin extends User{
             for (Product product : products) {
                 product.getSupplier().addProduct(product);
             }
-        } catch (IOException | ClassNotFoundException e) {
+            Product.setN(Integer.parseInt(products.getLast().getProductId().replace("Product_","")) +1);
+
+        } catch (IOException | ClassNotFoundException | NoSuchElementException e) {
             System.out.println("Error reading product file: " + e.getMessage());
         }
 
         try (ObjectInputStream customerInputStream = new ObjectInputStream(new FileInputStream(customerFile))) {
             // Read the entire list
             customers = (ArrayList<Customer>) customerInputStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
+            Customer.setN(Integer.parseInt(customers.getLast().id.replace("Customer_","")) +1);
+
+        } catch (IOException | ClassNotFoundException | NoSuchElementException e ) {
             System.out.println("Error reading customer file: " + e.getMessage());
         }
 
         try (ObjectInputStream cashierInputStream = new ObjectInputStream(new FileInputStream(cashierFile))) {
             // Read the entire list
             cashiers = (ArrayList<Cashier>) cashierInputStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
+            Cashier.setN(Integer.parseInt(cashiers.getLast().id.replace("Cashier_","")) +1);
+        } catch (IOException | ClassNotFoundException | NoSuchElementException e) {
             System.out.println("Error reading cashier file: " + e.getMessage());
         }
 
@@ -882,7 +886,8 @@ Admin extends User{
                 cart.getCustomer().addOrder(cart);
                 cart.getCashier().addOrderHandled(cart);
             }
-        } catch (IOException | ClassNotFoundException e) {
+            Cart.setN(Integer.parseInt(orders.getLast().id.replace("Order_","")) +1);
+        } catch (IOException | ClassNotFoundException | NoSuchElementException e) {
             System.out.println("Error reading cart file: " + e.getMessage());
         }
     }

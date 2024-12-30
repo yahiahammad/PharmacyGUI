@@ -18,6 +18,9 @@ public class Product implements java.io.Serializable {
     private static int n = 0;
 
     public Product() {}
+    public static void setN(int n) {
+        Product.n = n;
+    }
     public Product(String name, double price, int quantity, Supplier supplier, LocalDate expirationDate) {
         productId = generateId();
         this.name = name;
