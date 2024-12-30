@@ -1000,12 +1000,12 @@ public class JavaFXMain extends Application {
                 } else {
                     adminMenu_addUser_addSupplierInvalidEmailLabel.setVisible(false);
                 }
-                if (adminMenu_addUser_addSupplierContactTF.getText().equalsIgnoreCase("")) {
+                if (adminMenu_addUser_addSupplierContactTF.getText().equalsIgnoreCase("") || !isValidContactNumber(adminMenu_addUser_addSupplierContactTF.getText())) {
                     adminMenu_addUser_addSupplierInvalidContactLabel.setVisible(true);
                 } else {
                     adminMenu_addUser_addSupplierInvalidContactLabel.setVisible(false);
                 }
-                if (adminMenu_addUser_addSupplierNameTF.getText().equalsIgnoreCase("") || adminMenu_addUser_addSupplierEmailTF.getText().equalsIgnoreCase("") || !isValidEmailAddress(adminMenu_addUser_addSupplierEmailTF.getText()) || adminMenu_addUser_addSupplierContactTF.getText().equalsIgnoreCase("")) {
+                if (adminMenu_addUser_addSupplierNameTF.getText().equalsIgnoreCase("") || adminMenu_addUser_addSupplierEmailTF.getText().equalsIgnoreCase("") || !isValidEmailAddress(adminMenu_addUser_addSupplierEmailTF.getText()) || adminMenu_addUser_addSupplierContactTF.getText().equalsIgnoreCase("") || !isValidContactNumber(adminMenu_addUser_addSupplierContactTF.getText())) {
                     if (adminMenu_addUser_addSupplierNameTF.getText().equalsIgnoreCase("")) {
                         adminMenu_addUser_addSupplierInvalidNameLabel.setVisible(true);
                     } else {
@@ -1016,7 +1016,7 @@ public class JavaFXMain extends Application {
                     } else {
                         adminMenu_addUser_addSupplierInvalidEmailLabel.setVisible(false);
                     }
-                    if (adminMenu_addUser_addSupplierContactTF.getText().equalsIgnoreCase("")) {
+                    if (adminMenu_addUser_addSupplierContactTF.getText().equalsIgnoreCase("") || !isValidContactNumber(adminMenu_addUser_addSupplierContactTF.getText())) {
                         adminMenu_addUser_addSupplierInvalidContactLabel.setVisible(true);
                     } else {
                         adminMenu_addUser_addSupplierInvalidContactLabel.setVisible(false);
@@ -3158,6 +3158,9 @@ public class JavaFXMain extends Application {
         java.util.regex.Matcher m;
         m = p.matcher(email);
         return m.matches();
+    }
+    private boolean isValidContactNumber(String contact) {
+        return contact.matches("0\\d{10}"); //11 digits starting with 0
     }
     public static void styleButton(Button button) {
         // Set a custom background color and rounded corners
