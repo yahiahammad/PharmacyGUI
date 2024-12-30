@@ -5,8 +5,10 @@ import javafx.scene.control.TextArea;
 import java.util.ArrayList;
 
 public class Customer extends User implements java.io.Serializable{
+
     private ArrayList<Cart> orderHistory;
     private static int n = 0; //for id
+    //private static final long serialVersionUID = -1607522496875513406L;
 
     public Customer() {}
 
@@ -62,8 +64,38 @@ public class Customer extends User implements java.io.Serializable{
         //System.out.println("Order Details: " + order.toString());
     }
 
-    public void rateOrder(Cart order, int rating) {
-        System.out.println("Rating for order " + order.getId() + ": " + rating);
+    public boolean rateOrder(Cart order, int rating) {
+        if (rating >= 0 && rating <= 10) {
+            for (Cart thisOrder : orderHistory) {
+                if (order.getId().equals(thisOrder.getId())) {
+                    if (thisOrder.getStatus() != Cart.Status.COMPLETED) {
+                        System.out.println("Order not completed");
+                        return false;
+                    }
+                    if (thisOrder.getRating() != -1) {
+                        System.out.println("Order has been rated already, it's rating is: " + thisOrder.getRating());
+                        return false;
+                    }
+                    thisOrder.setRating(rating);
+                    return true;
+                }
+            }
+            System.out.println("Order does not exist for this customer");
+            return false;
+        }
+        else {
+            System.out.println("Rating has to be between 0 and 10");
+            return false;
+        }
+    }
+
+    public Cart checkOrderExistance(Cart order) {
+        for (Cart thisOrder : orderHistory) {
+            if (thisOrder.getId().equals(order.getId())) {
+                return thisOrder;
+            }
+        }
+        return null;
     }
 
     public void displayOrderHistory() {

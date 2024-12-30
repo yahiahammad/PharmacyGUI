@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import com.example.pharmacygui.Cart.Status;
 
 public class Cashier extends User implements java.io.Serializable{
+
     private ArrayList<Cart> orderHandled;
     private static int n = 0;
+    //private static final long serialVersionUID = -6090473688234732085L;
 
     public Cashier() {}
 
@@ -101,8 +103,12 @@ public class Cashier extends User implements java.io.Serializable{
         orderHandled.remove(cart);
     }
     public boolean addProductToCart(Cart cart, Product product, int quantity) {
-        cart.addProduct(product, quantity);
-        return true;
+        if ((product.getQuantity() - quantity) >= 0) {
+            cart.addProduct(product, quantity);
+            product.setQuantity(product.getQuantity() - quantity);
+            return true;
+        }
+        return false;
     }
     public boolean removeProductFromCart(Cart cart, Product product) {
         cart.removeProduct(product);

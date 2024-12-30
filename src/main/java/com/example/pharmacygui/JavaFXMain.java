@@ -6,7 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -17,7 +16,6 @@ import javafx.stage.Stage;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.*;
@@ -35,7 +33,7 @@ public class JavaFXMain extends Application {
         //Pharmacy Management System
         primaryStage.setTitle("Pharmacy Management System");
         primaryStage.getIcons().add(new Image(new FileInputStream("src/main/java/com/example/pharmacygui/resources/Project_Icon.png")));
-        Scene mainMenuScene, adminLoginScene, adminMenuScene, adminMenu_addUserScene, scene7, scene8, scene9, scene10;
+        Scene mainMenuScene, adminLoginScene, adminMenuScene, adminMenu_addUserScene, scene7, scene8, scene9;
 
         //**************************************************
         //Main Menu
@@ -245,8 +243,6 @@ public class JavaFXMain extends Application {
             Scene adminMenu_addProductScene = new Scene(adminMenu_addProductGridPane, scene_width, scene_height);
             primaryStage.setScene(adminMenu_addProductScene);
 
-            //************************************************************
-            //Admin Menu -> Add Product Button
             adminMenu_addProductButton.setOnAction(e1 -> {
                 if (CheckProductExistence(admin, adminMenu_addProduct_ProductName.getText()) || !CheckSupplierExistence(admin, adminMenu_addProduct_ProductSupplierID.getText())) {
                     if (CheckProductExistence(admin, adminMenu_addProduct_ProductName.getText())) {
@@ -421,6 +417,7 @@ public class JavaFXMain extends Application {
             });
 
         });
+
         //**********************************************************************
         //Admin Menu -> Remove Product Button
         adminMenu_removeProduct.setOnAction(e -> {
@@ -578,15 +575,6 @@ public class JavaFXMain extends Application {
             productReportGridPane.setVgap(15);
             productReportGridPane.add(titleLabel, 0, 0);
 
-            //productReportGridPane.setPrefWidth(800);
-            //productReportGridPane.setPrefHeight(Region.USE_COMPUTED_SIZE);
-
-
-            //VBox wrapper1 = new VBox(productReportGridPane);
-            //wrapper1.setPrefWidth(Region.USE_COMPUTED_SIZE);
-            //wrapper1.setPrefHeight(Region.USE_COMPUTED_SIZE);
-            //wrapper1.setPadding(new Insets(10));
-
             int rowIndex = 1;
 
             // Fetch the products from the Admin class
@@ -610,6 +598,8 @@ public class JavaFXMain extends Application {
 
             // Back Button to return to the Admin Menu
             Button backButton = new Button("Back");
+            styleButton(backButton);
+            backButton.setPrefSize(100, 30);
             productReportGridPane.add(backButton, 0, rowIndex);
             backButton.setOnAction(e1 -> primaryStage.setScene(adminMenuScene));
 
@@ -648,6 +638,14 @@ public class JavaFXMain extends Application {
             Button bestSellerAndMostRevenueCancelButton = new Button("Cancel");
             getBestsellerButton.setAlignment(Pos.CENTER);
             getMostRevenueButton.setAlignment(Pos.CENTER);
+
+            styleButton(getBestsellerButton);
+            styleButton(getMostRevenueButton);
+            styleButton(bestSellerAndMostRevenueCancelButton);
+
+            getBestsellerButton.setPrefSize(200, 30);
+            getMostRevenueButton.setPrefSize(200, 30);
+            bestSellerAndMostRevenueCancelButton.setPrefSize(200, 30);
 
             adminMenu_BestsellerAndMostRevenueProductGridPane.add(startDate, 0, 0);
             adminMenu_BestsellerAndMostRevenueProductGridPane.add(startDateField, 1, 0);
@@ -1884,14 +1882,6 @@ public class JavaFXMain extends Application {
             cashierReportGridPane.setVgap(15);
             cashierReportGridPane.add(titleLabel, 0, 0);
 
-            //cashierReportGridPane.setPrefWidth(800);
-            //cashierReportGridPane.setPrefHeight(Region.USE_COMPUTED_SIZE);
-
-            //VBox wrapper2 = new VBox(cashierReportGridPane);
-            //wrapper2.setPrefWidth(Region.USE_COMPUTED_SIZE);
-            //wrapper2.setPrefHeight(Region.USE_COMPUTED_SIZE);
-            //wrapper2.setPadding(new Insets(10));
-
             int rowIndex = 1;
 
             // Placeholder for Cashier Data
@@ -1976,6 +1966,8 @@ public class JavaFXMain extends Application {
 
             // Back Button to return to Admin Menu
             Button backButton = new Button("Back");
+            styleButton(backButton);
+            backButton.setPrefSize(100, 30);
             cashierReportGridPane.add(backButton, 0, rowIndex++);
             backButton.setOnAction(e1 -> primaryStage.setScene(userReportScene));
 
@@ -2059,6 +2051,8 @@ public class JavaFXMain extends Application {
 
             i1++;
             Button back6 = new Button("Back");
+            styleButton(back6);
+            back6.setPrefSize(100, 30);
             adminMenu_userReportGridPane.add(back6, 0, i1);
             back6.setOnAction(e1 -> primaryStage.setScene(userReportScene));
             ScrollPane scrollPane = new ScrollPane(adminMenu_userReportGridPane);
@@ -2148,6 +2142,8 @@ public class JavaFXMain extends Application {
             }
             i2++;
             Button back7 = new Button("Back");
+            styleButton(back7);
+            back7.setPrefSize(100, 30);
             adminMenu_supplierReportGridPane.add(back7, 0, i2);
             back7.setOnAction(e1 -> primaryStage.setScene(userReportScene));
             ScrollPane scrollPane = new ScrollPane(adminMenu_supplierReportGridPane);
@@ -2184,6 +2180,8 @@ public class JavaFXMain extends Application {
             }
 
             Button back10 = new Button("Back");
+            styleButton(back10);
+            back10.setPrefSize(100, 30);
             adminMenu_orderReportGridPane.add(back10, 0, rowIndex[0]++);
             back10.setOnAction(e1 -> primaryStage.setScene(adminMenuScene));
             ScrollPane scrollPane = new ScrollPane(adminMenu_orderReportGridPane);
@@ -2481,9 +2479,9 @@ public class JavaFXMain extends Application {
                     Label orderIndex = new Label("Order " + index + ":");
                     orderIndex.setFont(Font.font("System", FontWeight.BOLD, 10));
                     orderHistoryGridPane.add(orderIndex, 0, row++);
-                    Label id = new Label("ID: " + order.id);
+                    Label id = new Label("ID: " + order.getId());
                     orderHistoryGridPane.add(id, 0, row++);
-                    Label price = new Label("Total Price: " + order.totalPrice);
+                    Label price = new Label("Total Price: " + order.getTotalPrice());
                     orderHistoryGridPane.add(price, 0, row++);
                     Label date = new Label("Date: " + order.getOrderDate());
                     orderHistoryGridPane.add(date, 0, row++);
@@ -2503,20 +2501,18 @@ public class JavaFXMain extends Application {
 
         //**********************************************************************
         //Customer Menu -> Rate Order Button
-
-        //this will get changed
         Scene customerMenu_rateOrder_scene;
         Label customerMenu_OrderIDLabel = new Label("Order ID: ");
         styleLabel(customerMenu_OrderIDLabel);
         TextField customerMenu_OrderIDTF = new TextField();
         styleTextField(customerMenu_OrderIDTF);
-        Label customerMenu_OrderIDWarningLabel = new Label("Invalid Order ID. Please try again");
+        Label customerMenu_OrderIDWarningLabel = new Label("Order does not exist for this customer");
         customerMenu_OrderIDWarningLabel.setVisible(false);
         customerMenu_OrderIDWarningLabel.setTextFill(Color.RED);
 
         Label customerMenu_orderRating = new Label("Rate:");
         styleLabel(customerMenu_orderRating);
-        Label customerMenu_rateWarningLabel = new Label("Rating has to be between 1 and 10");
+        Label customerMenu_rateWarningLabel = new Label("Rating has to be between 0 and 10");
         customerMenu_rateWarningLabel.setTextFill(Color.RED);
         customerMenu_rateWarningLabel.setVisible(false);
         TextField customerMenu_rateTF = new TextField();
@@ -2547,44 +2543,72 @@ public class JavaFXMain extends Application {
 
         customerMenu_rateOrder_scene = new Scene(rateOrderGridPane, scene_width, scene_height);
         rateOrder.setOnAction(e1 -> primaryStage.setScene(customerMenu_rateOrder_scene));
-        customerMenu_doneRating.setOnAction(e1 -> {
+        customerMenu_doneRating.setOnAction(e2 -> {
 
-            if (!(Integer.parseInt(customerMenu_rateTF.getText()) <= 10 && Integer.parseInt(customerMenu_rateTF.getText()) > 0) )
+            Cart thisCart = new Cart(currentCustomer.checkOrderExistance(admin.searchCartByField("id", customerMenu_OrderIDTF.getText())));
+
+            if (!(Integer.parseInt(customerMenu_rateTF.getText()) <= 10) && !(Integer.parseInt(customerMenu_rateTF.getText()) >= 0) )
             {
                 customerMenu_rateWarningLabel.setVisible(true);
             }
             else{
                 customerMenu_rateWarningLabel.setVisible(false);
             }
-            if (!(currentCustomer.getOrderHistory().contains(admin.searchCartByField("id", customerMenu_OrderIDTF.getText()))))
+            if (thisCart != null)
             {
-                customerMenu_OrderIDWarningLabel.setVisible(true);
-            }
-            else {
                 customerMenu_OrderIDWarningLabel.setVisible(false);
             }
-            if (!(!(currentCustomer.getOrderHistory().contains(admin.searchCartByField("id", customerMenu_OrderIDTF.getText()))) || !(Integer.parseInt(customerMenu_rateTF.getText()) <= 10 && Integer.parseInt(customerMenu_rateTF.getText()) > 0)))
+            else {
+                customerMenu_OrderIDWarningLabel.setVisible(true);
+            }
+            /*if (currentCustomer.getOrderHistory().contains(admin.searchCartByField("id", customerMenu_OrderIDTF.getText())))
             {
-                currentCustomer.rateOrder(admin.searchCartByField("id", customerMenu_OrderIDTF.getText()),Integer.parseInt(customerMenu_rateTF.getText()));
-                try {
-                    admin.saveData();
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Rate Order");
-                    alert.setHeaderText("Successfully rated order!");
-                    alert.showAndWait();
-                    primaryStage.setScene(customerScene);
+                customerMenu_OrderIDWarningLabel.setVisible(false);
+            }
+            else {
+                customerMenu_OrderIDWarningLabel.setVisible(true);
+            }*/
+            if (!(currentCustomer.getOrderHistory().contains(admin.searchCartByField("id", customerMenu_OrderIDTF.getText()))) || !(Integer.parseInt(customerMenu_rateTF.getText()) <= 10 && Integer.parseInt(customerMenu_rateTF.getText()) > 0))
+            {
+                if (!(Integer.parseInt(customerMenu_rateTF.getText()) <= 10 && Integer.parseInt(customerMenu_rateTF.getText()) > 0)) {
+                    Alert ratingNotInRangeAlert = new Alert(Alert.AlertType.ERROR);
+                    ratingNotInRangeAlert.setTitle("Rating not in range");
+                    ratingNotInRangeAlert.setHeaderText("Rating has to be between 0 and 10");
+                    ratingNotInRangeAlert.showAndWait();
+                    primaryStage.setScene(customerMenu_rateOrder_scene);
                 }
-                catch (IOException e) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error");
-                    alert.setHeaderText(e.getMessage());
-                    alert.showAndWait();
-                    primaryStage.setScene(mainMenuScene);
+                if (admin.searchCartByField("id", customerMenu_OrderIDTF.getText()).getStatus() != Cart.Status.COMPLETED) {
+                    Alert cartNotCompletedAlert = new Alert(Alert.AlertType.ERROR);
+                    cartNotCompletedAlert.setTitle("Cart not completed");
+                    cartNotCompletedAlert.setHeaderText("Cart Not Completed");
+                    cartNotCompletedAlert.showAndWait();
+                    primaryStage.setScene(customerMenu_rateOrder_scene);
+                }
+                if (!(currentCustomer.getOrderHistory().contains(admin.searchCartByField("id", customerMenu_OrderIDTF.getText())))) {
+                    Alert orderNotFoundAlert = new Alert(Alert.AlertType.ERROR);
+                    orderNotFoundAlert.setTitle("Order not found");
+                    orderNotFoundAlert.setHeaderText("Order does not exist for this customer");
+                    orderNotFoundAlert.showAndWait();
+                    primaryStage.setScene(customerMenu_rateOrder_scene);
+                }
+                if(currentCustomer.rateOrder(admin.searchCartByField("id", customerMenu_OrderIDTF.getText()),Integer.parseInt(customerMenu_rateTF.getText()))) {
+                    try {
+                        admin.saveData();
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Rate Order");
+                        alert.setHeaderText("Successfully rated order!");
+                        alert.showAndWait();
+                        primaryStage.setScene(customerScene);
+                    }
+                    catch (IOException e) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error");
+                        alert.setHeaderText(e.getMessage());
+                        alert.showAndWait();
+                        primaryStage.setScene(mainMenuScene);
+                    }
                 }
             }
-
-
-
             primaryStage.setScene(customerScene);
         });
         customerMenu_cancelRating.setOnAction(e1 -> {
@@ -2847,6 +2871,13 @@ public class JavaFXMain extends Application {
                             cashierMenu_addProductToCart_ProductAddedAlert.setHeaderText("Product successfully added!");
                             cashierMenu_addProductToCart_ProductAddedAlert.setContentText("Press OK to continue");
                             cashierMenu_addProductToCart_ProductAddedAlert.showAndWait();
+                            primaryStage.setScene(cashierScene);
+                        }
+                        else {
+                            Alert notEnoughProductsAlert = new Alert(Alert.AlertType.ERROR);
+                            notEnoughProductsAlert.setTitle("NOT ENOUGH PRODUCTS");
+                            notEnoughProductsAlert.setHeaderText("Not enough of this product in the pharmacy");
+                            notEnoughProductsAlert.showAndWait();
                             primaryStage.setScene(cashierScene);
                         }
                     } catch (NumberFormatException ex) {

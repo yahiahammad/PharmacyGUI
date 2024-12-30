@@ -5,8 +5,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Cart implements java.io.Serializable{
+
     protected String id = "0";
-    private Status status; //I feel like it's unnecessary but idk
+    private Status status;
     protected Customer customer;
     protected Cashier cashier;
     private ArrayList<Product> productList;
@@ -14,6 +15,7 @@ public class Cart implements java.io.Serializable{
     private ArrayList<LocalDateTime> salesDate;
     protected double totalPrice;
     private LocalDate orderDate;
+    private int rating = -1;
     private static int n = 0;
 
     public enum Status {
@@ -55,6 +57,19 @@ public class Cart implements java.io.Serializable{
         this.orderDate = orderDate;
     }
 
+    public Cart(String id, Status status, Customer customer, Cashier cashier, double totalPrice, LocalDate orderDate, int rating) {
+        this.id = id;
+        n++;
+        this.status = status;
+        this.customer = customer;
+        this.cashier = cashier;
+        this.productList = new ArrayList<>();
+        this.quantityList = new ArrayList<>();
+        this.totalPrice = totalPrice;
+        this.orderDate = orderDate;
+        this.rating = rating;
+    }
+
     public Cart(Cart cart) {
         this.id = cart.getId();
         this.status = cart.getStatus();
@@ -64,6 +79,14 @@ public class Cart implements java.io.Serializable{
         this.quantityList = cart.getQuantityList();
         this.totalPrice = cart.getTotalPrice();
         this.orderDate = cart.getOrderDate();
+        this.rating = cart.getRating();
+    }
+
+    public int getRating() {
+        return rating;
+    }
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 
     public void cancelCart()
@@ -213,7 +236,7 @@ public class Cart implements java.io.Serializable{
     //will check later
     @Override
     public String toString() {
-        StringBuffer result = new StringBuffer("Order ID: " + id + ", Customer: " + customer.getName() + ", Total Price: " + totalPrice + ", Order Date: " + orderDate);
+        StringBuffer result = new StringBuffer("Order ID: " + id + ", Customer: " + customer.getName() + ", Total Price: " + totalPrice + ", Order Date: " + orderDate + ", Order Rating: " + rating);
         for (Product product : productList) {
             result.append(", Product Name: ").append(product.getName());
             result.append(", Product Quantity: ").append(quantityList.get(productList.indexOf(product)));
