@@ -291,7 +291,7 @@ Admin extends User{
     }
 
     //javafx version
-    public void viewProductReportJavaFX() {
+    /*public void viewProductReportJavaFX() {
         TextArea t = new TextArea();
         t.appendText("---- Products Report ----\n");
 
@@ -308,7 +308,7 @@ Admin extends User{
             t.appendText(product.getName() + " has a price of " + product.getPrice() + "\n");
         }
         t.appendText("\n");
-    }
+    }*/
 
     //Cashier methods********************************************************************************************
     //20/11

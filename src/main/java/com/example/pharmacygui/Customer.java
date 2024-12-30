@@ -106,12 +106,12 @@ public class Customer extends User implements java.io.Serializable{
     }
 
     //javafx version
-    public void displayOrderHistory(TextArea textArea) {
+    /*public void displayOrderHistory(TextArea textArea) {
         textArea.appendText("Order History for " + name + ":\n");
         for (Cart order : orderHistory) {
             textArea.appendText(order.toString() + "\n");
         }
-    }
+    }*/
 
     private String generateId() {
         String Id = "Customer_" + n;
