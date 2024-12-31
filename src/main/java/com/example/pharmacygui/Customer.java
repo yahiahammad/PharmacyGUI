@@ -71,7 +71,9 @@ public class Customer extends User implements java.io.Serializable{
         if (rating >= 0 && rating <= 10) {
             for (Cart thisOrder : orderHistory) {
                 if (order.getId().equals(thisOrder.getId())) {
-                    if (thisOrder.getStatus() != Cart.Status.COMPLETED) {
+                    Cart.Status status = order.getStatus();
+                    System.out.println("status: " + status);
+                    if (order.getStatus() != Cart.Status.COMPLETED) {
                         System.out.println("Order not completed");
                         return false;
                     }
@@ -80,6 +82,7 @@ public class Customer extends User implements java.io.Serializable{
                         return false;
                     }
                     thisOrder.setRating(rating);
+                    order.setRating(rating);
                     return true;
                 }
             }

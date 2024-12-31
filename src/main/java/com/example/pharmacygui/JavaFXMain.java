@@ -2101,7 +2101,8 @@ public class JavaFXMain extends Application {
                 if(supplier.getProductCount() > maxOrders_sup)
                 {
                     maxOrders_sup = supplier.getProductCount();
-                    maxOrderSupplier = supplier;
+                    //maxOrderSupplier = supplier;
+                    maxOrderSupplier = new Supplier(supplier);
                 }
             }
             if (maxOrderSupplier != null) {
@@ -2545,68 +2546,67 @@ public class JavaFXMain extends Application {
         rateOrder.setOnAction(e1 -> primaryStage.setScene(customerMenu_rateOrder_scene));
         customerMenu_doneRating.setOnAction(e2 -> {
 
-            Cart thisCart = new Cart(currentCustomer.checkOrderExistance(admin.searchCartByField("id", customerMenu_OrderIDTF.getText())));
+            Cart thisCart = currentCustomer.checkOrderExistance(admin.searchCartByField("id", customerMenu_OrderIDTF.getText()));
 
-            if (!(Integer.parseInt(customerMenu_rateTF.getText()) <= 10) && !(Integer.parseInt(customerMenu_rateTF.getText()) >= 0) )
+            if (!(Integer.parseInt(customerMenu_rateTF.getText()) <= 10) || !(Integer.parseInt(customerMenu_rateTF.getText()) >= 0) )
             {
                 customerMenu_rateWarningLabel.setVisible(true);
             }
             else{
                 customerMenu_rateWarningLabel.setVisible(false);
             }
-            /*if (thisCart != null)
-            {
-                customerMenu_OrderIDWarningLabel.setVisible(false);
-            }
-            else {
-                customerMenu_OrderIDWarningLabel.setVisible(true);
-            }*/
-            if (currentCustomer.getOrderHistory().contains(admin.searchCartByField("id", customerMenu_OrderIDTF.getText())))
+            if (thisCart != null)
             {
                 customerMenu_OrderIDWarningLabel.setVisible(false);
             }
             else {
                 customerMenu_OrderIDWarningLabel.setVisible(true);
             }
-            if (!(currentCustomer.getOrderHistory().contains(admin.searchCartByField("id", customerMenu_OrderIDTF.getText()))) || !(Integer.parseInt(customerMenu_rateTF.getText()) <= 10 && Integer.parseInt(customerMenu_rateTF.getText()) > 0))
-            {
-                if (!(Integer.parseInt(customerMenu_rateTF.getText()) <= 10 && Integer.parseInt(customerMenu_rateTF.getText()) > 0)) {
+            if (thisCart == null || !(Integer.parseInt(customerMenu_rateTF.getText()) <= 10) || !(Integer.parseInt(customerMenu_rateTF.getText()) >= 0)) {
+                if (!(Integer.parseInt(customerMenu_rateTF.getText()) <= 10 || Integer.parseInt(customerMenu_rateTF.getText()) >= 0)) {
                     Alert ratingNotInRangeAlert = new Alert(Alert.AlertType.ERROR);
                     ratingNotInRangeAlert.setTitle("Rating not in range");
                     ratingNotInRangeAlert.setHeaderText("Rating has to be between 0 and 10");
                     ratingNotInRangeAlert.showAndWait();
                     primaryStage.setScene(customerMenu_rateOrder_scene);
                 }
-                if (admin.searchCartByField("id", customerMenu_OrderIDTF.getText()).getStatus() != Cart.Status.COMPLETED) {
-                    Alert cartNotCompletedAlert = new Alert(Alert.AlertType.ERROR);
-                    cartNotCompletedAlert.setTitle("Cart not completed");
-                    cartNotCompletedAlert.setHeaderText("Cart Not Completed");
-                    cartNotCompletedAlert.showAndWait();
-                    primaryStage.setScene(customerMenu_rateOrder_scene);
-                }
-                if (!(currentCustomer.getOrderHistory().contains(admin.searchCartByField("id", customerMenu_OrderIDTF.getText())))) {
+                if (thisCart == null) {
                     Alert orderNotFoundAlert = new Alert(Alert.AlertType.ERROR);
                     orderNotFoundAlert.setTitle("Order not found");
                     orderNotFoundAlert.setHeaderText("Order does not exist for this customer");
                     orderNotFoundAlert.showAndWait();
                     primaryStage.setScene(customerMenu_rateOrder_scene);
                 }
-                if(currentCustomer.rateOrder(admin.searchCartByField("id", customerMenu_OrderIDTF.getText()),Integer.parseInt(customerMenu_rateTF.getText()))) {
-                    try {
-                        admin.saveData();
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Rate Order");
-                        alert.setHeaderText("Successfully rated order!");
-                        alert.showAndWait();
-                        primaryStage.setScene(customerScene);
-                    }
-                    catch (IOException e) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Error");
-                        alert.setHeaderText(e.getMessage());
-                        alert.showAndWait();
-                        primaryStage.setScene(mainMenuScene);
-                    }
+            }
+            else if (thisCart != null) {
+                if (admin.searchCartByField("id", customerMenu_OrderIDTF.getText()).getStatus() != Cart.Status.COMPLETED) {
+                    System.out.println("status: " + thisCart.getStatus());
+                    Alert cartNotCompletedAlert = new Alert(Alert.AlertType.ERROR);
+                    cartNotCompletedAlert.setTitle("Cart not completed");
+                    cartNotCompletedAlert.setHeaderText("Cart Not Completed");
+                    cartNotCompletedAlert.showAndWait();
+                    primaryStage.setScene(customerMenu_rateOrder_scene);
+                }
+                if (currentCustomer.rateOrder(thisCart, Integer.parseInt(customerMenu_rateTF.getText()))) {
+                    Alert ratingSaved = new Alert(Alert.AlertType.INFORMATION);
+                    ratingSaved.setTitle("Rating saved");
+                    ratingSaved.setHeaderText("Rating has been saved");
+                    ratingSaved.showAndWait();
+                    primaryStage.setScene(customerScene);
+                }
+                try {
+                    admin.saveData();
+                    /*Alert alert = new Alert(Alert.AlertType.INFORMATION);alert.setTitle("Rate Order");
+                    alert.setHeaderText("Successfully rated order!");
+                    alert.showAndWait();
+                    primaryStage.setScene(customerScene);*/
+                }
+                catch (IOException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(e.getMessage());
+                    alert.showAndWait();
+                    primaryStage.setScene(mainMenuScene);
                 }
             }
             primaryStage.setScene(customerScene);
@@ -3166,6 +3166,7 @@ public class JavaFXMain extends Application {
                 if(CheckCartExistence(admin, cartIdTextField.getText())) {
                     cartIdWarning.setVisible(false);
                     Cart cart = admin.searchCartByField("id", cartIdTextField.getText());
+                    admin.searchCartByField("id", cartIdTextField.getText()).setStatus(Cart.Status.CANCELLED);
                     cart.setStatus(Cart.Status.COMPLETED);
 
                     Alert cashierMenu_completeCart_CartCompletedAlert = new Alert(Alert.AlertType.INFORMATION);

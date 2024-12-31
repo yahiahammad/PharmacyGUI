@@ -88,7 +88,6 @@ Admin extends User{
         {
             Product product = new Product(pName, pPrice, pQuantity, pSupplier, pExpirationDate);
             products.add(product);
-            pSupplier.addProduct(product);
             for(Supplier s : suppliers) {
                 if(s.getId().equals(pSupplier.getId())) {
                     s.addProduct(product);
@@ -133,6 +132,21 @@ Admin extends User{
         if(JavaFXMain.CheckProductExistence(this, name)) {
             products.removeIf(product -> product.getName().equals(name));
             //System.out.println("Product removed successfully");
+            return true;
+        }
+        return false;
+    }
+
+    public boolean removeProduct(String name, Supplier pSupplier) {
+        if(JavaFXMain.CheckProductExistence(this, name)) {
+            products.removeIf(product -> product.getName().equals(name));
+            Product product = searchProductByField("name", name);
+            //System.out.println("Product removed successfully");
+            for(Supplier s : suppliers) {
+                if(s.getId().equals(pSupplier.getId())) {
+                    s.addProduct(product);
+                }
+            }
             return true;
         }
         return false;

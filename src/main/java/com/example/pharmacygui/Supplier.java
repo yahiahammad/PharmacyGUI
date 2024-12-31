@@ -33,7 +33,11 @@ public class Supplier extends User implements java.io.Serializable {
         name = supplier.name;
         email = supplier.email;
         contactInfo = supplier.contactInfo;
-        productSupplied = supplier.productSupplied;
+        productSupplied = new ArrayList<Product>();
+        for (Product p : supplier.productSupplied) {
+            productSupplied.add(p);
+        }
+        //productSupplied = supplier.productSupplied;
     }
 
     public String getContactInfo() {
