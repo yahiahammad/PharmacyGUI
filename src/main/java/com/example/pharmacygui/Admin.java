@@ -88,6 +88,12 @@ Admin extends User{
         {
             Product product = new Product(pName, pPrice, pQuantity, pSupplier, pExpirationDate);
             products.add(product);
+            pSupplier.addProduct(product);
+            for(Supplier s : suppliers) {
+                if(s.getId().equals(pSupplier.getId())) {
+                    s.addProduct(product);
+                }
+            }
             //System.out.println("Product added successfully to the pharmacy");
             return true;
         }

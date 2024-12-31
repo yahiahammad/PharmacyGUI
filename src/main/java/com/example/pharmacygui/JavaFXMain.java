@@ -2554,20 +2554,20 @@ public class JavaFXMain extends Application {
             else{
                 customerMenu_rateWarningLabel.setVisible(false);
             }
-            if (thisCart != null)
-            {
-                customerMenu_OrderIDWarningLabel.setVisible(false);
-            }
-            else {
-                customerMenu_OrderIDWarningLabel.setVisible(true);
-            }
-            /*if (currentCustomer.getOrderHistory().contains(admin.searchCartByField("id", customerMenu_OrderIDTF.getText())))
+            /*if (thisCart != null)
             {
                 customerMenu_OrderIDWarningLabel.setVisible(false);
             }
             else {
                 customerMenu_OrderIDWarningLabel.setVisible(true);
             }*/
+            if (currentCustomer.getOrderHistory().contains(admin.searchCartByField("id", customerMenu_OrderIDTF.getText())))
+            {
+                customerMenu_OrderIDWarningLabel.setVisible(false);
+            }
+            else {
+                customerMenu_OrderIDWarningLabel.setVisible(true);
+            }
             if (!(currentCustomer.getOrderHistory().contains(admin.searchCartByField("id", customerMenu_OrderIDTF.getText()))) || !(Integer.parseInt(customerMenu_rateTF.getText()) <= 10 && Integer.parseInt(customerMenu_rateTF.getText()) > 0))
             {
                 if (!(Integer.parseInt(customerMenu_rateTF.getText()) <= 10 && Integer.parseInt(customerMenu_rateTF.getText()) > 0)) {
